@@ -57,7 +57,8 @@ new Vue({
 //						mui.toast(123);
 //						vm.isChangeUser = data.data.edits
 //						mui.toast(data.data.edits);
-						console.log(data.data.edits);
+//						console.log(data.data.edits);
+//						mui.toast(data.data.edits);
 						vm.isChangeUser = data.data.edits;
 					}
 				},
@@ -73,7 +74,7 @@ new Vue({
 				data:{username: "1"},
 				dataType:'json',				
 				success:function(data){
-					alert(JSON.stringify(data))
+//					alert(JSON.stringify(data))
 					if(data.status==0){
 						mui.toast(data.msg)
 					}
@@ -86,17 +87,23 @@ new Vue({
 			});
 			//apiUrl.message
 			//JSON.parse(user).username
-			mui.ajax("http://a394.213986.com:88/api/notice/getnotice",{
+			//http://a394.213986.com:88/api/notice/getnotice
+			mui.ajax(apiUrl.notice,{
 				type:"post",
-				data:{username: '1'},
+				data:{
+						username: JSON.parse(user).username,
+						page:1
+					},
 				dataType:'json',				
-				success:function(data){		
+				success:function(data){	
+//					mui.toast(data);
 					if(data.status==0){
 						mui.toast(data.msg)
 					}
 					else if(data.status==1){	
-						vm.message = data.data
-						
+						vm.message = data.data;
+						alert(data.data);
+						console.log(vm.message.length);
 					}
 				},
 				error:function(err){
@@ -154,7 +161,8 @@ new Vue({
 				success:function(data){	
 					mui.toast(456);
 					plus.nativeUI.closeWaiting();
-			        mask.close();//关闭遮罩层
+			        mask.close();//关闭遮罩层\
+			        console.log(data);
 					if(data.status==0){
 						mui.toast(data.msg)
 					}							

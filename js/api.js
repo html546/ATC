@@ -45,5 +45,6 @@ var apiUrl = {
 	profilemanagement:baseUrl+'api/member/saveprofile', //修改资料
 	logout:baseUrl+'api/login/logout', //退出登录
 	detail:baseUrl+'api/help/detail',  //理财明细
-	salelist:baseUrl+'api/help/salelist' //开心付出明细
+	salelist:baseUrl+'api/help/salelist', //开心付出明细
+	notice:baseUrl+'api/notice/notice' //公告列表
 }
