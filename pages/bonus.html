@@ -33,7 +33,7 @@
 					      	<table style="width: 100%;"  class="buyin-list" v-else>
 					      		<tr v-for='item in shareList'>
 					      			<td class="mui-col-xs-3">{{item.calc_date}}</td>
-					      			<td class="mui-col-xs-2">{{}}</td>
+					      			<td class="mui-col-xs-2">{{item.ztjname}}</td>
 					      			<td class="mui-col-xs-2">{{item.prize}}</td>
 					      			<td class="mui-col-xs-2">{{item.income}}</td>
 					      			<td class="mui-col-xs-3">{{item.total_income}}</td>
@@ -125,7 +125,8 @@
 									}
 									for (var i=0;i<data.data.res.length;i++) {
 										vm.shareList.push(data.data.res[i]);
-										console.log(data.data.bonus[1].minsheet);
+//										console.log(data.data.bonus[1].minsheet);
+										vm.shareList[i].ztjname = data.data.bonus[1]['sheet'];
 									}		
 								}
 							},
