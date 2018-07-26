@@ -22,7 +22,8 @@ var apiUrl = {
 	alipay: baseUrl+'api/member/editalipay',//支付宝
 	wechat: baseUrl+'api/member/editwechat',//微信
 	calc: baseUrl+'api/member/calc',//领取红包
-	share: baseUrl+'api/member/qrCode',//分享
+//	share: baseUrl+'api/member/qrCode',//分享
+	share:baseUrl+'api/member/qrcode', //分享
 	sharelist: baseUrl+'api/network/recommendInList',//分享列表
 	into: baseUrl+'api/member/savemoney',//转入
 	redInfo: baseUrl+'api/finance/info',//红包记录
@@ -46,5 +47,6 @@ var apiUrl = {
 	logout:baseUrl+'api/login/logout', //退出登录
 	detail:baseUrl+'api/help/detail',  //理财明细
 	salelist:baseUrl+'api/help/salelist', //开心付出明细
-	notice:baseUrl+'api/notice/notice' //公告列表
+	notice:baseUrl+'api/notice/notice', //公告列表
+	index:baseUrl+'api/prize/index' //销售奖金列表
 }
