@@ -129,15 +129,40 @@
 					<div class="mui-scroll-wrapper">
 						<div class="mui-scroll">
 							<form class="mui-input-group" id="my-form-id">
-								<div class="mui-input-row" v-for='item in isChangeUser'>
-									<label>{{item.label.name}}</label>
-									<input type="text" v-model="item.value" :name='item.name' v-if='item.label.input=="text"'>
-									<select v-model="item.value" v-if='item.label.input=="select"' :name="item.label.name" v-for="item2 in item.label.select">
-										<option value="1">{{item2}}</option>
-									</select>
+								<div class="mui-input-row">
+									<label for="">昵称</label>
+									<input type="text" v-model="truename" />
 								</div>
-								<button type="button" class="mui-btn mui-btn-blue mui-btn-block" @click='subInfo' style="">确认修改</button>
+								<div class="mui-input-row">
+									<label for="">开户行</label>
+									<input type="text" v-model="bank_name" />
+								</div>
+								<div class="mui-input-row">
+									<label for="">银行卡号</label>
+									<input type="text" v-model="bank_number"/>
+								</div>
+								<div class="mui-input-row">
+									<label for="">开户名</label>
+									<input type="text" v-model="bank_username"/>
+								</div>
+								<div class="mui-input-row">
+									<label for="">开户地址</label>
+									<input type="text" v-model="bank_addr" />
+								</div>
+								<div class="mui-input-row">
+									<label for="">手机号</label>
+									<input type="tel" v-model="mobile_phone"/>
+								</div>
+								<div class="mui-input-row">
+									<label for="">支付宝</label>
+									<input type="text" v-model="alipay"/>
+								</div>
+								<div class="mui-input-row">
+									<label for="">微信</label>
+									<input type="text" v-model="wechat"/>
+								</div>
 							</form>
+							<button type="button" class="mui-btn mui-btn-blue mui-btn-block" @click='subInfo' style="">确认修改</button>
 						</div>
 					</div>
 				</div>

@@ -43,7 +43,8 @@ var apiUrl = {
 	profile:baseUrl+'api/member/profileManagement', //可修改会员信息
 	translist: baseUrl+'api/member/translist',//转入转出转换记录
 //	profilemanagement: baseUrl+'api/member/profilemanagement',//修改资料
-	profilemanagement:baseUrl+'api/member/saveprofile', //修改资料
+//	profilemanagement:baseUrl+'api/member/saveprofile', //修改资料
+	saveprofile:baseUrl+'api/member/saveprofile', //修改资料
 	logout:baseUrl+'api/login/logout', //退出登录
 	detail:baseUrl+'api/help/detail',  //理财明细
 	salelist:baseUrl+'api/help/salelist', //开心付出明细
