@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="login-top">
+				<h1>注&emsp;册</h1>
+			</div>
+			<div class="login-content">
+				<form action="" method="post">
+					<div class="form-row">
+						<label for=""><i class="fa fa-mobile" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="text" name="tel" id="tel" placeholder="请输入手机号" v-model="phone" /></div>
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-unlock-alt" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="password" name="password" id="password" value="" placeholder="请输入密码" v-model='pass1' /></div>
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-unlock-alt" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="password" name="password" id="password" value="" placeholder="请确认密码" v-model='pass1c' /></div>
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-male" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="text" name="password2" id="password2" value="" placeholder="请输入推荐人" v-model='introduce' /></div>
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-code-fork" aria-hidden="true"></i></label>
+						<button type="button" class="btn-code right" @click="sendCode">获取验证码</button>
+						<div class="form-inp" style="margin-right: 110px;"><input type="text" id="code" placeholder="请输入验证码" v-model='code' /></div>
+					</div>
+					<input type="button" value="注&emsp;册" class="btn-submit" @click="btnSub" />
+					<p class="form-botom">
+						<a href="javascript:; " class="left router-link" data-href='login.html'>立即登录</a>
+						<a href="javascript:;" class="right router-link" data-href='forget.html'>忘记密码？</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script src="assets/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/plugins/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				username: '',
+				pass1: '',
+				pass1c: '',
+				phone: '',
+				code: '',
+				introduce: ''
+			},
+			mounted: function() {
+				var vm = this
+				this.$nextTick(function() {
+					var introduce = getQueryString('introduce')
+					if(!!introduce) {
+						vm.introduce = introduce
+					}
+				})
+			},
+			methods: {
+				sendCode: function() {
+					var vm = this
+					var phonereg = /^[1][3,4,5,7,8][0-9]{9}$/;
+					if(!phonereg.test(this.phone)) {
+						layer.msg('请输入正确的手机号');
+						return false
+					}
+					var mask = mui.createMask()
+					mui.ajax(apiUrl.send_code, {
+						data: {
+							sender: vm.phone
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						beforeSend: function() {
+							plus.nativeUI.showWaiting('提交中，请稍后');
+							mask.show(); //显示遮罩层
+						},
+						complete: function() {
+							plus.nativeUI.closeWaiting();
+							mask.close(); //关闭遮罩层
+						},
+						success: function(data) {
+							plus.nativeUI.closeWaiting();
+							mask.close(); //关闭遮罩层							
+
+							if(data.status == 1) {
+								layer.msg(data.msg)
+							} else if(data.status == 0) {
+								layer.msg(data.msg)
+							}
+						},
+						error: function(errorThrown) {
+							//异常处理；
+
+						}
+					})
+				},
+				btnSub: function() {
+					var vm = this
+					var phonereg = /^[1][3,4,5,7,8][0-9]{9}$/;
+					if(!phonereg.test(this.phone)) {
+						layer.msg('请输入正确的手机号');
+						return false
+					}
+					if(!this.pass1.trim()) {
+						layer.msg('请输入密码');
+						return false
+					}
+					if(!this.pass1c.trim()) {
+						layer.msg('请确认密码');
+						return false
+					}
+					if(!this.code.trim()) {
+						layer.msg('请输入验证码');
+						return false
+					}
+
+					var mask = mui.createMask()
+					mui.ajax(apiUrl.reg, {
+						data: {
+							username: vm.phone,
+							mobile_code: vm.code,
+							introduce: vm.introduce,
+							pass1: vm.pass1,
+							pass1c: vm.pass1c
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						beforeSend: function() {
+							plus.nativeUI.showWaiting('提交中，请稍后');
+							mask.show(); //显示遮罩层
+						},
+
+						complete: function() {
+							plus.nativeUI.closeWaiting();
+							mask.close(); //关闭遮罩层
+						},
+						success: function(data) {
+							plus.nativeUI.closeWaiting();
+							mask.close(); //关闭遮罩层
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							if(data.status == 1) {
+								layer.msg(data.msg)
+								vm.introduce = ''
+								vm.password = ''
+								vm.phone = ''
+								vm.code = ''
+								openWindow('login.html')
+							} else if(data.status == 0) {
+								layer.msg(data.msg)
+							}
+						},
+						error: function(errorThrown) {
+							//异常处理；
+
+						}
+					})
+				},
+				_back: function() {
+					var vm = this
+					mui.plusReady(function() {
+						if(!vm.first) {
+							console.log(vm.first)
+							vm.first = new Date().getTime();
+							mui.toast('再按一次退出应用');
+							setTimeout(function() {
+								vm.first = null;
+							}, 2000);
+						} else {
+							if(new Date().getTime() - vm.first < 2000) {
+								mui.toast('关闭');
+								plus.runtime.quit();
+							}
+						}
+					})
+				}
+			}
+		})
+	</script>
+
+</html>

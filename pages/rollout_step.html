@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">开心付出</h1>
+			    <a href="javascript:;" class="mui-pull-right router-link" data-href='rollout_list.html'>转出记录</a>
+			</header>		
+			<div class="mui-content">
+			    <!--<div class="roll-person">
+			    	<div><img src="../images/m_header.jpg"/></div>	    	
+			    	<p>多久萨克了解到</p>
+			    </div>-->
+			    <form class="mui-input-group">
+			    	<div class="mui-input-row">
+			            <label>选择钱包</label>
+			            <!--<input type="number" readonly v-model='userInfo.bank1'>-->
+			            <select name="" id="" v-model="selected">
+			            	<option value="1">MRCC</option>
+			            	<option value="2">交易钱包</option>
+			            </select>	
+			        </div>
+			        <div class="mui-input-row">
+			            <label>开心付出金额</label>
+			            <input type="text"  placeholder="请输入转出金额"  v-model="bd_money" @input="fil_money">
+			        </div>
+			        <div class="mui-input-row">
+			            <label>MRCC</label>
+			            <!--<input type="text"  placeholder="请输入转出地址" v-model="giveaddr">-->
+			            <input type="text" value="当前余额:6100.00" readonly />
+			        </div>
+			    </form>
+			    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" style="margin-top: 30px;" @click='subRoll'>提交申请</button>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+			el: '#app',
+			data:{
+//				userInfo: {},//会员信息
+				bd_money: "",//转出金额
+//				giveaddr: "",//转出地址
+				selected:"" //选择钱包类型
+			},
+			created:function(){
+				var user = localStorage.getItem("user")
+				var vm = this				
+				if(user){
+					mui.ajax(apiUrl.member,{
+						type:"get",
+						data:{id: JSON.parse(user).id},
+						dataType:'json',
+						success:function(data){							
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){
+								mui.toast(data.data.view);
+								vm.userInfo = data.data
+							}
+						}
+					});
+				}else{
+					openWindow('login/login.html')
+				}
+			},
+			mounted:function(){	
+				var vm = this
+				this.$nextTick(function(){
+					var addr = getQueryString('addr')
+					if(!!addr){
+						vm.giveaddr = addr
+					}					
+				})
+			},
+			methods:{	
+				fil_money:function(){
+					if(Number(this.bd_money) > Number(this.userInfo.bank1)){
+						this.bd_money = this.userInfo.bank1
+					}
+				},
+				subRoll:function(){
+					var vm = this		
+					var mask=mui.createMask()
+					mui.ajax(apiUrl.rollout,{
+						type:"post",
+						data:{
+							  username: vm.userInfo.username,
+							  bd_money: vm.bd_money,
+							  giveaddr: vm.giveaddr
+						},
+						dataType:'json',
+						beforeSend: function() {			       
+					        plus.nativeUI.showWaiting('提交中，请稍后');
+        					mask.show();//显示遮罩层
+					    },
+					    complete: function() {
+					     
+					    },
+						success:function(data){	
+							plus.nativeUI.closeWaiting();
+					        mask.close();//关闭遮罩层
+							if(data.status==0){
+								mui.toast(data.msg)
+							}							
+							else if(data.status==1){
+								mui.toast(data.msg)
+								vm.userInfo.bank1 -= vm.bd_money
+								vm.bd_money= '' 
+							}
+						},
+						error:function(){
+							mui.toast('服务器连接超时，请稍后再试');
+						}
+					});
+				}
+			}
+		})	
+		mui.init({
+		    beforeback: function() {    　　　
+		        var list = plus.webview.currentWebview().opener();    　　　　
+		        mui.fire(list, 'refresh');          
+		        return true;
+		    }
+		});
+		
+		</script>
+	</body>
+
+</html>

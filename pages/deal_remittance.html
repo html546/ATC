@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">汇款</h1>
+			</header>
+			<div class="mui-content deal_detail-content">				
+				<table class="deal_detail table">
+					<tr><td>卖家编号：</td><td>{{deal_detail.saleusername}}</td></tr>
+					<tr><td>购买单价：</td><td>{{deal_detail.oneprice}}</td></tr>
+					<tr><td>购买数量：</td><td>{{deal_detail.num}}</td></tr>
+					<tr><td>购买时间：</td><td>{{deal_detail.buytime}}</td></tr>
+					<tr><td>汇款时间：</td><td>{{deal_detail.remittime}}</td></tr>
+					<tr><td>付款时间：</td><td>{{deal_detail.paytime}}</td></tr>
+					<tr><td>确认时间：</td><td>{{deal_detail.oktime}}</td></tr>
+					<tr><td>支付方式：</td><td>{{deal_detail.paytype}}</td></tr>
+					<tr><td>卖家支付宝号：</td><td>{{}}</td></tr>
+				</table>
+				<p class="credit-hirt">提示：云通宝按照1:6的比例转换成云通资产。</p>
+	
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+			el: '#app',
+			data:{
+				deal_detail:{},
+				id:'',
+				type:''
+			},
+			created:function(){
+				var user = localStorage.getItem("user")
+				this.id = this.getUrlParms('id')
+				this.type = this.getUrlParms('type')
+				var vm = this				
+				if(user){
+					mui.ajax(apiUrl.dealDetail,{
+						type:"post",
+						data:{id: vm.id},
+						dataType:'json',
+						success:function(data){		
+							console.log(JSON.stringify(data))
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){	
+								vm.deal_detail = data.data
+							}
+						},
+						error:function(err){
+							console.log(JSON.stringify(err))
+						}
+					});
+				}else{
+					openWindow('login/login.html')
+				}
+			},
+			mounted:function(){			
+			},
+			methods:{	
+				getUrlParms: function(name){
+				   var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				   var r = window.location.search.substr(1).match(reg);
+				   if(r!=null)
+				   return unescape(r[2]);
+				   return null;
+				}
+			}
+		})	
+		mui.init({
+		    beforeback: function() {    　　　
+		        var list = plus.webview.currentWebview().opener();    　　　　
+		        mui.fire(list, 'refresh');          
+		        return true;
+		    }
+		});
+		</script>
+	</body>
+
+</html>

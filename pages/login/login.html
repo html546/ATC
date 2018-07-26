@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+	</head>
+	<body style="background: #fff;">
+		<div id="app">
+			<div class="login-top">
+				<h1>登&emsp;录</h1>
+			</div>
+			<div class="login-content">
+				<form action="" method="post">
+					<div class="form-row">
+						<label for=""><i class="fa fa-user" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="text" name="username" id="username" value="" placeholder="请输入用户名" v-model="username"/></div>					
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-unlock-alt" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="password" name="password" id="password" value="" placeholder="请输入密码" v-model="password"/></div>
+					</div>
+					<input type="button" value="登&emsp;录" class="btn-submit" @click='btnSub'/>
+					<p class="form-botom">
+						<a href="javascript:;" class="left router-link" data-href='forget.html'>忘记密码？</a>
+						<a href="javascript:;" class="right router-link" data-href='register.html'>立即注册</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/plugins/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data:{
+				username:'',
+				password:''
+			},
+			mounted: function () {
+				var vm = this
+				mui.back= function(){
+					vm._back()
+				}
+				this.$nextTick(function(){
+					var isLogin = localStorage.getItem("user");	 
+					if(isLogin){		
+						openWindow('../../index.html')						
+					}
+				})
+			},		
+			methods:{
+				btnSub:function(){	
+					var vm = this
+			
+					if(!this.username.trim()){
+						layer.msg('请输入用户名');
+						return false
+					}
+					if(!this.password.trim()){
+						layer.msg('请输入密码');
+						return false
+					}
+					var mask=mui.createMask()
+					mui.ajax(apiUrl.login,{
+						data:{
+							username:vm.username,
+							password:vm.password 
+							
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},
+						beforeSend: function() {			       
+					        plus.nativeUI.showWaiting('提交中，请稍后');
+        					mask.show();//显示遮罩层
+					    },
+					    
+					    complete: function() {
+					    	plus.nativeUI.closeWaiting();
+					        mask.close();//关闭遮罩层
+					    },
+						success:function(data){
+							plus.nativeUI.closeWaiting();
+					        mask.close();//关闭遮罩层
+							vm.username= ''
+							vm.password= ''
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							if(data.status==1){
+								localStorage.setItem("user",JSON.stringify(data.result))
+								openWindow('../../index.html')
+							}else if(data.status==0){
+								layer.msg(data.msg)
+							}
+						},
+						error:function(errorThrown){
+							//异常处理；
+							
+			
+						}
+					})
+				},
+				_back: function() {
+					var vm = this
+				    mui.plusReady(function(){
+			            if(!vm.first){  
+			            	console.log(vm.first)
+		                    vm.first = new Date().getTime();  
+		                    mui.toast('再按一次退出应用');  
+		                    setTimeout(function(){  
+		                        vm.first = null;  
+		                    },2000);  
+		                } else {  
+		                    if(new Date().getTime() - vm.first < 2000){  
+		                    	 mui.toast('关闭');  
+		                        plus.runtime.quit();
+		                    }  
+		                }  	        	
+					})
+				}
+			}
+		})
+
+	</script>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">转换</h1>
+			    <a href="javascript:;" class="mui-pull-right router-link" data-href='exchange_list.html'>转换记录</a>
+			</header>
+			<div class="mui-content credit-content">
+				<form class="mui-input-group credit-form">
+					<div class="mui-input-row">
+				        <label>ATC余额</label>
+				        <input type="text" value="0.00" disabled  v-model='userInfo.bank1'>
+				    </div>
+				    <div class="mui-input-row">
+				        <label>会员编号</label>
+				        <input type="text" value="1234" disabled  v-model='userInfo.username'>
+				    </div>
+				    <div class="mui-input-row">
+				        <label>转换金额</label>
+				        <input type="number"  placeholder="请输入转换金额" v-model="bd_money">
+				    </div>		  
+				</form>
+				<p class="credit-hirt">提示：ATC按照1:6的比例转换成ATC资产。</p>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block"  @click="subRoll">提交申请</button>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+			el: '#app',
+			data:{
+				userInfo: {},//会员信息
+				bd_money: "",//转换金额
+			},
+			created:function(){
+				var user = localStorage.getItem("user")
+				var vm = this				
+				if(user){
+					mui.ajax(apiUrl.member,{
+						type:"post",
+						data:{userid: JSON.parse(user).id},
+						dataType:'json',
+						success:function(data){							
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){	
+								vm.userInfo = data.data
+							}
+						}
+					});
+				}else{
+					openWindow('login/login.html')
+				}
+			},
+			mounted:function(){			
+			},
+			methods:{	
+				fil_money:function(){
+					if(this.bd_money>=this.userInfo.bank1){
+						this.bd_money = this.userInfo.bank1
+					}
+				},
+				subRoll:function(){
+					var vm = this		
+					var mask=mui.createMask()
+					mui.ajax(apiUrl.exchange,{
+						type:"post",
+						data:{
+							  username: vm.userInfo.username,
+							  bd_money: vm.bd_money
+						},
+						dataType:'json',
+						beforeSend: function() {			       
+					        plus.nativeUI.showWaiting('提交中，请稍后');
+        					mask.show();//显示遮罩层
+					    },
+					    complete: function() {
+					     
+					    },
+						success:function(data){	
+							plus.nativeUI.closeWaiting();
+					        mask.close();//关闭遮罩层
+							if(data.status==0){
+								mui.toast(data.msg)
+							}							
+							else if(data.status==1){
+								mui.toast(data.msg)
+								vm.userInfo.bank1 -= vm.bd_money
+								vm.bd_money= '' 
+							}
+						},
+						error:function(){
+							mui.toast('服务器连接超时，请稍后再试');
+						}
+					});
+				}
+			}
+		})	
+	
+		</script>
+	</body>
+
+</html>

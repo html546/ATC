@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">财务管理</h1>
+			</header>
+			<div class="mui-content">
+				<div class="mui-row assets-deal-top">
+					<div class="mui-col-xs-6" @click="getDetail1">
+							<p>{{bank1.money}}</p>
+							<p>{{bank1.bankname}}</p>
+					</div>
+					<div class="mui-col-xs-6" @click="getDetail2">
+							<p>{{bank2.money}}</p>
+							<p>{{bank2.bankname}}</p>
+					</div>
+				</div>
+				<div class="mui-scroll-wrapper" style="top: 150px;">
+					<div class="mui-scroll">
+						<!--<div class="assets-deal-check">
+							<div class="cash-buy deal-buy" :class="{'active':type==1}" @click='type=1'>ATC明细</div>
+							<div class="cash-sell deal-sell" :class="{'active':type==2}" @click='type=2'>ATC资产明细</div>
+						</div>-->
+						<div class="finance-list">
+							<div v-if='type==1'>
+								<p v-if='finance_detail1.length<=0' class="roll-list-no">没有找到相关记录</p>
+								<ul v-else>
+									<li v-for="item in finance_detail1" class="mui-row">
+										<p class="mui-col-xs-6">来源：{{item.source}}</p>
+										<p class="mui-col-xs-6" style="text-align: right;">金额：{{item.money}}</p>
+										<p class="mui-col-xs-6">余额：{{item.balance}}</p>
+										<p class="mui-col-xs-6" style="text-align: right;">类型：{{item.type}}</p>
+										<p class="mui-col-xs-12">时间：{{item.time | time}}</p>
+										<p class="mui-col-xs-12">备注：{{item.source}}</p>
+									</li>
+									<div id="getMore" @click="!isLoad1 && isMore1 && getMore1()">
+										<div v-if='isMore1'>
+											<div v-if="!isLoad1">
+												<p>点击加载更多</p>
+												<i class="mui-icon mui-icon-arrowdown"></i>
+											</div>
+											<div v-else class="isLoad">
+												<p>正在加载</p>
+												<i class="mui-icon mui-icon-loop"></i>
+											</div>
+										</div>
+										<div v-else>
+											<p>没有更多了</p>
+										</div>
+									</div>
+								</ul>
+							</div>
+							<div v-if='type==2'>
+								<p v-if='finance_detail2.length<=0' class="roll-list-no">没有找到相关记录</p>
+								<ul v-else>
+									<li v-for="item in finance_detail2" class="mui-row">
+										<p class="mui-col-xs-6">来源：{{item.source}}</p>
+										<p class="mui-col-xs-6" style="text-align: right;">金额：{{item.money}}</p>
+										<p class="mui-col-xs-6">余额：{{item.balance}}</p>
+										<p class="mui-col-xs-6" style="text-align: right;">类型：{{item.type}}</p>
+										<p class="mui-col-xs-12">时间：{{item.time | time}}</p>
+										<p class="mui-col-xs-12">备注：{{item.source}}</p>
+									</li>
+									<div id="getMore" @click="!isLoad2 && isMore2 && getMore2()">
+										<div v-if='isMore2'>
+											<div v-if="!isLoad2">
+												<p>点击加载更多</p>
+												<i class="mui-icon mui-icon-arrowdown"></i>
+											</div>
+											<div v-else class="isLoad">
+												<p>正在加载</p>
+												<i class="mui-icon mui-icon-loop"></i>
+											</div>
+										</div>
+										<div v-else>
+											<p>没有更多了</p>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="reload"></div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init({
+				/*subpages:[{
+					url:'mrcc_list.html',
+					id:'mrcc_list.html',
+					styles:{
+						top:'45px',
+						bottom:'0px'
+					}
+				}]*/
+			})
+			new Vue({
+				el: '#app',
+				data: {
+//					finance: {}, //资产
+					bank1:{}, //mrcc
+					bank2:{}, //交易钱包
+					type: 1,
+					finance_detail1: [],
+					finance_detail2: [],
+					page1: 1,
+					isLoad1: false,
+					isMore1: true,
+					page2: 1,
+					isLoad2: false,
+					isMore2: true
+				},
+				created: function() {
+					var user = localStorage.getItem("user")
+					var vm = this
+					if(user) {
+						vm.userid = JSON.parse(user).username;
+						mui.ajax(apiUrl.Index, {
+							type: "post",
+							data: {
+								id:JSON.parse(user).id
+							},
+							dataType: 'json',
+							success: function(data) {
+								if(data.status == 0) {
+									mui.toast(data.msg)
+								} else if(data.status == 1) {
+//									vm.finance = data.data.walletamounts;
+									vm.bank1 = data.data.walletamounts.bank1;
+									vm.bank2 = data.data.walletamounts.bank2;
+								}
+							}
+						});
+						vm.getDetail1()
+//						vm.getDetail2()
+					} else {
+						openWindow('login/login.html')
+					}
+				},
+				filters: {
+					time: function(val) {
+						return timestampToTime(val)
+					}
+				},
+				mounted: function() {
+					this.$nextTick(function() {
+						mui('.mui-scroll-wrapper').scroll({
+							deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						});
+					})
+				},
+				methods: {
+					getMore1: function() {
+						this.isLoad1 = true
+						this.page1 += 1
+						this.getDetail1()
+					},
+					getMore2: function() {
+						this.isLoad2 = true
+						this.page2 += 1
+						this.getDetail2()
+					},
+					getNote: function() {
+
+					},
+					getDetail1: function() {
+//						mui.toast(333);
+						var vm = this
+						vm.type=1;
+						var user = localStorage.getItem("user")
+						if(!user) {
+							openWindow('login/login.html')
+							return false
+						}
+						mui.ajax(apiUrl.finance, {
+							type: "post",
+							data: {
+								username: JSON.parse(user).username,
+								type: vm.type,
+								page: vm.page1
+							},
+							dataType: 'json',
+							success: function(data) {
+								vm.isLoad1 = false
+								if(data.status == 0) {
+									mui.toast(data.msg)
+								} else if(data.status == 1) {
+									if(data.data.finances.length <= 0) {
+										vm.isMore1 = false
+										mui.toast('没有更多了')
+										return false
+									}
+									for(var i = 0; i < data.data.finances.length; i++) {
+										vm.finance_detail1.push(data.data.finances[i])
+									}
+									vm.page1+=1;
+
+								}
+							}
+						});
+					},
+					getDetail2: function() {
+						var vm = this;
+						vm.type = 2;	
+						var user = localStorage.getItem("user")
+						if(!user) {
+							openWindow('login/login.html')
+							return false
+						}
+						mui.ajax(apiUrl.finance, {
+							type: "post",
+							data: {
+								username: JSON.parse(user).username,
+								type: vm.type,
+								page: vm.page2
+							},
+							dataType: 'json',
+							success: function(data) {
+								vm.isLoad2 = false;
+								if(data.status == 0) {
+									mui.toast(data.msg)
+								} else if(data.status == 1) {
+									if(data.data.finances.length <= 0) {
+										vm.isMore2 = false
+										mui.toast('没有更多了')
+										return false
+									}
+									for(var i = 0; i < data.data.finances.length; i++) {
+										vm.finance_detail2.push(data.data.finances[i])
+									}
+									vm.page2+=1;
+								}
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

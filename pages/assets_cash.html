@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">交易中心</h1>
+			</header>		
+			<div class="mui-content">
+				<div class="mui-scroll-wrapper"  style="top: 44px;">
+				 	<div class="mui-scroll">
+						<div class="mui-row assets-deal-top">
+						    <div class="mui-col-xs-6">
+						    	<p>ATM</p>
+						    	<p>0.000</p>
+						    </div>
+						    <div class="mui-col-xs-6">
+						    	<p>ATM资产</p>
+						    	<p>0.000</p>
+						    </div>
+						</div>			
+						<div class="assets-deal-price mui-row">
+							<div class="mui-col-xs-4">
+								<label>当前价格：</label>
+								<span>0.00</span>
+							</div>
+							<div class="mui-col-xs-4">
+								<label>高：</label>
+								<span>0.00</span>
+								<i class="mui-icon mui-icon-pulldown up"></i>
+							</div>
+							<div class="mui-col-xs-4">
+								<label>低：</label>
+								<span>0.00</span>
+								<i class="mui-icon mui-icon-pulldown down"></i>
+							</div>
+						</div>
+						<div class="assets-nav assets-deal-path">
+							<ul class="mui-table-view mui-grid-view mui-grid-9">
+								<li class="mui-table-view-cell mui-media mui-col-xs-4">
+								    <a href="javascript" class=" router-link" data-href='assets_sellorder.html'>
+								        <span class="mui-icon mui-icon-extra mui-icon-extra-prech"></span>
+								        <div class="mui-media-body">出售订单</div>
+								    </a>
+								</li>
+								<li class="mui-table-view-cell mui-media mui-col-xs-4">
+								    <a href="javascript" class=" router-link" data-href='assets_buyorder.html'>
+								        <span class="mui-icon mui-icon-extra mui-icon-extra-dictionary"></span>
+								        <div class="mui-media-body">购买订单</div>
+								    </a>
+								</li>
+								<!--<li class="mui-table-view-cell mui-media mui-col-xs-4">
+								    <a href="javascript" class=" router-link" data-href='assets_order.html'>
+								        <span class="mui-icon mui-icon-extra mui-icon-extra-topic"></span>
+								        <div class="mui-media-body">订单</div>
+								    </a>
+								</li>-->
+								<li class="mui-table-view-cell mui-media mui-col-xs-4">
+								     <a href="javascript" class=" router-link" data-href='assets_dealnote.html'>
+								        <span class="mui-icon mui-icon-extra mui-icon-extra-trend"></span>
+								        <div class="mui-media-body">交易记录</div>
+								    </a>
+								</li>
+							</ul>	
+						</div>
+						<div class="echart">
+							<div class="echart-nav">
+								<li class="active" data-href="echart1">5分钟</li>
+								<li data-href="echart2">5小时</li>
+								<li data-href="echart3">日线</li>
+							</div>
+							<div class="echart-main">
+								<div id="echart1" class="echart-item"></div>
+								<div id="echart2" class="echart-item"></div>
+								<div id="echart3" class="echart-item"></div>
+							</div>					
+						</div>
+						<div class="assets-deal-check">
+							<div class="cash-buy deal-buy active" @click="">购买</div>
+							<div class="cash-sell deal-sell">出售</div>
+						</div>
+						<!-- 购买  -->
+						<div class="assets_cash_buy">
+							<!--<p class="roll-list-no">没有找到相关记录</p>-->				   
+					      	 <ul class="mui-table-view">
+					            <li class="mui-table-view-cell" v-for="item in market">
+					              	<div class="mui-row">
+					                  	<div class="buyin-center-l">
+					                  		<img src="../images/m_header.jpg"/>
+					                  	</div>
+					                  	<div class="buyin-center-r mui-row">
+					                  		<div class="mui-col-xs-6 bc-name">{{item.username}}</div>
+					                  		<div class="mui-col-xs-6 bc-count">单价：{{item.oneprice}}</div>
+					                  		<div class="mui-col-xs-6 bc-credit">信用：<i class="mui-icon-extra mui-icon-extra-heart-filled" v-for='item in credit'></i></div>
+					                  		<div class="mui-col-xs-6 bc-money" >实付金额：{{item.oneprice*item.num}}</div>
+					                  		<div class="mui-col-xs-6 bc-type">数量：{{item.num}}</div>
+					                  		<div class="mui-col-xs-6 bc-ck"><button type="button" class="mui-btn mui-btn-danger">买入</button></div>
+					                   	</div>
+					              </div>
+					           </li>	
+					       </ul>
+				       </div>
+				       <!-- 出售  -->
+						<div class="assets_cash_sell">
+							<!--<p class="roll-list-no">没有找到相关记录</p>-->
+						     <ul class="mui-table-view">
+					           <li class="mui-table-view-cell" v-for="item in market">
+					              	<div class="mui-row">
+					                  	<div class="buyin-center-l">
+					                  		<img src="../images/m_header.jpg"/>
+					                  	</div>
+					                  	<div class="buyin-center-r mui-row">
+					                  		<div class="mui-col-xs-6 bc-name">{{item.username}}</div>
+					                  		<div class="mui-col-xs-6 bc-count">单价：{{item.oneprice}}</div>
+					                  		<div class="mui-col-xs-6 bc-credit">信用：<i class="mui-icon-extra mui-icon-extra-heart-filled" v-for='item in credit'></i></div>
+					                  		<div class="mui-col-xs-6 bc-money" >实付金额：{{item.oneprice*item.num}}</div>
+					                  		<div class="mui-col-xs-6 bc-type">数量：{{item.num}}</div>
+					                  		<div class="mui-col-xs-6 bc-ck"><button type="button" class="mui-btn mui-btn-danger">卖出</button></div>
+					                   	</div>
+					              </div>
+					           </li>	
+					       </ul>
+				       </div>
+				    </div>
+				</div>
+			</div>	
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			new Vue({
+			el: '#app',
+			data:{
+				market:[],
+				credit:[],
+				type:1,
+			},
+			created:function(){
+				this.getMarket(this.type)
+			},
+			mounted:function(){		
+				this.$nextTick(function(){
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+				})
+			},
+			methods:{
+				getMarket: function(type){
+					var user = localStorage.getItem("user")
+					var vm = this	
+					this.credit = []
+					if(user){
+						mui.ajax(apiUrl.market,{
+							type:"post",
+							data:{type: type},
+							dataType:'json',
+							success:function(data){								
+								console.log(JSON.stringify(data))
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									vm.market = data.data																
+								}
+							}
+						});
+					}else{
+						openWindow('login/login.html')
+					}
+				},				
+				subRoll:function(){
+					var vm = this		
+					var mask=mui.createMask()
+					mui.ajax(apiUrl.rollout,{
+						type:"post",
+						data:{
+							  username: vm.userInfo.username,
+							  bd_money: vm.bd_money,
+							  giveaddr: vm.giveaddr
+						},
+						dataType:'json',
+						beforeSend: function() {			       
+					        plus.nativeUI.showWaiting('提交中，请稍后');
+        					mask.show();//显示遮罩层
+					    },
+					    complete: function() {
+					     
+					    },
+						success:function(data){	
+							plus.nativeUI.closeWaiting();
+					        mask.close();//关闭遮罩层
+							if(data.status==0){
+								mui.toast(data.msg)
+							}							
+							else if(data.status==1){
+								mui.toast(data.msg)
+							}
+						},
+						error:function(){
+							mui.toast('服务器连接超时，请稍后再试');
+						}
+					});
+				}
+			}
+		})	
+		</script>
+		<script type="text/javascript">
+			var myChart1 = echarts.init(document.getElementById('echart1'));
+			var myChart2 = echarts.init(document.getElementById('echart2'));
+			var myChart3 = echarts.init(document.getElementById('echart3'));
+			var option1 = {
+				grid: {  
+			     	left: '-25px',  
+				    right: '15px',  
+				    bottom: '1%',  
+				    containLabel: true  
+				},
+				tooltip: {
+			        trigger: 'axis',		      
+			    },
+			    xAxis: {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: ['7:15','7:20','7:25','7:30','7:35','7:40','7:45','7:50','7:55','8:00', '8:05','8:10','8:15','8:20','8:25'],
+			        axisLabel:{
+			        	interval:2,		        	
+			        }
+			    },
+			    yAxis: {
+			    	show : false,
+			        type: 'value'
+			    },
+			    series: [{
+			        data: [820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,
+			        820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,
+			        820, 932, 901, 934, 1290,820, 932, 901, 934, 1290],
+			        type: 'line',
+			        areaStyle: {},
+			        itemStyle:{
+			        	normal:{color:'#BEE2FE'}
+			        }
+			    }]
+			};
+			var option2 = {
+				grid: {  
+			     	left: '-25px',  
+				    right: '15px',  
+				    bottom: '1%',  
+				    containLabel: true  
+				},
+				tooltip: {
+			        trigger: 'axis',		      
+			    },
+			    xAxis: {
+			        type: 'category',
+			        boundaryGap: false,
+			        data: ['17:00','18:00','19:00','20:00','21:00','22:00','23:00','0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00'],
+			        axisLabel:{
+			        	interval:3,		        	
+			        }
+			    },
+			    yAxis: {
+			    	show : false,
+			        type: 'value'
+			    },
+			    series: [{
+			        data:[820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,
+			        820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,820, 932, 901, 934, 1290,
+			        820, 932, 901, 934, 1290,820, 932, 901, 934, 1290],
+			        type: 'line',
+			        areaStyle: {},
+			        itemStyle:{
+			        	normal:{color:'#BEE2FE'}
+			        }
+			    }]
+			};
+			var option3 = {
+				grid: {  
+			     	left: '-25px',  
+				    right: '15px',  
+				    bottom: '1%',  
+				    containLabel: true  
+				},
+			    tooltip : {
+			        trigger: 'axis',
+			        formatter: function (params) {
+			            var res = params[0].seriesName + ' ' + params[0].name;
+			            res += '<br/>  开盘 : ' + params[0].value[0] + '  最高 : ' + params[0].value[3];
+			            res += '<br/>  收盘 : ' + params[0].value[1] + '  最低 : ' + params[0].value[2];
+			            return res;
+			        }
+			    },
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap : true,
+			            axisTick: {onGap:false},
+			            splitLine: {show:false},
+			            data : [
+			                "2013/1/24", "2013/1/25", "2013/1/28", "2013/1/29", "2013/1/30",
+			                "2013/1/31", "2013/2/1"]
+			        }
+			    ],
+			    yAxis : [
+			        {
+			        	show:false,
+			            type : 'value',
+			            scale:true,
+			            boundaryGap: [0.01, 0.01]
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'上证指数',
+			            type:'k',
+			            data:[ // 开盘，收盘，最低，最高
+			                [2320.26,2302.6,2287.3,2362.94],
+			                [2300,2291.3,2288.26,2308.38],
+			                [2295.35,2346.5,2295.35,2346.92],
+			                [2347.22,2358.98,2337.35,2363.8],
+			                [2360.75,2382.48,2347.89,2383.76],
+			                [2383.43,2385.42,2371.23,2391.82],
+			                [2377.41,2419.02,2369.57,2421.15],
+			            ]
+			        }
+			    ]
+			};
+			myChart1.setOption(option1);
+			myChart2.setOption(option2);
+			myChart3.setOption(option3);
+		</script>
+	</body>
+
+</html>

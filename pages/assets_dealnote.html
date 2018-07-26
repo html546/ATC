@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">交易记录</h1>	
+		    <a class=" mui-icon mui-icon-more mui-pull-right" href="#popover"></a>
+		</header>		
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" style="top: 50px;">
+			    <div class="mui-scroll">
+			        <!--<p class="roll-list-no">没有找到相关记录</p>-->
+				   <ul class="mui-table-view">
+			           <li class="mui-table-view-cell">
+			              	<div class="mui-row">
+			                  	<div class="buyin-center-l">
+			                  		<img src="../images/m_header.jpg"/>
+			                  	</div>
+			                  	<div class="buyin-center-r mui-row">
+			                  		<div class="mui-col-xs-6 bc-name">ws123</div>
+			                  		<div class="mui-col-xs-6 bc-count">交易金额：200</div>
+			                  		<div class="mui-col-xs-6 bc-credit">交易数量： 2150</div>
+			                  		<div class="mui-col-xs-6 red">比特币</div>			           		
+			                  		<div class="mui-col-xs-6 bc-type">支付方式：建设银行</div>
+			                  		<div class="mui-col-xs-6 bc-status red" >已完成</div>
+			                  		<div class="mui-col-xs-12 bc-time">时间：2011-11-11 11:11:11</div>
+			                   	</div>
+			              </div>
+			           </li>
+			           <li class="mui-table-view-cell">
+			              	<div class="mui-row">
+			                  	<div class="buyin-center-l">
+			                  		<img src="../images/m_header.jpg"/>
+			                  	</div>
+			                  	<div class="buyin-center-r mui-row">
+			                  		<div class="mui-col-xs-6 bc-name">ws123</div>
+			                  		<div class="mui-col-xs-6 bc-count">交易金额：200</div>
+			                  		<div class="mui-col-xs-6 bc-credit">交易数量： 2150</div>
+			                  		<div class="mui-col-xs-6 red">比特币</div>			           		
+			                  		<div class="mui-col-xs-6 bc-type">支付方式：建设银行</div>
+			                  		<div class="mui-col-xs-6 bc-status red" >已完成</div>
+			                  		<div class="mui-col-xs-12 bc-time">时间：2011-11-11 11:11:11</div>
+			                   	</div>
+			              </div>
+			           </li>
+			       </ul>
+			    </div>
+			</div>
+		</div>	
+		<div id="popover" class="mui-popover" style="width: 150px;">
+		    <ul class="mui-table-view">
+		    	<li class="mui-table-view-cell"><a href="#">Vpay</a></li>
+		    	<li class="mui-table-view-cell"><a href="#">比特币</a></li>
+		    	<li class="mui-table-view-cell"><a href="#">莱特币</a></li>
+		    	<li class="mui-table-view-cell"><a href="#">以太坊</a></li>
+		    </ul>		
+		</div>	
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,134 @@
+.cfff{color: #fff !important;}
+/* 首页 */
+.mui-btn-primary, .mui-btn-blue, .mui-btn-blue{background: #46ADFC;border-color:#46ADFC}
+.mui-btn-block{padding: 12px;border-radius: 5px;font-size: 16px;width: 95%;margin: 20px auto 10px;}
+.ind_top{background:#46ADFC; padding:15px 15px 10px;}
+.head-img{width: 50px; height: 50px; margin-right: 10px; border-radius: 30px; border: 2px solid #fff;}
+.index_id{color: #fff;}
+.index_id p{color: #fff; margin: 0;}
+.index_id p span{color:#DD524D;}
+.ge_id p{margin: 0;}
+.ge_id p span{color:#DD524D;}
+/*.she_a{top:5px; right:0; position: absolute; color: #fff;}*/
+.she_b{color: #fff;}
+.saoma{padding:15px 0;}
+.saoma a{text-align: center; display: block;}
+.saoma a img{margin-bottom: 5px;}
+.saoma a p{letter-spacing: 2px; font-size: 16px; color: #fff;margin-top: 10px;}
+.saoma .icon-saoma{font-size:106px; color: #fff;}
+.index_two{width: 50%; text-align: center;}
+.index_two a p{color: #fff; margin-bottom: 5px; font-size: 16px; margin-top: 0;}
+.jiu_img .icon-zhuanchu{color:#ED6A56; font-size: 28px;}
+.jiu_img .icon-zhuanru{color:#FEB218; font-size: 28px;}
+.jiu_img .icon-maichu{color:#F59DB3; font-size: 28px;}
+.jiu_img .icon-mairu{color:#45AE76; font-size: 28px;}
+.jiu_img .icon-zichan{color:#B143B3; font-size: 28px;}
+.jiu_img .icon-zhuanhuan{color:#5D82D2; font-size: 28px;}
+.jiu_img .icon-caiwu{color:#9DB5B7; font-size: 28px;}
+.jiu_img .icon-hongbao{color:#E43039; font-size: 28px;}
+/* 设置 */
+.mui-views,
+.mui-view,
+.mui-pages,
+.mui-page,
+.mui-page-content{position: absolute;left: 0;right: 0;top: 0;bottom: 0;width: 100%;height: 100%;background-color: #efeff4;}
+.mui-pages{top: 44px;height: auto;}
+.mui-scroll-wrapper,
+.mui-scroll{background-color: #efeff4;}
+.mui-page.mui-transitioning{-webkit-transition: -webkit-transform 300ms ease;transition: transform 300ms ease;}
+.mui-page-left{-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);}
+.mui-ios .mui-page-left{-webkit-transform: translate3d(-20%, 0, 0);transform: translate3d(-20%, 0, 0);}
+.mui-navbar{position: fixed;right: 0;left: 0;z-index: 10;height: 44px;background-color: #f7f7f8;}
+.mui-navbar .mui-bar{position: absolute;background: transparent;text-align: center;}
+.mui-android .mui-navbar-inner.mui-navbar-left{opacity: 0;}
+.mui-ios .mui-navbar-left .mui-left,
+.mui-ios .mui-navbar-left .mui-center,
+.mui-ios .mui-navbar-left .mui-right{opacity: 0;}
+.mui-navbar .mui-btn-nav{-webkit-transition: none;transition: none;-webkit-transition-duration: .0s;transition-duration: .0s;}
+.mui-navbar .mui-bar .mui-title{display: inline-block;width: auto;}
+.mui-page-shadow{position: absolute;right: 100%;top: 0;width: 16px;height: 100%;z-index: -1;content: '';}
+.mui-page-shadow{background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);}
+.mui-navbar-inner.mui-transitioning,
+.mui-navbar-inner .mui-transitioning{-webkit-transition: opacity 300ms ease, -webkit-transform 300ms ease;transition: opacity 300ms ease, transform 300ms ease;}
+.mui-page{display: none;}
+.mui-pages .mui-page{display: block;}
+.mui-page .mui-table-view:first-child{margin-top: 15px;}
+.mui-page .mui-table-view:last-child{margin-bottom: 30px;}
+.mui-table-view{margin-top: 20px;}
+.mui-table-view span.mui-pull-right{color: #999;}
+.mui-table-view-divider{background-color: #efeff4;font-size: 14px;}
+.mui-table-view-divider:before,
+.mui-table-view-divider:after{height: 0;}
+.head{height: 40px;}
+#head{line-height: 40px;}
+.head-img{width: 40px;height: 40px;}
+.head-img2{width: 80px;height: 80px;border-radius: 50%;position: relative;left: 50%;margin-left: -40px;}
+#head-img1{position: absolute;bottom: 10px;right: 40px;width: 40px;height: 40px;}
+.update{font-style: normal;color: #999999;margin-right: -25px;font-size: 15px}
+.mui-fullscreen{position: fixed;z-index: 20;background-color: #000;}
+.mui-ios .mui-navbar .mui-bar .mui-title{position: static;}
+/*问题反馈在setting页面单独的css*/
+#feedback .mui-popover{position: fixed;}
+#feedback .mui-table-view:last-child{margin-bottom: 0px;}
+#feedback .mui-table-view:first-child{margin-top: 0px;}
+.mui-plus.mui-plus-stream .mui-stream-hidden{display: none !important;}
+/* 个人中心 */
+.mui-table-view-cell{font-size: 15px;}
+.nei_topbt{background: #46ADFC !important;}
+.nei_topbt h1{color: #fff;}
+.nei_topbt button span{color: #fff;}
+.flo_r{float: right;}
+.yhcard_ra{border-radius:10px; margin:20px 20px 0;}
+.yhcard_ra button{width: 100%; font-size: 16px;}
+.yhcard_ra a{color: red; float: right; margin-bottom: 15px; font-size: 16px;}
+.yhcard{height:35vw;background:url(../images/card.jpg) no-repeat; background-size: 100% 100%;}
+.pass_form{margin: 10px 0;}
+.pass_inp{height: 50px !important;}
+.pass_inp label{padding: 17px 15px !important;}
+.pass_inp input{padding: 25px 15px !important;}
+.pass_inp span{top: 15px !important;}
+.top_rfff{color: #fff !important; position: absolute !important; right: 15px !important;}
+.mui-input-group .mui-input-row:after{left: 0 !important;}
+.mui-table-view-cell:after{left: 0 !important;}
+.feedback .image-item .image-up{line-height: 55px !important;}
+.card_add a{width: 100%; line-height: 45px; display: inline-block; text-align: center; margin: 0; color: #242424;}
+.card_add a span{vertical-align: middle;}
+.fenxiang_img{background: url(../images/fx_bg.png) no-repeat #46ADFC; background-size: 100% auto; text-align: center; position: relative;}
+.fenxiang_img .share-main{width:65vw; height:65vw; margin-top: 12vw;display: inline-block;}
+.fenxiang_img .share-main #qrcode{display: inline-block;text-align: center;margin-top: 5vw;}
+.fenxiang_img p{margin-top: 16vw; font-size: 18px;}
+.xiugai_img{padding: 20px;}
+.xiugai_imgs img{width: 55vw; height: 55vw;}
+.xiugai_imga{text-align: center;}
+.xiugai_imga button{height:12vw; width:95%;}
+.zichan_top{text-align: center; padding:4vw 0; background: #fff !important; height: 25vw;}
+.zichan_top a{color: #999; font-size:20px; line-height: 40px;}
+.zichan_top p{font-size:24px; color: #333; margin: 0 !important;}
+.zichan_top img{margin-top: 3vw;}
+.zichan_top .icon-loop{font-size:35px; color: #DBDBDB; line-height: 17vw;}
+.zichan_grid{background: #fff; padding: 20px; border: 1px solid #dedede;}
+.a{border-right:none; border-bottom:none;}
+.ar{border-right:none;}
+.zichan_grid_h3{display: block; text-indent: 1em; color: #000; background: #efeff4; margin:20px 0 10px; font-size: 16px;}
+.zichan_grid p{font-size: 18px; line-height: 30px; margin: 0;}
+/* 登录注册 */.ui-page-login,body{width: 100%;height: 100%;margin: 0px;padding: 0px;}.mui-content{height: 100%;}.area{margin: 20px auto 0px auto;}.mui-input-group{margin-top: 10px;}.mui-input-group:first-child{margin-top: 20px;}.mui-checkbox input[type=checkbox],.mui-radio input[type=radio]{top: 6px;}.mui-content-padded{margin-top: 25px;}.mui-btn{padding: 10px;}.link-area{display: block;margin-top: 25px;text-align: center;}.spliter{color: #bbb;padding: 0px 8px;}.oauth-area{position: absolute;bottom: 20px;left: 0px;text-align: center;width: 100%;padding: 0px;margin: 0px;}.oauth-area .oauth-btn{display: inline-block;width: 50px;height: 50px;background-size: 30px 30px;background-position: center center;background-repeat: no-repeat;margin: 0px 20px;/*-webkit-filter: grayscale(100%); */border: solid 1px #ddd;border-radius: 25px;}
+.oauth-area .oauth-btn:active{border: solid 1px #aaa;}
+.oauth-area .oauth-btn.disabled{background-color: #ddd;}
+#login{background: -webkit-linear-gradient(135deg, #413d91, #4886bf); /* Safari 5.1 - 6.0 */ background: -o-linear-gradient(135deg, #413d91, #4886bf); /* Opera 11.1 - 12.0 */ background: -moz-linear-gradient(135deg, #413d91, #4886bf); /* Firefox 3.6 - 15 */ background: linear-gradient(135deg, #413d91, #4886bf); /* 标准的语法 */ width:100%; height:100%; position:fixed; overflow: hidden; padding-top:120px;}.login{width:70%;margin: 0 auto;text-align: center;}.login h1{font-size: 40px;font-weight: 200;color:#fff;margin: 30px;}.login p{color:#aaa;line-height:50px;}.login a{color:#fff;}.login_inp{width:100% !important;height:40px !important;line-height:40px !important;margin-bottom:20px !important;border-bottom:1px solid #d1d3e1 !important;display: block; text-indent:1em;font-size:16px; padding: 0 !important;color:#d1d3e1 !important;background:none !important;border-top: none !important; border-left: none !important; border-right: none !important;}.login_btn{width:100%; height:40px; background:#3f41a1; border:0; color:#fff; border-radius:3px; cursor:pointer; font-size:16px;} .login_btn2{position:absolute; top:-1px; right:-2px; width:100px; height:40px; background:#3f41a1; border:0; color:#fff; cursor:pointer; font-size:16px;} .login_inp::-webkit-input-placeholder{color:#d1d3e1;}.login_inp::-moz-placeholder{color:#d1d3e1; /* Mozilla Firefox 19+ */}
+.login_inp:-moz-placeholder{color:#d1d3e1; /* Mozilla Firefox 4 to 18 */}
+.login_inp:-ms-input-placeholder{color:#d1d3e1; /* Internet Explorer 10-11 */}
+.ytb_yr{position: relative}
+.ytb_yr:after{position: absolute;content: '';right: 0;top: 0;width: 1px;height: 100%;background: #fff;}
+.redpacket{position: fixed;width: 100%;top: -100%;}
+.redpacket.active{animation: redpacket .25s forwards;-webkit-animation: redpacket .25s forwards;-moz-animation: redpacket .25s forwards;-ms-animation: redpacket .25s forwards;-o-animation: redpacket .25s forwards;}
+.redpacket img{width: 80%;margin-left: 15%;z-index: 999;}
+.redpacket-money{display:block;position: absolute;top: 28%;font-size: 12vw;left: 50%;transform: translateX(-50%);-webkit-transform: translateX(-50%);color: #D92D2D;font-family: arial;}
+@-webkit-keyframes redpacket{from{top: -100%}to{top: 20%}}
+@-moz-keyframes redpacket{from{top: -100%}to{top: 20%}}
+@-ms-keyframes redpacket{from{top: -100%}to{top: 20%}}
+@-o-keyframes redpacket{from{top: -100%}to{top: 20%}}
+.redpacket button{opacity: 0;border: none;outline: none;color: transparent;background: transparent;position: absolute;left: 50%;transform: translateX(-50%);-webkit-transform: translateX(-50%);bottom: 19%;width: 29%;height: 9vw;}
+.ms-main img{max-width: 100%;}
+.reload{border-radius: 50%;position: fixed;bottom: 10%;right: 3%;z-index: 1000;width: 45px;height: 45px;background: url(../images/reload.jpg) no-repeat;background-size: 200px auto;background-position: -81px -17px;}
+.roll-list-no {text-align: center;margin-top: 15px;font-size: 16px;}
+.ge_id .mui-icon-extra,.index_id .mui-icon-extra{font-size: 16px;vertical-align: middle;}

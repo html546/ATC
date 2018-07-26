@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/icons-extra.css" />
+		<link rel="stylesheet" href="css/feedback.css" type="text/css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="icons/style.css" />
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="ind_top">
+						<!--头像设置-->
+						<div class="mui-table-view-chevron" style="overflow: hidden;">
+							<a class="router-link" data-href="Personal/personal_index.html">
+								<!--<img class="mui-media-object mui-pull-left head-img" id="head-img" src="images/m_header.jpg"  width="50" height="50">-->
+								<!--<div class="mui-media-body index_id">
+								<span style="font-size: 14px;">编号：<span id="user_id">{{userid}}</span></span>
+								<p class='mui-ellipsis'>信用：
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=1"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=2"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=3"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=4"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=5"></span>
+								</p>
+							</div>-->
+								<span class="mui-icon mui-icon-gear mui-pull-right she_b"></span>
+								<img id="ld" width="30px" src="images/ld.png" class="mui-icon mui-icon-gear mui-pull-right she_b" />
+							</a>
+						</div>
+
+						<!--<div class="mui-row saoma">
+					 	<a href="javascript:;"class="router-link" data-href='pages/sys.html'>
+					 		<span class="mui-icon-extra mui-icon-extra-sweep" style="color: #FFF;font-size: 25vw;"></span>
+					 		<p>扫码支付</p>
+					 	</a>
+					 </div>-->
+						<div class="mui-row">
+							<div class="col-xs-12 col-sm-12 index_id">
+								<img class="head-img head-img2" id="head-img" src="images/m_header.jpg" width="200" height="200" alt="" />
+								<p class="mui-text-center" style="font-size: 14px;">编号：<span id="user_id">{{userid}}</span></p>
+								<p class='mui-ellipsis mui-text-center'>信用：
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=1"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=2"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=3"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=4"></span>
+									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=5"></span>
+								</p>
+							</div>
+						</div>
+						<div class="mui-row">
+							<div class="mui-col-sm-6 mui-col-xs-6 index_two ytb_yr">
+								<a href="" class="">
+									<p>{{bank1.money}}</p>
+									<p>{{bank1.bankname}}</p>
+								</a>
+							</div>
+							<div class="mui-col-sm-6 mui-col-xs-6 index_two">
+								<a href="" class="">
+									<p>{{bank2.money}}</p>
+									<p>{{bank2.bankname}}</p>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!--<div>-->
+						<!--<img src="images/lqhb_bg.jpg" style="width: 100%;" />-->
+						<img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=613337516,2383193070&fm=27&gp=0.jpg" width="100%" style="line-height: 0px;" alt="" />
+					<!--</div>-->
+					<!--  图标九宫格  -->
+					<ul class="mui-table-view mui-grid-view mui-grid-9" style="background: #fff;">
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href='pages/rollout_step.html'>
+								<span class="icon-zhuanchu"></span>
+								<div class="mui-media-body">MR互助</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href='pages/buyin.html'>
+								<span class="icon-mairu"></span>
+								<div class="mui-media-body">买入</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href='pages/sell.html'>
+								<span class="icon-maichu"></span>
+								<div class="mui-media-body">卖出</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href='pages/share_list.html'>
+								<span class="mui-icon mui-icon-extra mui-icon-extra-share" style="font-size: 30px;color: #30A2D2;"></span>
+								<div class="mui-media-body">分享列表</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href='pages/share.html'>
+								<span class="mui-icon mui-icon-refresh" style="font-size: 32px;color: #F69707;"></span>
+								<div class="mui-media-body">分享链接</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href='pages/finance.html'>
+								<span class="icon-caiwu" style="color: lightpink;"></span>
+								<div class="mui-media-body">财务管理</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href="pages/bonus.html">
+								<span class="icon-zichan"></span>
+								<div class="mui-media-body">奖金管理</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href="pages/detail.html">
+								<span class="mui-icon mui-icon-list" style="font-size: 32px;color: deepskyblue;"></span>
+								<div class="mui-media-body">开心付出明细</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+							<a href="javascript:;" class="router-link" data-href="pages/lcdetail.html">
+								<span class="mui-icon mui-icon-list" style="font-size: 32px;color: greenyellow;"></span>
+								<div class="mui-media-body">理财明细</div>
+							</a>
+						</li>
+						<!--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+					    <a href="javascript:;" class="router-link" data-href='pages/into.html'>
+					        <span class="icon-zhuanru"></span>
+					        <div class="mui-media-body">转入</div>
+					    </a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+					    <a href="javascript:;" class="router-link" data-href='pages/exchange.html'>
+					        <span class="icon-zhuanhuan"></span>
+					        <div class="mui-media-body">转换</div>
+					    </a>
+					</li>
+					
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+					    <a href="javascript:;" class="router-link" data-href='pages/assets.html'>
+					        <span class="icon-zichan"></span>
+					        <div class="mui-media-body">数字资产</div>
+					    </a>
+					</li>	
+					
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 jiu_img">
+					   <a href="javascript:;" class="router-link" data-href='pages/redInfo.html'>
+					        <span class="icon-hongbao"></span>
+					        <div class="mui-media-body">红包记录</div>
+					    </a>
+					</li>-->
+
+					</ul>
+					<div class="redpacket" v-if='showred' :class="{'active':showred}">
+						<img src="images/lqqb.png" />
+						<span class="redpacket-money">{{redMoney}}</span>
+						<button @click="showred=false">领取</button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="reload"></div>
+		</div>
+		<script src="js/mui.min.js "></script>
+		<script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#app',
+				data: {
+					bank1: {},
+					bank2: {},
+					showred: false,
+					first: null,
+					redMoney: '',
+					userid: '',
+					trade_credit: ''
+				},
+				created: function() {
+					var user = localStorage.getItem("user")
+					var vm = this
+					if(user) {
+						//mui.toast(JSON.parse(user).id);
+						vm.userid = JSON.parse(user).username;
+						mui.ajax(apiUrl.Index, {
+							type: "post",
+							data: {
+								id: JSON.parse(user).id
+							},
+							dataType: 'json',
+							success: function(data) {
+								//alert(JSON.stringify(apiUrl))
+								//alert(apiUrl.notice)
+								//							alert(JSON.stringify(data))
+								//							var user_id = data.data.username
+								//alert(JSON.stringify(data))
+								//apiUrl.notice
+								mui.ajax("http://a394.213986.com:88/api/notice/getnotice", {
+									data: {
+										username: "1"
+									},
+									dataType: 'json', //服务器返回json格式数据
+									type: 'post', //HTTP请求类型
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									success: function(r) {
+										//console.log(JSON.stringify(r)) 
+										var mess_item = plus.storage.getItem("mess_item")
+										if(mess_item == null) {
+											mess_item = "[]"
+										}
+										//alert(JSON.stringify(r))
+										var mess = r.data
+										//alert(mess_item)
+										var mess_item_array = JSON.parse(mess_item)
+										var new_mess = []
+										for(var i = 0; i < mess.length; i++) {
+											//alert(mess[i].id)
+											if(mess_item_array.indexOf(mess[i].id) == -1) {
+												new_mess.push(mess[i].id)
+												plus.storage.getItem("new_mess_n")
+											}
+											//alert(JSON.stringify(new_mess))	
+
+										}
+
+										//这里是请求后的
+
+										//如果消息的数组长度大于0就说明有新闻更新了把小铃铛换成动的然后设置新闻的长度
+										if(new_mess.length > 0) {
+											//	alert("1")
+											alert("有消息更新")
+											mui("#ld")[0].setAttribute("src", "images/ld.gif")
+											plus.storage.setItem("new_mess_length", String(new_mess.length))
+										}
+									}
+
+								})
+
+								if(data.status == 0) {
+									mui.toast(data.msg)
+									localStorage.removeItem('user')
+									openWindow('pages/login/login.html')
+								} else if(data.status == 1) {
+									//								vm.userInfo = data.data
+									vm.bank1 = data.data.walletamounts.bank1;
+									vm.bank2 = data.data.walletamounts.bank2;
+									vm.trade_credit = data.data.credit;
+								}
+							},
+							error: function(err) {
+								console.log(err)
+							}
+						});
+					} else {
+						openWindow('pages/login/login.html')
+					}
+				},
+				mounted: function() {
+
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+					var vm = this
+					mui.back = function() {
+						vm._back()
+					}
+				},
+				methods: {
+					_back: function() {
+						var vm = this
+						mui.plusReady(function() {
+							if(!vm.first) {
+								vm.first = new Date().getTime();
+								mui.toast('再按一次退出应用');
+								setTimeout(function() {
+									vm.first = null;
+								}, 2000);
+							} else {
+								if(new Date().getTime() - vm.first < 2000) {
+									mui.toast('关闭');
+									plus.runtime.quit();
+								}
+							}
+						})
+					},
+					/*getMoney: function() {
+						var vm = this
+						var user = localStorage.getItem("user")
+						if(!user) {
+							openWindow('pages/login/login.html')
+							return false
+						}
+						var mask = mui.createMask()
+						mui.ajax(apiUrl.calc, {
+							type: "post",
+							data: {
+								username: JSON.parse(user).username
+							},
+							dataType: 'json',
+							beforeSend: function() {
+								plus.nativeUI.showWaiting('提交中，请稍后');
+								mask.show(); //显示遮罩层
+							},
+
+							complete: function() {
+								plus.nativeUI.closeWaiting();
+								mask.close(); //关闭遮罩层
+							},
+							success: function(data) {
+								//alert(data)
+								plus.nativeUI.closeWaiting();
+								mask.close(); //关闭遮罩层
+								if(data.status == 0) {
+									mui.toast(data.msg)
+								} else if(data.status == 1) {
+									vm.bank1.bankname += data.data.money
+									vm.showred = true
+									vm.redMoney = data.data.money
+								}
+							},
+							error: function() {
+								mui.toast('服务器连接超时，请稍后再试');
+							}
+						});
+					}*/
+				}
+			})
+		</script>
+
+	</body>
+
+	<script type="text/javascript">
+	</script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function() {
+			//var gao_shi = plus.storage.getItem("gen_time")
+			//alert("s")
+
+		})
+	</script>
+
+</html>

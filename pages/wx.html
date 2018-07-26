@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">我的微信</h1>
+			</header>
+			<div class="mui-content">
+				<p class="bank_hint">当前微信号：<span v-if='userInfo.alipay'>{{userInfo.wechat}}</span><span v-else="">空</span></p>
+				<form class="mui-input-group">
+				    <div class="mui-input-row">
+				        <label>用户名</label>
+				        <input type="text"  v-model="username" disabled>
+				    </div>
+				    <div class="mui-input-row">
+				        <label>微信号</label>
+				        <input type="text" v-model="wechat" placeholder="请输入微信号" >
+				    </div>				
+				</form>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" @click='wxAdd'>提交</button>
+				
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()		
+			new Vue({
+				el: '#app',
+				data:{
+					userInfo:{},
+					username: '',
+					wechat:''
+				},
+				created:function(){
+					var vm = this	
+					var user = localStorage.getItem("user")
+					this.username = JSON.parse(user).username
+					if(user){
+						mui.ajax(apiUrl.member,{
+							type:"post",
+							data:{userid: JSON.parse(user).id},
+							dataType:'json',
+							success:function(data){							
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									vm.userInfo = data.data
+								}
+							}
+						});
+					}else{
+						openWindow('login/login.html')
+					}
+				},	
+				mounted:function(){			
+				},
+				methods:{	
+					wxAdd: function(){
+						var vm = this	
+						var mask=mui.createMask()
+						mui.ajax(apiUrl.wechat,{
+							type:"post",
+							data:{
+								username: vm.username,
+								wechat: vm.wechat
+							},
+							dataType:'json',
+								beforeSend: function() {			       
+						        plus.nativeUI.showWaiting('提交中，请稍后');
+	        					mask.show();//显示遮罩层
+						    },
+							success:function(data){		
+								plus.nativeUI.closeWaiting();
+					        	mask.close();//关闭遮罩层
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									mui.toast(data.msg)
+								}
+								setTimeout(function(){									
+									location.reload();
+								},500)
+							}
+						});
+					}
+	
+				}
+			})	
+			mui.init({
+			    beforeback: function() {    　　　
+			        var list = plus.webview.currentWebview().opener();    　　　　
+			        mui.fire(list, 'refresh');          
+			        return true;
+			    }
+			});
+		</script>
+	</body>
+
+</html>

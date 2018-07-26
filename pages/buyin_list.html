@@ -1,0 +1,387 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">买入记录</h1>
+			</header>		
+			<div class="mui-content">
+				<div class="mui-scroll-wrapper" style="top: 44px;">
+				    <div class="mui-scroll">	
+				    	<p class="roll-list-no" v-if='note.length<=0'>没有找到相关记录</p>
+				    	<div v-else>
+					        <li class="market_note_item" v-for='(item,index) in note'>
+					       		<p>卖家编号：{{item.saleusername}}</p>
+					       		<p>交易单价：{{item.oneprice}}</p>
+					       		<p>交易数量：{{item.num}}</p>
+					       		<p>交易总额：{{item.oneprice*item.num}}</p>
+					       		<p>实际付款：{{item.realpay}}</p>
+					     
+					       		<p>交易状态：
+					       			<span v-if='item.state==0'class="red">未支付</span>
+					       			<span v-if='item.state==1'class="red">已支付</span>
+					       			<span v-if='item.state==2'class="red">已完成</span>
+					       			<span v-if='item.state==3'class="red">已撤销</span>
+					       			<span v-if='item.state==4'class="red">仲裁中</span>
+					       			<span v-if='item.state==5'class="red">仲裁卖家</span>
+					       			<span v-if='item.state==6'class="red">仲裁买家</span>
+					       		</p>
+					       		<div class="set mui-row">
+					       			<div class="mui-col-xs-4">
+					       		    	<button type="button" class="mui-btn mui-btn-red router-link" :data-href="'deal_detail.html?id='+item.id+'&type='+type">查看</button>
+					       		    </div>
+					       		    <div class="mui-col-xs-4" v-if='item.state==0'>
+					       		    	<button type="button" class="mui-btn mui-btn-blue" @click="showpoper(item.id,index)">汇款</button>
+					       		    </div>
+					       		    <div class="mui-col-xs-4" v-if='item.state==0'>
+					       		    	
+					       		    	<button type="button" class="mui-btn" @click="cancelbuytrade(item.id,item.num,item.oneprice,index)">撤销</button>
+					       		    </div>
+					       		    <div class="mui-col-xs-4" v-if='item.state==1'>
+					       		    	<button type="button" class="mui-btn" disabled>等待确认</button>
+					       		    </div>
+					       		    <div class="mui-col-xs-4" v-if='item.state==4'>
+					    
+					       		    	<button type="button" class="mui-btn mui-btn-blue" @click='showproof(item.id,index)'>提交凭据</button>
+					       		    </div>
+					       		</div>
+					       </li>
+					        <div id="getMore" @click="!isLoad && isMore && getMore()">
+					        	<div v-if='isMore'>
+						        	<div v-if="!isLoad">
+						        		<p>点击加载更多</p>
+						        		<i class="mui-icon mui-icon-arrowdown"></i>	
+						        	</div>
+						        	<div v-else class="isLoad">
+						        		<p>正在加载</p>
+						        		<i class="mui-icon mui-icon-loop"></i>
+						        	</div>
+					        	</div>	
+					        	<div v-else>
+					        		<p>没有更多了</p>
+					        	</div>
+					        </div>
+				        </div>
+				    </div>
+				    <div class="reload"></div>
+				</div>		
+			</div>
+			<div class="poper" v-if="ispoper">
+				<form class="mui-input-group">
+					<h4>提交汇款</h4>
+				    <div class="mui-input-row">
+				        <label>汇款时间</label>
+				        <input type="text" :value='remittime' placeholder="汇款时间" readonly @click='getTime'>
+				    </div>
+				    <div class="mui-input-row">
+				        <label>汇款凭据</label>
+				        <input type="file" @change="getImg">				       
+				    </div>
+				    <div style="margin-top: 10px;text-align: center;">
+				    	 <img :src="image_input"style="max-width: 50%;max-height: 45vw;"/>
+				    </div>
+				    <div class="mui-row">
+				    	<div class="mui-col-xs-6" style="text-align: center;">
+				    		<button type="button" class="mui-btn mui-btn-red" @click="sendMoney" style="width: 80%;">提交</button>
+				    	</div>				
+				    	<div class="mui-col-xs-6"  style="text-align: center;">
+				    		<button type="button" class="mui-btn mui-btn-blue" @click="cancel"style="width: 80%;">取消</button>
+				    	</div>
+				   	</div>				    
+				</form>				
+			</div>
+			<div class="poper" v-if="isproof">
+				<form class="mui-input-group">
+					<h4>提交凭据</h4>
+				    <div class="mui-input-row">
+				        <label>提交凭据</label>
+				        <input type="file" @change="getImg">				       
+				    </div>
+				    <div style="margin-top: 10px;">
+				    	 <img :src="image_input"style="width: 100%;" />
+				    </div>
+				    <div class="mui-row">
+				    	<div class="mui-col-xs-6" style="text-align: center;">
+				    		<button type="button" class="mui-btn mui-btn-red" @click="sendProof" style="width: 80%;">提交</button>
+				    	</div>				
+				    	<div class="mui-col-xs-6"  style="text-align: center;">
+				    		<button type="button" class="mui-btn mui-btn-blue" @click="cancel" style="width: 80%;">取消</button>
+				    	</div>
+				   	</div>				    
+				</form>				
+			</div>			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			new Vue({
+				el: '#app',
+				data:{
+					note:[], //卖出记录
+					username:'',
+					type:1,
+					remittime:'', //汇款时间
+					image_input:'',//汇款凭证
+					ispoper:false,
+					isproof:false,
+					id:'',
+					url:'',//上传图片
+					index1: '',//操作DOM下标
+					page:1,
+					isLoad:false,
+					isMore: true
+				},
+				created:function(){
+					var user = localStorage.getItem("user")
+					this.username =  JSON.parse(user).username
+					var vm = this				
+					if(user){
+						vm.getNote()
+					}else{
+						openWindow('login/login.html')
+					}
+					
+				},
+				mounted:function(){	
+					this.$nextTick(function(){
+						mui('.mui-scroll-wrapper').scroll({
+							deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						});					
+					})
+				},
+				methods:{	
+					getMore:function(){
+						this.page = this.page+1
+						this.getNote()
+						this.isLoad = true
+					},
+					getNote:function(){
+						var vm = this
+						//apiUrl.market_note
+						mui.ajax(" http://a394.213986.com:88/api/trade/tradelist",{
+							type:"post",
+							data:{
+								//vm.username
+								username: "1",
+								//vm.type
+								type: "1",
+								//vm.page
+								page: "1"
+							},
+							dataType:'json',
+							success:function(data){
+								vm.isLoad = false
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){
+									if(data.data.length ==0){
+										mui.toast('没有更多了')
+										vm.isMore = false
+										return false
+									}
+									for (var i=0;i<data.data.length;i++) {
+										vm.note.push(data.data[i])
+									}
+								}
+							}
+							
+						});	
+					},
+					showpoper:function(id,index){
+						this.ispoper = true 
+						this.id = id 
+						this.index1 = index
+					},
+					showproof:function(id,index){
+						this.isproof = true 
+						this.id = id 
+						this.index1 = index
+					},
+					cancel:function(){
+						this.image_input = ''
+						this.ispoper = false
+						this.isproof = false
+						this.id = ''
+						this.remittime = ''
+						this.url = ''
+						this.index1 = ''
+					},
+					getImg:function(e){
+						var vm = this
+						this.url = e.currentTarget.files[0]
+						var form = new FormData();
+						form.append('image_input', this.url)	
+						var mask=mui.createMask()
+						mui.ajax(apiUrl.upload_img,{
+							type:"post",
+							data:form,
+							contentType: false,
+							processData: false,
+							dataType:'json',
+							beforeSend: function() {			       
+						        plus.nativeUI.showWaiting('提交中，请稍后');
+	        					mask.show();//显示遮罩层
+						    },
+							success:function(data){		
+								plus.nativeUI.closeWaiting();
+					        	mask.close();//关闭遮罩层
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									mui.toast(data.msg)
+									vm.image_input = data.data.url
+								}
+								
+							}
+						});
+					},
+					getTime:function(){
+						var vm = this
+						var endTime = new Date()
+						endTime.setFullYear(endTime.getFullYear()+1)
+						var dtpicker = new mui.DtPicker({
+						    type: "datetime",//设置日历初始视图模式 
+						    beginDate: new Date(),//设置开始日期 
+						    endDate:  endTime,//设置结束日期 
+						    labels: ['Year', 'Mon', 'Day', 'Hour', 'min'],//设置默认标签区域提示语 
+						}) 
+						dtpicker.show(function(e) {
+							vm.remittime = e.toString()
+						    
+						}) 
+					},
+					sendProof:function(){
+						var vm = this		
+						var mask=mui.createMask()
+						var user = localStorage.getItem("user")
+						mui.ajax(apiUrl.proofbuytrade,{
+							type:"post",
+							data:{
+								id: vm.id,
+								username: JSON.parse(user).username,
+								buydata: vm.image_input
+							},
+							dataType:'json',
+							beforeSend: function() {			       
+						        plus.nativeUI.showWaiting('提交中，请稍后');
+	        					mask.show();//显示遮罩层
+						    },
+							success:function(data){	
+								vm.image_input = ''
+								vm.isproof =false
+								vm.id = ''
+								vm.url = ''
+								vm.index1 = ''
+								plus.nativeUI.closeWaiting();
+					        	mask.close();//关闭遮罩层
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									mui.toast(data.msg)
+								}							
+							},
+							error:function(err){
+							}
+						});
+					},
+					sendMoney:function(){
+						var vm = this		
+						var mask=mui.createMask()
+						mui.ajax(apiUrl.remittance,{
+							type:"post",
+							data:{
+								id: vm.id,
+								remittime: vm.remittime,
+								image_input: vm.image_input
+							},
+							dataType:'json',
+							beforeSend: function() {			       
+						        plus.nativeUI.showWaiting('提交中，请稍后');
+	        					mask.show();//显示遮罩层
+						    },
+							success:function(data){	
+								plus.nativeUI.closeWaiting();
+					        	mask.close();//关闭遮罩层
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									mui.toast(data.msg)
+									vm.note[vm.index1].state = 1
+									vm.image_input = ''
+									vm.ispoper =false
+									vm.id = ''
+									vm.remittime = ''
+									vm.url = ''
+									vm.index1 = ''
+								}
+								
+							}
+						});
+					},
+					cancelbuytrade: function(id,num,price,index){
+						var vm = this		
+						var user = localStorage.getItem("user")
+						var mask = mui.createMask()
+						if(!user){
+							openWindow('login/login.html')
+							return false 
+						}					
+						mui.confirm('单价：'+price+'，数量：'+num+'', '确认撤销？',  ['撤销','取消'], function(e) {
+							if (e.index == 0) {
+								mui.ajax(apiUrl.cancelbuytrade,{
+									type:"post",
+									data:{
+										id: id,
+										username: JSON.parse(user).username				 
+									},
+									dataType:'json',
+									beforeSend: function() {			       
+								        plus.nativeUI.showWaiting('提交中，请稍后');
+			        					mask.show();//显示遮罩层
+								    },
+								    complete: function() {
+								    	
+								    },
+									success:function(data){	
+										plus.nativeUI.closeWaiting();
+								        mask.close();//关闭遮罩层
+										if(data.status==0){
+											mui.toast(data.msg)
+										}							
+										else if(data.status==1){
+											mui.toast(data.msg)
+											vm.note.splice(index,1)
+										}
+									},
+									error:function(){
+										mui.toast('服务器连接超时，请稍后再试');
+									}
+								});
+							} else {
+								
+							}
+						},'div')
+					}
+				}
+			})	
+		</script>	
+	</body>
+
+</html>

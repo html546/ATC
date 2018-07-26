@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">添加银行卡</h1>
+			</header>
+			<div class="mui-content">
+				<p class="bank_hint">请绑定持卡人本人的银行卡</p>
+				<form class="mui-input-group">
+				    <div class="mui-input-row">
+				        <label>持卡人姓名</label>
+				        <input type="text" v-model="bank_username" placeholder="请输入持卡人姓名" >
+				    </div>
+				    <div class="mui-input-row">
+				        <label>开户银行</label>
+				        <select name="" v-model='selceted' @change='bankChange'>
+				        	<option value="" v-for="item in bank_list" :value="item.id">{{item.bank_names}}</option>
+				        </select>
+				    </div>
+				    <div class="mui-input-row">
+				        <label>银行卡号</label>
+				        <input type="number"  v-model='bank_number' placeholder="请输入银行卡号">
+				    </div>
+				    <div class="mui-input-row">
+				        <label>开户地址</label>
+				        <input type="text" v-model='bank_addr' placeholder="请输入开户地址">
+				    </div>
+				</form>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" @click='bankAdd'>确定</button>
+				
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()		
+			new Vue({
+				el: '#app',
+				data:{
+					userInfo: {},//会员信息
+					selceted:1,
+					bank_list: [],
+					bank_number: '',
+					bank_username: "",
+					bank_addr: ''
+				},
+				created:function(){
+					var vm = this	
+					mui.ajax(apiUrl.bank_list,{
+						type:"post",
+						data:{},
+						dataType:'json',
+						success:function(data){							
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){	
+								vm.bank_list = data.data
+								console.log(JSON.stringify(vm.bank_list))
+							}
+						}
+					});
+				},	
+				mounted:function(){			
+				},
+				methods:{	
+					bankChange: function(){
+						console.log(this.selceted)
+					},
+					bankAdd: function(){
+						var user = localStorage.getItem("user")
+						var vm = this	
+						var mask=mui.createMask()
+						mui.ajax(apiUrl.bank_add,{
+							type:"post",
+							data:{
+								username: JSON.parse(user).username,
+								bank_name: vm.selceted,
+								bank_number:vm.bank_number,
+								bank_username:vm.bank_username,
+								bank_addr:vm.bank_addr,
+							},
+							dataType:'json',
+								beforeSend: function() {			       
+						        plus.nativeUI.showWaiting('提交中，请稍后');
+	        					mask.show();//显示遮罩层
+						    },
+							success:function(data){		
+								plus.nativeUI.closeWaiting();
+					        	mask.close();//关闭遮罩层
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									mui.toast(data.msg)
+									vm.selceted=1
+									vm.bank_list=[]
+									vm.bank_number= ''
+									vm.bank_username= ""
+									vm.bank_addr= ''
+								}
+							}
+						});
+					}
+	
+				}
+			})	
+			mui.init({
+			    beforeback: function() {    　　　
+			        var list = plus.webview.currentWebview().opener();    　　　　
+			        mui.fire(list, 'refresh');          
+			        return true;
+			    }
+			});
+		</script>
+	</body>
+
+</html>

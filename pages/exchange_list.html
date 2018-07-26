@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">转换记录</h1>
+			</header>		
+			<div class="mui-content">
+				<div class="mui-scroll-wrapper" style="top: 44px;">
+				    <div class="mui-scroll">
+				       	<p v-if='note.length<=0' class="roll-list-no">没有找到相关记录</p>
+					    <div v-else class="finance-list">				
+							<ul>
+								<li v-for="item in note" class="mui-row">
+									<!--<p class="mui-col-xs-6">来源：{{item.source}}</p>-->
+									<p class="mui-col-xs-6" >金额：{{item.money}}</p>
+									<p class="mui-col-xs-6"style="text-align: right;">余额：{{item.balance}}</p>
+									<!--<p class="mui-col-xs-6" style="text-align: right;">类型：{{item.type}}</p>--> 
+									<p class="mui-col-xs-12">时间：{{item.time | time}}</p>
+									<!--<p class="mui-col-xs-12">备注：{{item.source}}</p>-->
+								</li>
+							</ul>
+							 <div id="getMore" @click="!isLoad && isMore && getMore()">
+					        	<div v-if='isMore'>
+						        	<div v-if="!isLoad">
+						        		<p>点击加载更多</p>
+						        		<i class="mui-icon mui-icon-arrowdown"></i>	
+						        	</div>
+						        	<div v-else class="isLoad">
+						        		<p>正在加载</p>
+						        		<i class="mui-icon mui-icon-loop"></i>
+						        	</div>
+					        	</div>	
+					        	<div v-else>
+					        		<p>没有更多了</p>
+					        	</div>
+					        </div>
+						</div>
+				    </div>
+				</div>		
+			</div>
+			<div class="reload"></div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">	
+		new Vue({
+			el: '#app',
+			data:{
+				note:[],	
+				page:1,
+				isLoad:false,
+				isMore: true
+			},
+			created:function(){
+				var user = localStorage.getItem("user")
+				var vm = this
+				if(user){
+					vm.getNote()
+				}else{
+					openWindow('pages/login/login.html')
+				}
+			},
+			filters:{
+				time:function(val){
+					return timestampToTime(val)
+				}
+			},
+			mounted:function(){
+				this.$nextTick(function(){
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+				})				
+			},
+			methods:{
+				getMore:function(){
+					this.isLoad = true 
+					this.page += 1
+					this.getNote()
+				},
+				getNote:function(){
+					var vm = this
+					var user = localStorage.getItem("user")
+					mui.ajax(apiUrl.translist,{
+						type:"post",
+						data:{
+							username: JSON.parse(user).username,
+							type:'转换',
+							page: vm.page
+						},
+						dataType:'json',
+						success:function(data){	
+							vm.isLoad = false
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){
+								if(data.data.length==0){
+									mui.toast('没有更多了')
+									vm.isMore = false
+									return false
+								}
+								for (var i =0;i<data.data.length;i++) {
+									vm.note.push( data.data[i])
+								}
+							}
+						}
+					});
+				}
+			}
+		})		
+	</script>
+	</body>
+
+</html>

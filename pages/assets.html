@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">数字资产</h1>
+		    <a href="javascript:;" class="mui-pull-right router-link" data-href='assets_note.html'>交易记录</a>
+		</header>
+		<div class="mui-content">
+			<div class="assets-top">
+				<div class="assets-top-img">
+					<img src="../images/bt.jpg"/>
+				</div>
+				<p class="assets-top-price">当前价格<strong>39.667</strong></p>
+			</div> 
+			<div class="assets-aside">
+				<div class="assets-num">
+					<label>Vpay资产</label>
+					<div>0.00</div>
+				</div>
+				<div class="assets-addr">
+					<label>钱包地址</label>
+					<div>
+						<button type="button" class="mui-btn mui-btn-red mui-btn-outlined btn-copy">复制地址</button>						
+					</div>
+					<p class="assets-addr-info"><input type="text" id="assets-addr" value="VJDKAHSDJKASHDJKHSJKDAH" readonly/></p>
+				</div>
+				<div class="assets-nav">
+					<ul class="mui-table-view mui-grid-view mui-grid-9">
+						<li class="mui-table-view-cell mui-media mui-col-xs-3">
+						     <a href="javascript" class="router-link" data-href='assets_roll.html'>
+						        <span class="mui-icon mui-icon-extra mui-icon-extra-prech"></span>
+						        <div class="mui-media-body">转出</div>
+						    </a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-3">
+						    <a href="javascript:;" class="without">
+						        <span class="mui-icon mui-icon-extra mui-icon-extra-dictionary"></span>
+						        <div class="mui-media-body">众筹</div>
+						    </a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-3">
+						    <a href="javascript:;" class="without">
+						        <span class="mui-icon mui-icon-extra mui-icon-extra-gift"></span>
+						        <div class="mui-media-body">V宝</div>
+						    </a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-3">
+						   <a href="javascript" class="router-link" data-href='assets_bala.html'>
+						        <span class="mui-icon mui-icon-extra mui-icon-extra-trend"></span>
+						        <div class="mui-media-body">交易</div>
+						    </a>
+						</li>
+					</ul>	
+				</div>				
+			</div>
+			<div class="assets-list">
+				<li>
+					<label>Vplay</label>
+					<div class="mui-row">
+					    <div class="mui-col-xs-3 assets-list-count">
+					    	<p class="assets-list-num">0.00</p><p class="assets-list-name">Vplay资产</p>
+					    </div>
+					    <div class="mui-col-xs-3 assets-list-price">
+					    	<p class="assets-list-num">255</p><p class="assets-list-name">当前价格</p>
+					    </div>
+					    <div class="mui-col-xs-6 assets-list-set">
+					    	<button type="button" class="mui-btn mui-btn-green router-link" data-href='assets_cash.html?id=1'>现金交易</button>
+					    	<button type="button" class="mui-btn mui-btn-warning router-link" data-href='assets_bala.html?id=1'>余额交易</button>
+					    </div>
+					</div>
+				</li>
+				<li>
+					<label>Vplay</label>
+					<div class="mui-row">
+					    <div class="mui-col-xs-3 assets-list-count">
+					    	<p class="assets-list-num">0.00</p><p class="assets-list-name">Vplay资产</p>
+					    </div>
+					    <div class="mui-col-xs-3 assets-list-price">
+					    	<p class="assets-list-num">255</p><p class="assets-list-name">当前价格</p>
+					    </div>
+					    <div class="mui-col-xs-6 assets-list-set">
+					    	<button type="button" class="mui-btn mui-btn-green router-link" data-href='assets_cash.html?id=1'>现金交易</button>
+					    	<button type="button" class="mui-btn mui-btn-warning router-link" data-href='assets_bala.html?id=1'>余额交易</button>
+					    </div>
+					</div>
+				</li>
+				<li>
+					<label>Vplay</label>
+					<div class="mui-row">
+					    <div class="mui-col-xs-3 assets-list-count">
+					    	<p class="assets-list-num">0.00</p><p class="assets-list-name">Vplay资产</p>
+					    </div>
+					    <div class="mui-col-xs-3 assets-list-price">
+					    	<p class="assets-list-num">255</p><p class="assets-list-name">当前价格</p>
+					    </div>
+					   <div class="mui-col-xs-6 assets-list-set">
+					    	<button type="button" class="mui-btn mui-btn-green router-link" data-href='assets_cash.html?id=1'>现金交易</button>
+					    	<button type="button" class="mui-btn mui-btn-warning router-link" data-href='assets_bala.html?id=1'>余额交易</button>
+					    </div>
+					</div>
+				</li>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('body').on('tap','.btn-copy',function(){
+				document.getElementById('assets-addr').select()
+				document.execCommand("copy");	
+				mui.toast('复制成功')
+			}).on('tap','.without',function(){
+				mui.alert('此功能暂未开放，敬请期待')
+			})
+			
+		</script>
+	</body>
+
+</html>

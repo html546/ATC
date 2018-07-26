@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">选择银行卡</h1>
+			</header>
+			<div class="mui-content">
+				<div class="mui-scroll-wrapper bank-list" style="top: 45px;">
+				    <div class="mui-scroll">
+				        <ul>
+				        	<li>
+				        		<div class="bank-list-name">{{userInfo.bank_name}}</div>
+				        		<div class="bank-list-main">
+				        			<div class="bank-list-num">卡号：{{userInfo.bank_number}}</div>
+				        			<div class="bank-list-num">卡户名：{{userInfo.bank_username}}</div>
+				        			<div class="bank-list-num">卡户地址：{{userInfo.bank_addr}}</div>
+				        		</div>
+				        		
+				        	</li>
+				        </ul>
+				        <button type="button" class="mui-btn mui-btn-block router-link" data-href = "bank_add.html" style="width: 90%;">添加银行卡</button>
+				    </div>
+				</div>		
+			</div>
+			<div class="reload"></div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});		
+			new Vue({
+			el: '#app',
+			data:{
+				userInfo: {},//会员信息
+			},
+			created:function(){
+				var user = localStorage.getItem("user")
+				var vm = this				
+				if(user){
+					mui.ajax(apiUrl.member,{
+						type:"post",
+						data:{userid: JSON.parse(user).id},
+						dataType:'json',
+						success:function(data){							
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){	
+								vm.userInfo = data.data
+							}
+						}
+					});
+				}
+			},
+			mounted:function(){	
+				window.addEventListener('refresh', function(e) { //执行刷新
+				  location.reload();
+				});
+			},
+			methods:{	
+			
+
+			}
+		})	
+		</script>
+	</body>
+
+</html>

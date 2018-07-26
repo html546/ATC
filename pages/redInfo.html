@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">红包记录</h1>
+			</header>
+			<div class="mui-content">
+				<div class="mui-scroll-wrapper" style="top: 44px;">
+				    <div class="mui-scroll">
+				    	<p v-if='redList.length<=0' class="roll-list-no">没有找到相关记录</p>
+				        <li class="redInfo-item" :class="{'unclaimed':item.state==0,'get':item.state==1,'past':item.state==2}" v-for="(item,index) in redList">
+				        	<div class="top">				        		
+				        		<span class="left">{{item.money}}</span>
+				        		<span class="right">
+				        			<button type="button" class="mui-btn mui-btn-red" v-if='item.state==0' @click='getMoney(index)'>领取</button>
+				        			<button type="button" class="mui-btn" v-if='item.state==1' disabled>已领取</button>
+				        			<button type="button" class="mui-btn" v-if='item.state==2' disabled>已过期</button>
+				        		</span>
+				        	</div>
+				        	<div class="bottom">
+				        		<span>{{item.time | time}}</span>				        		
+				        	</div>
+				        </li>
+				    </div>
+				</div>
+				<div class="reload"></div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">	
+			mui.init()		
+			
+			new Vue({
+				el: '#app',
+				data:{
+					redList: []
+				},
+				created:function(){
+					var vm = this	
+					var user = localStorage.getItem("user")
+					if(user){
+						mui.ajax(apiUrl.redInfo,{
+							type:"post",
+							data:{username: JSON.parse(user).username},
+							dataType:'json',
+							success:function(data){	
+
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									vm.redList = data.data					
+								}
+							}
+						});
+					}else{
+						openWindow('login/login.html')
+					}
+				},
+				mounted: function(){
+					this.$nextTick(function(){
+						mui('.mui-scroll-wrapper').scroll({
+							deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						});
+					})
+				},
+				filters:{
+					time:function(val){
+						return timestampToTime(val)
+					}
+				},
+				
+				methods:{
+					getMoney: function(index){
+						var vm = this						
+						var user = localStorage.getItem("user")
+						if(!user){
+							openWindow('pages/login/login.html')
+							return false
+						}
+						var mask=mui.createMask()
+						mui.ajax(apiUrl.calc,{
+							type:"post",
+							data:{
+								  username: JSON.parse(user).username
+							},						
+							dataType:'json',
+							beforeSend: function() {			       
+						        plus.nativeUI.showWaiting('提交中，请稍后');
+	        					mask.show();//显示遮罩层
+						    },
+						    
+						    complete: function() {
+						    	plus.nativeUI.closeWaiting();
+						        mask.close();//关闭遮罩层
+						    },
+							success:function(data){							
+								plus.nativeUI.closeWaiting();
+						        mask.close();//关闭遮罩层
+								if(data.status==0){
+									mui.toast(data.msg)
+								}							
+								else if(data.status==1){
+									vm.redList[index].state = 1
+								}
+							},
+							error:function(){
+								mui.toast('服务器连接超时，请稍后再试');
+							}
+						});
+					}
+				}
+			})	
+			mui.init({
+			    beforeback: function() {    　　　
+			        var list = plus.webview.currentWebview().opener();    　　　　
+			        mui.fire(list, 'refresh');          
+			        return true;
+			    }
+			});
+		</script>
+	</body>
+
+</html>

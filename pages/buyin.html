@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">买入</h1>
+			</header>
+			<div class="mui-content">
+				<div class="buyIn-nav">
+				    <div class="item active">创建订单</div>
+				    <!--<div class="item router-link" data-href="buyin_unfinished.html">未完成订单</div>
+				    <div class="item router-link" data-href="buyin_verify.html">确认打款</div>
+				    <div class="item router-link" data-href="buyin_finish.html">已完成订单</div>-->
+				    <div class="item router-link" data-href="buyin_list.html">买入记录</div>
+				    <div class="item router-link" data-href="buyin_center.html">买入中心</div>
+				</div>
+				<div class="buyIn-check">
+					<form class="mui-input-group">
+					    <div class="mui-input-row">
+					        <label>价格</label>
+					        <input type="number" v-model="price"  placeholder="请输入价格">
+					    </div>
+					     <div class="mui-input-row">
+					        <label>数量</label>
+					        <input type="number" v-model="num" placeholder="请输入数量">
+					    </div>
+					    <div class="mui-input-row">
+							<label>支付方式</label>
+							<select name="" v-model="selected" >
+								<option value="0" disabled selected style="color: #757575;">请选择</option>
+								<option value="1" v-if='userInfo.wechat'>微信</option>
+								<option value="1" v-else disabled>微信</option>
+								<option value="2" v-if='userInfo.alipay'>支付宝</option>
+								<option value="2" v-else disabled>支付宝</option>
+								<option value="3" v-if='userInfo.bank_number'>银行卡</option>
+								<option value="3" v-else disabled>银行卡</option>
+							</select>
+						</div>
+						<div class="mui-input-row">
+					        <label>手续费({{userInfo.fee*100}}%)</label>
+					        <input type="number" disabled :value='userInfo.fee*num | fee '>
+					    </div>
+					</form>
+				</div>
+				<div class="buyIn-bank">
+					<li v-if='selected==1 && userInfo.wechat'>
+						<div class="buyIn-bank">
+							<ul class="mui-table-view">
+						        <li class="mui-table-view-cell">
+						            <a class="mui-navigate-right">绑定的微信号</a>
+						        </li>
+						    </ul>
+						    <div class="buyIn-bank-info">
+						    	<p>{{userInfo.wechat}}</p>
+						    </div>
+						</div>
+					</li>					
+					<li v-if='selected==2 && userInfo.alipay'>
+						<div class="buyIn-bank">
+							<ul class="mui-table-view">
+						        <li class="mui-table-view-cell">
+						            <a class="mui-navigate-right">绑定的支付宝号</a>
+						        </li>
+						    </ul>
+						    <div class="buyIn-bank-info">
+						    	<p>{{userInfo.alipay}}</p>
+						    </div>
+						</div>
+					</li>
+					<li v-if='selected==3 && userInfo.bank_number'>
+						<div class="buyIn-bank router-link" data-href="bank_list.html">
+							<ul class="mui-table-view">
+						        <li class="mui-table-view-cell">
+						            <a class="mui-navigate-right">绑定的银行卡号</a>
+						        </li>
+						    </ul>
+						    <div class="buyIn-bank-info">
+						    	<p>{{userInfo.bank_username}}</p>
+						    	<p>{{userInfo.bank_name}}</p>
+						    	<p>银行卡号：{{userInfo.bank_number}}</p>
+						    </div>
+						</div>
+					</li>					
+				</div>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" @click="deal">挂买单</button>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+			el: '#app',
+			data:{
+				userInfo: {},//会员信息
+				tradetype: 2,//挂买单
+				selected:0 ,//支付方式
+				price:'',//单价
+				num: ''//数量
+			},
+			filters:{
+				fee: function(value){
+					return value.toFixed(2)
+				}
+			},
+			created:function(){
+				var user = localStorage.getItem("user")
+				var vm = this		
+				if(user){
+					mui.ajax(apiUrl.member,{
+						type:"get",
+						data:{id: JSON.parse(user).id},
+						dataType:'json',
+						success:function(data){	
+							if(data.status==0){
+								mui.toast(data.msg)
+							}
+							else if(data.status==1){	
+								vm.userInfo = data.data						
+							}
+						}
+					});
+				}
+			},
+			mounted:function(){			
+			},
+			methods:{	
+				deal:function(){
+					var vm = this	
+					if(this.selected == 0){
+						mui.toast("请选择支付方式")
+						return false
+					}
+					mui.confirm('确定挂单？','提示',['是','否'],function(e){
+						if(e.index==0){
+							var mask=mui.createMask()
+							mui.ajax(apiUrl.deal,{
+								type:"post",
+								data:{
+									username: vm.userInfo.username,
+									tradetype: vm.tradetype,
+									paytype: vm.selected,
+									price: vm.price,
+									num: vm.num
+								},
+								dataType:'json',
+								beforeSend: function() {			       
+							        plus.nativeUI.showWaiting('提交中，请稍后');
+		        					mask.show();//显示遮罩层
+							    },
+							    complete: function() {
+							     	plus.nativeUI.closeWaiting();
+							        mask.close();//关闭遮罩层
+							    },
+								success:function(data){	
+									plus.nativeUI.closeWaiting();
+							        mask.close();//关闭遮罩层
+									if(data.status==0){
+										mui.toast(data.msg)
+									}							
+									else if(data.status==1){
+										mui.toast(data.msg)
+										vm.num = ''
+										vm.price = ''
+									}
+								},
+								error:function(err){
+									mui.toast('服务器连接超时，请稍后再试');
+									console.log(JSON.stringify(err))
+								}
+							});
+						}
+						else{}
+					},'div')											
+				}
+			}
+		})	
+		</script>
+	</body>
+
+</html>

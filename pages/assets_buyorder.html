@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">购买订单</h1>
+		    <a href="javascript:;" class="mui-pull-right router-link" data-href='assets_note.html'>记录</a>
+		</header>		
+		<div class="mui-content">
+			<div class="mui-row assets-deal-top">
+			    <div class="mui-col-xs-6">
+			    	<p>Vpay资产</p>
+			    	<p>0.000</p>
+			    </div>
+			    <div class="mui-col-xs-6">
+			    	<p>余额</p>
+			    	<p>0.000</p>
+			    </div>
+			</div>
+			<div class="assets-issue">
+				<form class="mui-input-group">
+				    <div class="mui-input-row">
+				        <label>当前价格：</label>
+				        <input type="number" id="now-price" value="34.45" class="blue" readonly>
+				    </div>
+				    <div class="mui-input-row assets-issue-price">
+				        <label>购买价格：</label>
+				        <input type="number" id="sell-price" class="blue" readonly>
+				    </div>
+				    <div class="mui-input-row mui-input-range">
+						<input type="range" min="0.0001" max="0.1" step="0.0001">
+					</div>
+				    <div class="mui-input-row a">
+				        <label>购买数量：1</label>
+				        <input type="number" id="num">
+				    </div>
+				   
+				    <div class="mui-input-row">
+				        <label>购买总额：</label>
+				        <input type="number" readonly>
+				    </div>
+				</form>
+				<p class="hint">单笔交易金额范围：100~100000</p>
+				<button type="button" class="mui-btn mui-btn-red mui-btn-block">发布</button>
+			</div>
+		</div>						
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			var rangeList = document.querySelectorAll('input[type="range"]');
+				var nowPrice = mui('#now-price')[0].value
+				console.log(nowPrice)
+		        rangeList[0].addEventListener('input',function(){
+		        	console.log()
+		        	mui('#sell-price')[0].value = (Number(nowPrice*this.value)+ Number(nowPrice)).toFixed(2)
+		        });
+
+		</script>
+	</body>
+
+</html>

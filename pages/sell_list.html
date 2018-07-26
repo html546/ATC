@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">卖出记录</h1>
+			</header>		
+			<div class="mui-content">
+				<div class="mui-scroll-wrapper" style="top: 44px;">
+				    <div class="mui-scroll">
+				    	<p class="roll-list-no" v-if='market_note.length<=0'>没有找到相关记录</p>
+				    	<div v-else>
+					       <li class="market_note_item" v-for='(item,index) in market_note'>
+					       		<p>卖家编号：{{item.saleusername}}</p>
+					       		<p>交易单价：{{item.oneprice}}</p>
+					       		<p>交易数量：{{item.num}}</p>
+					       		<p>交易总额：{{item.oneprice*item.num}}</p>
+					       		<p>实际付款{{item}}</p>					       		
+					       		<p>交易状态：
+					       			<span v-if='item.state==0'class="red">未支付</span>
+					       			<span v-if='item.state==1'class="red">已支付</span>
+					       			<span v-if='item.state==2'class="red">已完成</span>
+					       			<span v-if='item.state==3'class="red">已撤销</span>
+					       			<span v-if='item.state==4'class="red">仲裁中</span>
+					       			<span v-if='item.state==5'class="red">仲裁卖家</span>
+					       			<span v-if='item.state==6'class="red">仲裁买家</span>
+					       		</p>
+					       		<div class="set mui-row">
+					       			<div class="mui-col-xs-4">
+					       				<button type="button" class="mui-btn mui-btn-red router-link" :data-href="'deal_detail.html?id='+item.id+'&type='+type">查看</button>
+					       			</div>
+					       			<div class="mui-col-xs-4" v-if='item.state == 0'>
+					       				<button type="button" class="mui-btn" disabled>等待汇款</button>
+					       			</div>
+					       			<div class="mui-col-xs-4" v-if='item.state == 1'>
+					       				<button type="button" class="mui-btn mui-btn-blue" @click="okbuytrade(item.id,item.oneprice,item.num,index)">确认交易</button>
+					       			</div>
+					       			<div class="mui-col-xs-4" v-if='item.state == 1'>
+					       				<button type="button" class="mui-btn mui-btn-warning" @click="stopbuytrade(item.id,item.oneprice,item.num,index)">申请仲裁</button>
+					       			</div>
+					       			<div class="mui-col-xs-4" v-if='item.state == 4'>
+					       				<button type="button" class="mui-btn" disabled>等待审核</button>
+					       			</div>
+					       		</div>
+					       </li>
+					        <div id="getMore" @click="!isLoad && isMore && getMore()">
+					        	<div v-if='isMore'>
+						        	<div v-if="!isLoad">
+						        		<p>点击加载更多</p>
+						        		<i class="mui-icon mui-icon-arrowdown"></i>	
+						        	</div>
+						        	<div v-else class="isLoad">
+						        		<p>正在加载...</p>
+						        		<i class="mui-icon mui-icon-loop"></i>
+						        	</div>
+					        	</div>	
+					        	<div v-else>
+					        		<p>没有更多了</p>
+					        	</div>
+					        </div>
+				        </div>
+				    </div>
+				</div>		
+			</div>
+			<div class="reload"></div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+			new Vue({
+				el: '#app',
+				data:{
+					market_note:[], //卖出记录
+					type:2,
+					page:1,
+					isLoad:false,
+					isMore: true,
+					username:''
+				},
+				created:function(){
+					var user = localStorage.getItem("user")
+					this.username = JSON.parse(user).username
+					var vm = this				
+					if(user){
+						vm.getNote()
+					}else{
+						openWindow('login/login.html')
+					}
+				},
+				mounted:function(){		
+					this.$nextTick(function(){
+						mui('.mui-scroll-wrapper').scroll({
+							deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						});
+					})
+					
+				},
+				watch:{			
+				},
+				methods:{
+					getMore:function(){
+						this.page = this.page+1
+						this.getNote()
+						this.isLoad = true
+					},
+					getNote:function(){
+						var vm = this
+						//apiUrl.market_note
+						mui.ajax(" http://a394.213986.com:88/api/trade/tradelist",{
+							type:"post",
+							data:{
+								//vm.username
+								username: "1",
+								//vm.type
+								type:"1",
+								//vm.page
+								page: "1"
+							},
+							dataType:'json',
+							success:function(data){
+								console.log(JSON.stringify(data))
+								vm.isLoad = false
+								if(data.status==0){
+									mui.toast(data.msg)
+								}
+								else if(data.status==1){	
+									if(data.data.length ==0){
+										mui.toast('没有更多了')
+										vm.isMore = false
+										return false
+									}
+									for (var i=0 ;i<data.data.length;i++) {
+										vm.market_note.push(data.data[i])
+										alert(JSON.stringify(data.data[i]))
+									}
+								}
+							}
+						});	
+					},
+					okbuytrade:function(id,price,num,index){
+						var vm = this		
+						var user = localStorage.getItem("user")
+						var mask = mui.createMask()
+						if(!user){
+							openWindow('login/login.html')
+							return false 
+						}					
+						mui.confirm('单价：'+price+'，数量：'+num+'', '确认交易？',  ['确认','取消'], function(e) {
+							if (e.index == 0) {
+								mui.ajax(apiUrl.okbuytrade,{
+									type:"post",
+									data:{
+										id: id,
+										username: JSON.parse(user).username				 
+									},
+									dataType:'json',
+									beforeSend: function() {			       
+								        plus.nativeUI.showWaiting('提交中，请稍后');
+			        					mask.show();//显示遮罩层
+								    },
+								    complete: function() {
+								    	
+								    },
+									success:function(data){	
+										plus.nativeUI.closeWaiting();
+								        mask.close();//关闭遮罩层
+										if(data.status==0){
+											mui.toast(data.msg)
+										}							
+										else if(data.status==1){
+											mui.toast(data.msg)
+											vm.market_note.splice(index,1)
+										}
+									},
+									error:function(){
+										mui.toast('服务器连接超时，请稍后再试');
+									}
+								});
+							} else {
+								
+							}
+						},'div')										
+					},
+					stopbuytrade:function(id,price,num,index){
+						var vm = this		
+						var user = localStorage.getItem("user")
+						var mask = mui.createMask()
+						if(!user){
+							openWindow('login/login.html')
+							return false 
+						}	
+						mui.prompt('单价：'+price+'，数量：'+num+'', '申请仲裁原因？','申请仲裁原因', ['确认','取消'], function(e) {
+							if (e.index == 0) {	
+								mui.ajax(apiUrl.stopbuytrade,{
+									type:"post",
+									data:{
+										id: id,
+										saledata:e.value,
+										username: JSON.parse(user).username				 
+									},
+									dataType:'json',
+									beforeSend: function() {			       
+								        plus.nativeUI.showWaiting('提交中，请稍后');
+			        					mask.show();//显示遮罩层
+								    },
+								    complete: function() {
+								    	
+								    },
+									success:function(data){	
+										plus.nativeUI.closeWaiting();
+								        mask.close();//关闭遮罩层
+										if(data.status==0){
+											mui.toast(data.msg)
+										}							
+										else if(data.status==1){
+											mui.toast(data.msg)
+											vm.market_note[index].state = 4
+										}
+									},
+									error:function(){
+										mui.toast('服务器连接超时，请稍后再试');
+									}
+								});
+							} else {
+								
+							}
+						},'div')										
+					}
+				}
+			})	
+		</script>	
+	</body>
+
+</html>
