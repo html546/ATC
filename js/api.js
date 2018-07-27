@@ -53,5 +53,7 @@ var apiUrl = {
 	profileMangement:baseUrl+'api/member/profileManagement', //会员资料查看
 	register:baseUrl+'api/member/register', //注册信息
 	newMessage:baseUrl+'api/notice/index', //新消息通知
-	viewdetails:baseUrl+'api/notice/viewdetails' //新消息详情
+	viewdetails:baseUrl+'api/notice/viewdetails', //新消息详情
+	sale:baseUrl+'api/help/sale', //开心付出跟领取收益
+	savesales:baseUrl+'api/help/savesales', //提交开心付出跟领取收益
 }

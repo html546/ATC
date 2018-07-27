@@ -24,19 +24,24 @@
 			            <label>选择钱包</label>
 			            <!--<input type="number" readonly v-model='userInfo.bank1'>-->
 			            <select name="" id="" v-model="selected">
-			            	<option value="1">MRCC</option>
-			            	<option value="2">交易钱包</option>
+			            	<option value="" v-for="item in bank">{{item.bankname}}</option>
 			            </select>	
 			        </div>
 			        <div class="mui-input-row">
 			            <label>开心付出金额</label>
-			            <input type="text"  placeholder="请输入转出金额"  v-model="bd_money" @input="fil_money">
+			            <input type="text"  placeholder="请输入转出金额"  v-model="bd_money"  v-if="active==true" />
+			            <input type="text"  v-model="bd_money" readonly v-else />
 			        </div>
-			        <div class="mui-input-row">
-			            <label>MRCC</label>
+			        <div class="mui-input-row" v-for="item in bank">
+			            <label>{{item.bankname}}</label>
 			            <!--<input type="text"  placeholder="请输入转出地址" v-model="giveaddr">-->
-			            <input type="text" value="当前余额:6100.00" readonly />
+			            <input type="text" :value="item.money" readonly />
 			        </div>
+			        <!--<div class="mui-input-row">-->
+			            <!--<label></label>-->
+			            <!--<input type="text"  placeholder="请输入转出地址" v-model="giveaddr">-->
+			            <!--<input type="text" value="" readonly />-->
+			        <!--</div>-->
 			    </form>
 			    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" style="margin-top: 30px;" @click='subRoll'>提交申请</button>
 			</div>
@@ -52,23 +57,43 @@
 //				userInfo: {},//会员信息
 				bd_money: "",//转出金额
 //				giveaddr: "",//转出地址
-				selected:"" //选择钱包类型
+				selected:"",//选择钱包类型
+				balance:'',//当前余额
+				/*bank1:'',//MRCC理财钱包
+				bank2:'',//交易钱包*/
+				bank:'', //钱包情况
+				active:''
 			},
 			created:function(){
 				var user = localStorage.getItem("user")
 				var vm = this				
 				if(user){
-					mui.ajax(apiUrl.member,{
-						type:"get",
-						data:{id: JSON.parse(user).id},
+					mui.ajax(apiUrl.sale,{
+						type:"post",
+						data:{
+							type:1,
+							username:JSON.parse(user).username
+						},
 						dataType:'json',
 						success:function(data){							
 							if(data.status==0){
 								mui.toast(data.msg)
 							}
 							else if(data.status==1){
-								mui.toast(data.data.view);
-								vm.userInfo = data.data
+//								console.log(JSON.stringify(data.data));
+								vm.bank = data.data.walletamounts;
+								console.log(JSON.stringify(vm.bank));
+								vm.bd_money = data.data.default;
+								if(data.data.isedit == "true"){
+									vm.active = true;
+								}else{
+									vm.active = false;
+								}
+								console.log(vm.active);
+								/*vm.bank1 = data.data.walletamounts.bank1;
+								vm.bank2 = data.data.walletamounts.bank2;*/
+//								mui.toast(data.data.view);
+//								vm.userInfo = data.data
 							}
 						}
 					});
@@ -86,20 +111,25 @@
 				})
 			},
 			methods:{	
-				fil_money:function(){
+				/*fil_money:function(){
 					if(Number(this.bd_money) > Number(this.userInfo.bank1)){
 						this.bd_money = this.userInfo.bank1
 					}
-				},
+				},*/
 				subRoll:function(){
-					var vm = this		
-					var mask=mui.createMask()
-					mui.ajax(apiUrl.rollout,{
+					var vm = this;
+					var user = localStorage.getItem("user")
+//					console.log(JSON.parse(user));
+					var mask=mui.createMask();
+					mui.ajax(apiUrl.savesales,{
 						type:"post",
 						data:{
-							  username: vm.userInfo.username,
+							  /*username: vm.userInfo.username,
 							  bd_money: vm.bd_money,
-							  giveaddr: vm.giveaddr
+							  giveaddr: vm.giveaddr*/
+							 type:1,
+							 username:JSON.parse(user).username,
+							 bd_money:vm.bd_money
 						},
 						dataType:'json',
 						beforeSend: function() {			       
@@ -107,7 +137,8 @@
         					mask.show();//显示遮罩层
 					    },
 					    complete: function() {
-					     
+					     	plus.nativeUI.closeWaiting();
+					     	mask.close();
 					    },
 						success:function(data){	
 							plus.nativeUI.closeWaiting();
@@ -116,9 +147,10 @@
 								mui.toast(data.msg)
 							}							
 							else if(data.status==1){
-								mui.toast(data.msg)
-								vm.userInfo.bank1 -= vm.bd_money
-								vm.bd_money= '' 
+								mui.toast(data.msg);
+//								vm.userInfo.bank1 -= vm.bd_money
+//								vm.bd_money= '' 
+								openWindow(data.url);
 							}
 						},
 						error:function(){
