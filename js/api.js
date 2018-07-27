@@ -11,8 +11,8 @@ var apiUrl = {
 	member: baseUrl+'/api/member/memberProfile', //会员信息
 	rollout: baseUrl+'/api/member/sale', //转出
 	exchange: baseUrl+'/api/member/saletrans', //转出
-	notice: baseUrl+'api/notice/getmail',//新消息
-	message: baseUrl+'api/notice/getnotice',//公告
+	notice: baseUrl+'api/notice/notice',//公告列表
+	message: baseUrl+'api/notice/noticedetails',//公告详情
 //	finance: baseUrl+'api/member/getfinance',//资产
 	finance: baseUrl+'api/Finance/info',//资产
 	finance_detail: baseUrl+'api/finance/wallet',//资产明细
@@ -49,5 +49,9 @@ var apiUrl = {
 	detail:baseUrl+'api/help/detail',  //理财明细
 	salelist:baseUrl+'api/help/salelist', //开心付出明细
 	notice:baseUrl+'api/notice/notice', //公告列表
-	index:baseUrl+'api/prize/index' //销售奖金列表
+	index:baseUrl+'api/prize/index', //销售奖金列表
+	profileMangement:baseUrl+'api/member/profileManagement', //会员资料查看
+	register:baseUrl+'api/member/register', //注册信息
+	newMessage:baseUrl+'api/notice/index', //新消息通知
+	viewdetails:baseUrl+'api/notice/viewdetails' //新消息详情
 }

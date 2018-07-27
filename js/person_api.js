@@ -5,14 +5,16 @@ new Vue({
 		username: '',
 		trade_credit: '',
 		notice: [], //新消息通知
-		message: [], //公告
+		notice2:{},//新消息通知详情
+		message: {}, //公告
+		message1:{},//公告详情
 		finance: '', //资产
 		notice_index: 0, //新消息通知下标
 		oldLoginPass: '', //旧登陆密码
 		newLoginPass: '', //新登陆密码
 		oldPayPass: '', //旧支付密码
 		newPayPass: '', //新支付密码
-		isChangeUser: [],
+		//		isChangeUser: '',
 		truename: '',
 		wechat: '',
 		alipay: '',
@@ -46,6 +48,31 @@ new Vue({
 					}
 				}
 			});
+			mui.ajax(apiUrl.member, {
+				type: 'post',
+				data: {
+					id: JSON.parse(user).id
+				},
+				dataType: 'json',
+				success: function(data) {
+					if(data.status == 0) {
+						mui.toast(data.msg);
+					} else if(data.status == 1) {
+						//mui.toast(JSON.stringify(data));
+						vm.truename = data.data.truename;
+						vm.bank_name = data.data.bank_name;
+						vm.bank_number = data.data.bank_number;
+						vm.bank_username = data.data.bank_username;
+						vm.bank_addr = data.data.bank_addr;
+						vm.mobile_phone = data.data.mobile_phone;
+						vm.alipay = data.data.alipay;
+						vm.wechat = data.data.wechat;
+						/*console.log(JSON.stringify(data));
+						vm.isChangeUser = data.data;
+						console.log(JSON.stringify(vm.isChangeUser));*/
+					}
+				}
+			})
 			/*mui.ajax(apiUrl.profile,{
 				type:"post",
 				data:{id: JSON.parse(user).id},
@@ -67,22 +94,21 @@ new Vue({
 
 			//"http://a394.213986.com:88/api/notice/getnotice"
 			//apiUrl.notice
-			mui.ajax("http://a394.213986.com:88/api/notice/getmail", {
+			mui.ajax(apiUrl.newMessage, {
 				type: "post",
 				data: {
-					username: "1"
+					username: JSON.parse(user).username,
+					page: 1
 				},
 				dataType: 'json',
 				success: function(data) {
-					//					alert(JSON.stringify(data))
 					if(data.status == 0) {
 						mui.toast(data.msg)
 					} else if(data.status == 1) {
-						vm.notice = data.data
-
+						vm.notice = data.data;
+//						console.log(JSON.stringify(data.data));
 					}
 				}
-
 			});
 			//apiUrl.message
 			//JSON.parse(user).username
@@ -95,13 +121,14 @@ new Vue({
 				},
 				dataType: 'json',
 				success: function(data) {
-					//					mui.toast(data);
+					//mui.toast(data);
 					if(data.status == 0) {
 						mui.toast(data.msg)
 					} else if(data.status == 1) {
 						vm.message = data.data;
-						alert(data.data);
-						console.log(vm.message.length);
+						console.log(JSON.stringify(data.data));
+						//alert(data.data);
+						//console.log(vm.message.length);
 					}
 				},
 				error: function(err) {
@@ -131,54 +158,106 @@ new Vue({
 	methods: {
 		subInfo: function() {
 			var user = localStorage.getItem("user")
-			//			var form = new FormData();
-			/*var data = {}
-			form.append('username',JSON.parse(user).username)
-			for (var i = 0;i<vm.isChangeUser.length;i++) {
-				form.append(vm.isChangeUser[i].name, vm.isChangeUser[i].value)
-			}*/
-			var vm = this
-			var mask = mui.createMask()
-			mui.ajax(apiUrl.saveprofile, {
-				type: "post",
-				/*contentType: false,
-				processData: false,*/
-				//				data:form,
-				data: {
-					id: JSON.parse(user).id,
-					truename: vm.truename,
-					wechat: vm.wechat,
-					alipay: vm.alipay,
-					mobile_phone: vm.mobile_phone,
-					band_number: vm.bank_number,
-					bank_name: vm.bank_name,
-					bank_username: vm.bank_username,
-					bank_addr: vm.bank_addr
-				},
-				dataType: 'json',
-				beforeSend: function() {
-					plus.nativeUI.showWaiting('提交中，请稍后');
-					mask.show(); //显示遮罩层
-				},
-				complete: function() {
-					plus.nativeUI.closeWaiting();
-					mask.close(); //关闭遮罩层
-				},
-				success: function(data) {
-					plus.nativeUI.closeWaiting();
-					mask.close(); //关闭遮罩层\
-					console.log(data);
-					if(data.status == 0) {
-						mui.toast(data.msg)
-					} else if(data.status == 1) {
-						mui.toast(data.msg)
+			var vm = this;
+			console.log(vm.mobile_phone);
+			if(user) {
+				var vm = this;
+				var mask = mui.createMask();
+				mui.ajax(apiUrl.saveprofile, {
+					type: "post",
+					data: {
+						"id": JSON.parse(user).id,
+						"truename": vm.truename,
+						"bank_name": vm.bank_name,
+						"bank_number": vm.bank_number,
+						"bank_username": vm.bank_username,
+						"bank_addr": vm.bank_addr,
+						"mobile_phone": vm.mobile_phone,
+						"alipay": vm.alipay,
+						"wechat": vm.wechat
+					},
+					dataType: 'json',
+					beforeSend: function() {
+						plus.nativeUI.showWaiting('提交中，请稍后');
+						mask.show(); //显示遮罩层
+					},
+					complete: function() {
+						plus.nativeUI.closeWaiting();
+						mask.close(); //关闭遮罩层
+					},
+					success: function(data) {
+						plus.nativeUI.closeWaiting();
+						mask.close(); //关闭遮罩层\
+						if(data.status == 0) {
+							mui.toast(data.msg);
+						} else if(data.status == 1) {
+							mui.toast(data.msg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
 					}
-				},
-				error: function(err) {
-					mui.toast(123);
-					mui.toast('服务器连接超时，请稍后再试');
-				}
-			});
+				});
+			} else {
+				openWindow('../pages/login/login.html')
+			}
+		},
+		turn: function(index) {
+			var vm = this;
+			var user = localStorage.getItem("user");
+			if(user) {
+				mui.ajax(apiUrl.viewdetails, {
+					type: 'post',
+					data: {
+						id: index,
+						username: JSON.parse(user).username
+					},
+					dataType: 'json',
+					complete:function(){
+					},
+					success: function(data) {
+						if(data.status == 0){
+							mui.toast(data.msg);
+						}else if(data.status == 1){
+							vm.notice2 = data.data;
+						}
+					},
+					error: function(msg) {
+						mui.toast(msg);
+					}
+				})
+			} else {
+				openWindow('../pages/login/login.html')
+			}
+		},
+		turn1:function(index){
+			var vm = this;
+			var user = localStorage.getItem("user");
+			if(user) {
+				mui.ajax(apiUrl.message, {
+					type: 'post',
+					data: {
+						id: index
+					},
+					dataType: 'json',
+					complete:function(){
+					},
+					success: function(data) {
+						if(data.status == 0){
+							mui.toast(data.msg);
+						}else if(data.status == 1){
+							vm.message1 = data.data;
+						}
+					},
+					error: function(msg) {
+						mui.toast(msg);
+					}
+				})
+			} else {
+				openWindow('../pages/login/login.html')
+			}
 		},
 		changeLogin: function() {
 			var vm = this
