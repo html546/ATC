@@ -5,7 +5,7 @@ var apiUrl = {
 	Index:baseUrl+'/api/Index/index', //首页信息
 	login : baseUrl+'/api/login/login', //登陆信息
 	reg: baseUrl+'api/member/registersave',//注册
-	forget:  baseUrl+'api/member/bymess',//忘记密码
+//	forget:  baseUrl+'api/member/bymess',//忘记密码
 	send_code: baseUrl+'api/member/send_validate_code',//注册短信验证码
 	send_code2: baseUrl+'api/member/send_validate_code2',//找回密码短信验证码
 	member: baseUrl+'/api/member/memberProfile', //会员信息
@@ -56,4 +56,6 @@ var apiUrl = {
 	viewdetails:baseUrl+'api/notice/viewdetails', //新消息详情
 	sale:baseUrl+'api/help/sale', //开心付出跟领取收益
 	savesales:baseUrl+'api/help/savesales', //提交开心付出跟领取收益
+	savepassword:baseUrl+'api/member/savepassword', //修改密码保存接口
+	trindex:baseUrl+'api/trade/trindex' //买入卖出访问页面
 }

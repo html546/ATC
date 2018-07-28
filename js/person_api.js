@@ -5,13 +5,16 @@ new Vue({
 		username: '',
 		trade_credit: '',
 		notice: [], //新消息通知
-		notice2:{},//新消息通知详情
+		notice2: {}, //新消息通知详情
 		message: {}, //公告
-		message1:{},//公告详情
+		message1: {}, //公告详情
 		finance: '', //资产
 		notice_index: 0, //新消息通知下标
 		oldLoginPass: '', //旧登陆密码
-		newLoginPass: '', //新登陆密码
+		newLoginPass1: '', //新一级登陆密码
+		newLoginPass1c: '', //新一级登陆密码确认
+		newLoginPass2: '', //新二级登陆密码
+		newLoginPass2c: '', //新二级登陆密码确认
 		oldPayPass: '', //旧支付密码
 		newPayPass: '', //新支付密码
 		//		isChangeUser: '',
@@ -106,7 +109,7 @@ new Vue({
 						mui.toast(data.msg)
 					} else if(data.status == 1) {
 						vm.notice = data.data;
-//						console.log(JSON.stringify(data.data));
+						//						console.log(JSON.stringify(data.data));
 					}
 				}
 			});
@@ -215,12 +218,11 @@ new Vue({
 						username: JSON.parse(user).username
 					},
 					dataType: 'json',
-					complete:function(){
-					},
+					complete: function() {},
 					success: function(data) {
-						if(data.status == 0){
+						if(data.status == 0) {
 							mui.toast(data.msg);
-						}else if(data.status == 1){
+						} else if(data.status == 1) {
 							vm.notice2 = data.data;
 						}
 					},
@@ -232,7 +234,7 @@ new Vue({
 				openWindow('../pages/login/login.html')
 			}
 		},
-		turn1:function(index){
+		turn1: function(index) {
 			var vm = this;
 			var user = localStorage.getItem("user");
 			if(user) {
@@ -242,12 +244,11 @@ new Vue({
 						id: index
 					},
 					dataType: 'json',
-					complete:function(){
-					},
+					complete: function() {},
 					success: function(data) {
-						if(data.status == 0){
+						if(data.status == 0) {
 							mui.toast(data.msg);
-						}else if(data.status == 1){
+						} else if(data.status == 1) {
 							vm.message1 = data.data;
 						}
 					},
@@ -261,39 +262,50 @@ new Vue({
 		},
 		changeLogin: function() {
 			var vm = this
-			var mask = mui.createMask()
-			mui.ajax(apiUrl.changePass, {
-				type: "post",
-				data: {
-					userid: vm.userInfo.id,
-					oldpass: vm.oldLoginPass,
-					pass1: vm.newLoginPass,
-					type: 1
-				},
-				dataType: 'json',
-				beforeSend: function() {
-					plus.nativeUI.showWaiting('提交中，请稍后');
-					mask.show(); //显示遮罩层
-				},
-				complete: function() {
+			var user = localStorage.getItem('user');
+			if(user) {
+				var mask = mui.createMask()
+				mui.ajax(apiUrl.savepassword, {
+					type: "post",
+					data: {
+						id: JSON.parse(user).id,
+						oldpass: vm.oldLoginPass,
+						pass1: vm.newLoginPass1,
+						pass1c:vm.newLoginPass1c,
+						pass2:vm.newLoginPass2,
+						pass2c:vm.newLoginPass2c
+					},
+					dataType: 'json',
+					beforeSend: function() {
+						plus.nativeUI.showWaiting('提交中，请稍后');
+						mask.show(); //显示遮罩层
+					},
+					complete: function() {
 
-				},
-				success: function(data) {
-					plus.nativeUI.closeWaiting();
-					mask.close(); //关闭遮罩层
-					if(data.status == 0) {
-						mui.toast(data.msg)
-					} else if(data.status == 1) {
-						mui.toast(data.msg)
-						vm.newLoginPass = ''
-						vm.oldLoginPass = ''
-						vm.exit()
+					},
+					success: function(data) {
+						plus.nativeUI.closeWaiting();
+						mask.close(); //关闭遮罩层
+						if(data.status == 0) {
+							mui.toast(data.msg)
+						} else if(data.status == 1) {
+							console.log(JSON.stringify(data));
+							mui.toast(data.msg)
+							vm.oldLoginPass = '';
+							vm.newLoginPass1 = '';
+							vm.newLoginPass1c = '';
+							vm.newLoginPass2 = '';
+							vm.newLoginPass2c = '';
+							vm.exit()
+						}
+					},
+					error: function() {
+						mui.toast('服务器连接超时，请稍后再试');
 					}
-				},
-				error: function() {
-					mui.toast('服务器连接超时，请稍后再试');
-				}
-			});
+				});
+			}else{
+				openWindow('../pages/login/login.html');
+			}
 		},
 		changePay: function() {
 			var vm = this
