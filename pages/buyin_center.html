@@ -45,11 +45,11 @@
 				                  			<i class="mui-icon-extra mui-icon-extra-heart-filled" v-if='item.credit>=4'></i>
 				                  			<i class="mui-icon-extra mui-icon-extra-heart-filled" v-if='item.credit>=5'></i>
 				                  		</div>
-				                  		<div class="mui-col-xs-6 bc-type">数量：{{item.num}}</div>
-				                  		<div class="mui-col-xs-6 bc-count">实付金额：{{item.oneprice*item.num}}</div>
+				                  		<div class="mui-col-xs-6 bc-type">数量：{{item.nonum}}</div>
+				                  		<div class="mui-col-xs-6 bc-count">实付金额：{{item.oneprice*item.nonum}}</div>
 				                  		<div class="mui-col-xs-6 bc-ck">
-				                  			<button type="button" class="mui-btn mui-btn-danger" @click='buytrade(item.id,item.num,item.oneprice,index)' v-if='username != item.username'>买入</button>
-				                  			<button type="button" class="mui-btn mui-btn-green" @click='canceltrade(item.id,item.num,item.oneprice,index)' v-else>撤销</button>
+				                  			<button type="button" class="mui-btn mui-btn-danger" @click='buytrade(item.id,item.nonum,item.oneprice,index)' v-if='username != item.username'>买入</button>
+				                  			<button type="button" class="mui-btn mui-btn-green" @click='canceltrade(item.id,item.nonum,item.oneprice,index)' v-else>撤销</button>
 				                  		</div>
 				                   	</div>
 				              </div>
@@ -120,11 +120,14 @@
 					this.getNote()
 				},
 				getNote:function(){
-					var vm = this
+					var vm = this;
+					var user = localStorage.getItem('user');
 					mui.ajax(apiUrl.market,{
 						type:"post",
-						data:{type: 1,
-							page:vm.page
+						data:{
+							id: JSON.parse(user).id,
+							page:vm.page,
+							type:1
 						},
 						dataType:'json',
 						success:function(data){	
@@ -133,13 +136,15 @@
 								mui.toast(data.msg)							
 							}
 							else if(data.status==1){
-								if(data.data.length==0){
+								mui.toast(123);
+								console.log(JSON.stringify(data.data.trades));
+								if(data.data.trades.length==0){
 									mui.toast('没有更多了')
 									vm.isMore = false
 									return false
 								}
-								for (var i=0 ;i<data.data.length;i++) {
-									vm.market.push(data.data[i])
+								for (var i=0 ;i<data.data.trades.length;i++) {
+									vm.market.push(data.data.trades[i]);
 								}							
 							}
 						}
