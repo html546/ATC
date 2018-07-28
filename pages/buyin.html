@@ -36,10 +36,10 @@
 							<label>支付方式</label>
 							<select name="" v-model="selected" >
 								<option value="0" disabled selected style="color: #757575;">请选择</option>
-								<option value="1" v-if="userInfo.wechat!=='暂无'">微信</option>
-								<option value="1" v-else disabled>微信</option>
-								<option value="2" v-if="userInfo.alipay!=='暂无'">支付宝</option>
-								<option value="2" v-else disabled>支付宝</option>
+								<option value="1" v-if="userInfo.alipay!=='暂无'">支付宝</option>
+								<option value="1" v-else disabled>支付宝</option>
+								<option value="2" v-if="userInfo.wechat!=='暂无'">微信</option>
+								<option value="2" v-else disabled>微信</option>
 								<option value="3" v-if="userInfo.bank_name!=='暂无'">银行卡</option>
 								<option value="3" v-else disabled>银行卡</option>
 							</select>
@@ -51,19 +51,7 @@
 					</form>
 				</div>
 				<div class="buyIn-bank">
-					<li v-if='selected==1 && userInfo.wechat'>
-						<div class="buyIn-bank">
-							<ul class="mui-table-view">
-						        <li class="mui-table-view-cell">
-						            <a class="mui-navigate-right">绑定的微信号</a>
-						        </li>
-						    </ul>
-						    <div class="buyIn-bank-info">
-						    	<p>{{userInfo.wechat}}</p>
-						    </div>
-						</div>
-					</li>					
-					<li v-if='selected==2 && userInfo.alipay'>
+					<li v-if='selected==1 && userInfo.alipay'>
 						<div class="buyIn-bank">
 							<ul class="mui-table-view">
 						        <li class="mui-table-view-cell">
@@ -75,6 +63,18 @@
 						    </div>
 						</div>
 					</li>
+					<li v-if='selected==2 && userInfo.wechat'>
+						<div class="buyIn-bank">
+							<ul class="mui-table-view">
+						        <li class="mui-table-view-cell">
+						            <a class="mui-navigate-right">绑定的微信号</a>
+						        </li>
+						    </ul>
+						    <div class="buyIn-bank-info">
+						    	<p>{{userInfo.wechat}}</p>
+						    </div>
+						</div>
+					</li>					
 					<li v-if='selected==3 && userInfo.bank_number'>
 						<div class="buyIn-bank router-link" data-href="bank_list.html">
 							<ul class="mui-table-view">

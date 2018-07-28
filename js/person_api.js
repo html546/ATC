@@ -138,7 +138,7 @@ new Vue({
 
 				}
 			});
-			mui.ajax(apiUrl.finance, {
+			/*mui.ajax(apiUrl.finance, {
 				type: "post",
 				data: {
 					username: JSON.parse(user).username
@@ -150,11 +150,12 @@ new Vue({
 				success: function(data) {
 					if(data.status == 0) {
 						mui.toast(data.msg)
+						mui.toast(444);
 					} else if(data.status == 1) {
 						vm.finance = data.data
 					}
 				}
-			});
+			});*/
 		}
 	},
 	mounted: function() {},

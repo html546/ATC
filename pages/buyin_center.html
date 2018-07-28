@@ -20,12 +20,12 @@
 				    <div class="mui-scroll">			   
 				    	<div class="mui-row assets-deal-top">
 						   <div class="mui-col-xs-6">
-						    	<p>ATM</p>
-						    	<p>{{finance.bank1}}</p>
+						    	<p>{{bank1.money}}</p>
+						    	<p>{{bank1.bankname}}</p>
 						    </div>
 						    <div class="mui-col-xs-6">
-						    	<p>ATM资产</p>
-						    	<p>{{finance.bank2}}</p>
+						    	<p>{{bank2.money}}</p>
+						    	<p>{{bank2.bankname}}</p>
 						    </div>
 						</div>	
 						<p class="roll-list-no" v-if='market.length<=0'>没有找到相关记录</p>
@@ -87,7 +87,8 @@
 			data:{
 				market: [],
 				credit: [],
-				finance: {},
+				bank1:{},
+				bank2:{},
 				username: '',
 				page:1,
 				isLoad:false,
@@ -147,16 +148,17 @@
 				getFin: function(){
 					var vm = this
 					var user = localStorage.getItem("user")
-					mui.ajax(apiUrl.finance,{
+					mui.ajax(apiUrl.Index,{
 						type:"post",
-						data:{username: JSON.parse(user).username},
+						data:{id: JSON.parse(user).id},
 						dataType:'json',
 						success:function(data){							
 							if(data.status==0){
 								mui.toast(data.msg)
 							}
 							else if(data.status==1){	
-								vm.finance = data.data
+								vm.bank1 = data.data.walletamounts.bank1;
+								vm.bank2 = data.data.walletamounts.bank2
 							}
 						}
 					});
