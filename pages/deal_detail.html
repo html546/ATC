@@ -1,32 +1,62 @@
 <!doctype html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
 	</head>
+
 	<body>
 		<div id="app">
 			<header class="mui-bar mui-bar-nav">
-			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			    <h1 class="mui-title">订单详情</h1>
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">订单详情</h1>
 			</header>
-			<div class="mui-content deal_detail-content mui-scroll-wrapper">	
-			    <div class="mui-scroll">			
+			<div class="mui-content deal_detail-content mui-scroll-wrapper">
+				<div class="mui-scroll">
 					<table class="deal_detail table">
-						<tr v-if="type==2"><td>买家编号：</td><td>{{deal_detail.username}}</td></tr>
-						<tr v-if="type==1"><td>卖家编号：</td><td>{{deal_detail.saleusername}}</td></tr>
-						<tr><td>购买单价：</td><td>{{deal_detail.oneprice}}</td></tr>
-						<tr><td>购买数量：</td><td>{{deal_detail.num}}</td></tr>
-						<tr><td>实际付款：</td><td>{{deal_detail.realpay}}</td></tr>
-						
-						<tr><td>购买时间：</td><td>{{deal_detail.buytime | time}}</td></tr>
-						<tr><td>汇款时间：</td><td>{{deal_detail.remittime | time}}</td></tr>
-						<tr><td>付款时间：</td><td>{{deal_detail.paytime | time}}</td></tr>
-						<tr><td>确认时间：</td><td>{{deal_detail.oktime | time}}</td></tr>
-						<tr><td>支付方式：</td>
+						<tr v-if="type==2">
+							<td>买家编号：</td>
+							<td>{{deal_detail.username}}</td>
+						</tr>
+						<tr v-if="type==1">
+							<td>卖家编号：</td>
+							<td>{{deal_detail.saleusername}}</td>
+						</tr>
+						<tr>
+							<td>购买单价：</td>
+							<td>{{deal_detail.oneprice}}</td>
+						</tr>
+						<tr>
+							<td>购买数量：</td>
+							<td>{{deal_detail.num}}</td>
+						</tr>
+						<tr>
+							<td>实际付款：</td>
+							<td>{{deal_detail.realpay}}</td>
+						</tr>
+
+						<tr>
+							<td>购买时间：</td>
+							<td>{{deal_detail.buytime | time}}</td>
+						</tr>
+						<tr>
+							<td>汇款时间：</td>
+							<td>{{deal_detail.remittime | time}}</td>
+						</tr>
+						<tr>
+							<td>付款时间：</td>
+							<td>{{deal_detail.paytime | time}}</td>
+						</tr>
+						<tr>
+							<td>确认时间：</td>
+							<td>{{deal_detail.oktime | time}}</td>
+						</tr>
+						<tr>
+							<td>支付方式：</td>
 							<td v-if="deal_detail.paytype==1">支付宝支付</td>
 							<td v-if="deal_detail.paytype==2">微信支付</td>
 							<td v-if="deal_detail.paytype==3">银行卡支付</td>
@@ -41,7 +71,7 @@
 						</tr>
 					</table>
 				</div>
-			</div>		
+			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
@@ -49,73 +79,73 @@
 		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			new Vue({
-			el: '#app',
-			data:{
-				deal_detail:{},
-				id:'',
-				type:''
-			},
-			created:function(){
-				var user = localStorage.getItem("user")
-				this.id = this.getUrlParms('id')
-				this.type = this.getUrlParms('type')
-				var vm = this				
-				if(user){
-					//apiUrl.dealDetail
-					mui.ajax("http://a394.213986.com:88/api/trade/viewbuytrade",{
-						type:"post",
-						//vm.id
-						data:{id: "12"},
-						dataType:'json',
-						success:function(data){		
-							console.log(JSON.stringify(data))
-							if(data.status==0){
-								
-								mui.toast(data.msg)
-							}
-							else if(data.status==1){	
-								vm.deal_detail = data.data
-								console.log(JSON.stringify(data.data))
-									
+				el: '#app',
+				data: {
+					deal_detail: {},
+					id: '',
+					type: ''
+				},
+				created: function() {
+					var user = localStorage.getItem("user")
+					this.id = this.getUrlParms('id')
+					this.type = this.getUrlParms('type')
+					var vm = this
+					if(user) {
+						//apiUrl.dealDetail
+						mui.ajax(apiUrl.viewbuytrade, {
+							type: "post",
+							//vm.id
+							data: {
+								id: vm.id,
+								username:JSON.parse(user).username
+							},
+							dataType: 'json',
+							success: function(data) {
+//								console.log(JSON.stringify(data))
+								if(data.status == 0) {
+									mui.toast(data.msg)
+								} else if(data.status == 1) {
+									vm.deal_detail = data.data
+									console.log(JSON.stringify(data.data))
 								}
-						},
-						error:function(err){
-							console.log(JSON.stringify(err))
-						}
-					});
-				}else{
-					openWindow('login/login.html')
+							},
+							error: function(err) {
+								console.log(JSON.stringify(err))
+							}
+						});
+					} else {
+						openWindow('login/login.html')
+					}
+				},
+				mounted: function() {
+					this.$nextTick(function() {
+						mui('.mui-scroll-wrapper').scroll({
+							deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						});
+					})
+				},
+				filters: {
+					time: function(val) {
+						return timestampToTime(val)
+					}
+				},
+				methods: {
+					getUrlParms: function(name) {
+						var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+						var r = window.location.search.substr(1).match(reg);
+						if(r != null)
+							return unescape(r[2]);
+						return null;
+					}
 				}
-			},
-			mounted:function(){	
-				this.$nextTick(function(){
-					mui('.mui-scroll-wrapper').scroll({
-						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
-					});
-				})
-			},
-			filters:{
-				time:function(val){
-					return timestampToTime(val)
+			})
+			mui.init({
+				beforeback: function() {　　　
+					var list = plus.webview.currentWebview().opener();　　　　
+					mui.fire(list, 'refresh');
+					return true;
 				}
-			},
-			methods:{	
-				getUrlParms: function(name){
-				   var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-				   var r = window.location.search.substr(1).match(reg);
-				   if(r!=null)
-				   return unescape(r[2]);
-				   return null;
-				}
-			}
-		})	
-		mui.init({
-		    beforeback: function() {    　　　
-		        var list = plus.webview.currentWebview().opener();    　　　　
-		        mui.fire(list, 'refresh');          
-		        return true;
-		    }
-		});
+			});
 		</script>
 	</body>
 

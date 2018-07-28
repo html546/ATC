@@ -24,7 +24,7 @@
 					       		<p>交易单价：{{item.oneprice}}</p>
 					       		<p>交易数量：{{item.num}}</p>
 					       		<p>交易总额：{{item.oneprice*item.num}}</p>
-					       		<p>实际付款：{{item.realpay}}</p>
+					       		<p>实际付款：{{item.totl}}</p>
 					     
 					       		<p>交易状态：
 					       			<span v-if='item.state==0'class="red">未支付</span>
@@ -84,11 +84,11 @@
 				    </div>
 				    <div class="mui-input-row">
 				        <label>汇款凭据</label>
-				        <input type="file" @change="getImg">				       
+				        <input type="file" id="getimg" name="file" accept="image/*" @change="getImg(event)">				       
 				    </div>
-				    <div style="margin-top: 10px;text-align: center;">
+				    <!--<div style="margin-top: 10px;text-align: center;">
 				    	 <img :src="image_input"style="max-width: 50%;max-height: 45vw;"/>
-				    </div>
+				    </div>-->
 				    <div class="mui-row">
 				    	<div class="mui-col-xs-6" style="text-align: center;">
 				    		<button type="button" class="mui-btn mui-btn-red" @click="sendMoney" style="width: 80%;">提交</button>
@@ -104,11 +104,11 @@
 					<h4>提交凭据</h4>
 				    <div class="mui-input-row">
 				        <label>提交凭据</label>
-				        <input type="file" @change="getImg">				       
+				        <input type="file" accept="image/*" @change="getImg">				       
 				    </div>
-				    <div style="margin-top: 10px;">
+				    <!--<div style="margin-top: 10px;">
 				    	 <img :src="image_input"style="width: 100%;" />
-				    </div>
+				    </div>-->
 				    <div class="mui-row">
 				    	<div class="mui-col-xs-6" style="text-align: center;">
 				    		<button type="button" class="mui-btn mui-btn-red" @click="sendProof" style="width: 80%;">提交</button>
@@ -126,7 +126,7 @@
 		<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init();
 			new Vue({
 				el: '#app',
 				data:{
@@ -178,9 +178,9 @@
 								//vm.username
 								username: JSON.parse(user).username,
 								//vm.type
-								type: "2",
+								type: 2,
 								//vm.page
-								page: "1"
+								page: vm.page
 							},
 							dataType:'json',
 							success:function(data){
@@ -189,7 +189,7 @@
 									mui.toast(data.msg)
 								}
 								else if(data.status==1){
-									console.log(JSON.stringify(data.data));
+//									console.log(JSON.stringify(data.data));
 									if(data.data.length ==0){
 										mui.toast('没有更多了')
 										vm.isMore = false
@@ -222,33 +222,39 @@
 						this.url = ''
 						this.index1 = ''
 					},
-					getImg:function(e){
-						var vm = this
-						this.url = e.currentTarget.files[0]
-						var form = new FormData();
-						form.append('image_input', this.url)	
-						var mask=mui.createMask()
+					getImg:function(event){
+						var vm = this;
+						var formData = new FormData()
+						var img_file = mui("#getimg").files[0];
+						var fileObj = img_file.files[0];
+						formData.append('url',fileObj);
+						var mask=mui.createMask();
 						mui.ajax(apiUrl.upload_img,{
 							type:"post",
-							data:form,
+							data:formData,
+							async:false,
 							contentType: false,
 							processData: false,
-							dataType:'json',
+//							dataType:'json',
 							beforeSend: function() {			       
 						        plus.nativeUI.showWaiting('提交中，请稍后');
 	        					mask.show();//显示遮罩层
 						    },
 							success:function(data){		
+								mui.toast(JSON.stringify(data));
 								plus.nativeUI.closeWaiting();
 					        	mask.close();//关闭遮罩层
 								if(data.status==0){
 									mui.toast(data.msg)
 								}
 								else if(data.status==1){	
-									mui.toast(data.msg)
+//									mui.toast(data.msg);
+//									console.log(JSON.stringify(data));
 									vm.image_input = data.data.url
 								}
-								
+							},
+							error:function(msg){
+								console.log(JSON.stringify(msg));
 							}
 						});
 					},

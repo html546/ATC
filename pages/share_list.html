@@ -25,13 +25,13 @@
 				    <div class="mui-scroll">
 				    	<p v-if='shareList.length<=0' class="roll-list-no">没有找到相关记录</p>
 				      	<table style="width: 100%;"  class="buyin-list" v-else>
-				      		<tr v-for='item in shareList'>
+				      		<tr v-for='item in shareList' @click="skip(item.id)">
 				      			<td class="mui-col-xs-4">{{item.username}}</td>
 				      			<td class="mui-col-xs-3">{{item.truename}}</td>
 				      			<td class="mui-col-xs-5">{{item.pay_date | time}}</td>
 				      		</tr>
 				      	</table>
-				      	<div id="getMore" @click="!isLoad && isMore && getMore()">
+				      	<!--<div id="getMore" @click="!isLoad && isMore && getMore()">
 				        	<div v-if='isMore'>
 					        	<div v-if="!isLoad">
 					        		<p>点击加载更多</p>
@@ -45,7 +45,7 @@
 				        	<div v-else>
 				        		<p>没有更多了</p>
 				        	</div>
-				        </div>
+				        </div>-->
 				    </div>
 				</div>							
 			</div>
@@ -89,35 +89,48 @@
 					}
 				},
 				methods:{
-					getMore:function(){
-						this.isLoad = true 
-						this.page += 1
-						this.getNote()
+//					getMore:function(){
+//						this.isLoad = true 
+//						this.page += 1
+//						this.getNote()
+//					},
+					skip:function(ev){
+						mui.openWindow({
+							url:'share_list_two.html',
+							id:'share_list_two.html',
+							extras:{
+								skipid:ev
+							}
+						})
 					},
 					getNote:function(){
 						var vm = this
 						var user = localStorage.getItem("user")
-						mui.ajax(apiUrl.sharelist,{
+						mui.ajax(apiUrl.recommendinlist,{
 							type:"post",
 							data:{
-								username: JSON.parse(user).username,
-								page:vm.page
+								id: JSON.parse(user).id,
 							},
 							dataType:'json',
-							success:function(data){		
+							success:function(data){	
 								vm.isLoad = false
 								if(data.status==0){
 									mui.toast(data.msg)
 								}
 								else if(data.status==1){	
-									if(data.data.length==0){
+									if(JSON.stringify(data.data)=='{}'){
 										mui.toast('没有更多了')
 										vm.isMore = false
 										return false
 									}
-									for (var i=0;i<data.data.length;i++) {
-										vm.shareList.push(data.data[i])
-									}					
+									var datas = data.data;
+//									console.log(JSON.stringify(datas));
+//									for (var i=0;i<data.data.length;i++) {
+//										vm.shareList.push(data.data[i])
+//									}					
+									for(key in datas){
+            							vm.shareList.push(datas[key])
+        							}
 								}
 							}
 						});

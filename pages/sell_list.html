@@ -23,7 +23,7 @@
 					       		<p>交易单价：{{item.oneprice}}</p>
 					       		<p>交易数量：{{item.num}}</p>
 					       		<p>交易总额：{{item.oneprice*item.num}}</p>
-					       		<p>实际付款{{item}}</p>					       		
+					       		<p>实际付款： {{item.totl}}</p>					       		
 					       		<p>交易状态：
 					       			<span v-if='item.state==0'class="red">未支付</span>
 					       			<span v-if='item.state==1'class="red">已支付</span>
@@ -82,7 +82,7 @@
 				el: '#app',
 				data:{
 					market_note:[], //卖出记录
-					type:2,
+					type:1,
 					page:1,
 					isLoad:false,
 					isMore: true,
@@ -117,15 +117,16 @@
 					getNote:function(){
 						var vm = this
 						//apiUrl.market_note
-						mui.ajax(" http://a394.213986.com:88/api/trade/tradelist",{
+						var user = localStorage.getItem('user');
+						mui.ajax(apiUrl.info,{
 							type:"post",
 							data:{
 								//vm.username
-								username: "1",
+								username:JSON.parse(user).username,
 								//vm.type
-								type:"1",
+								type:1,
 								//vm.page
-								page: "1"
+								page:vm.page
 							},
 							dataType:'json',
 							success:function(data){
@@ -135,6 +136,7 @@
 									mui.toast(data.msg)
 								}
 								else if(data.status==1){	
+									console.log(JSON.stringify(data.data));
 									if(data.data.length ==0){
 										mui.toast('没有更多了')
 										vm.isMore = false
@@ -142,7 +144,6 @@
 									}
 									for (var i=0 ;i<data.data.length;i++) {
 										vm.market_note.push(data.data[i])
-										alert(JSON.stringify(data.data[i]))
 									}
 								}
 							}

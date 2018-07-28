@@ -239,7 +239,8 @@
 			"pages/sell_center.html": {
 				"resources": [],
 				"refer": [
-					"pages/buyin_list.html"
+					"pages/buyin_list.html",
+					"pages/sell_list.html"
 				],
 				"priority": 0
 			},

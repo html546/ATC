@@ -203,9 +203,10 @@
 								//var user_id = data.data.username
 								//alert(JSON.stringify(data))
 								//apiUrl.notice
-								mui.ajax("http://a394.213986.com:88/api/notice/getnotice", {
+								mui.ajax(apiUrl.notice, {
 									data: {
-										username: "1"
+										username: JSON.parse(user).username,
+										page:1
 									},
 									dataType: 'json', //服务器返回json格式数据
 									type: 'post', //HTTP请求类型
@@ -218,7 +219,7 @@
 										if(mess_item == null) {
 											mess_item = "[]"
 										}
-										//alert(JSON.stringify(r))
+										console.log(JSON.stringify(r));
 										var mess = r.data
 										//alert(mess_item)
 										var mess_item_array = JSON.parse(mess_item)
@@ -230,11 +231,8 @@
 												plus.storage.getItem("new_mess_n")
 											}
 											//alert(JSON.stringify(new_mess))	
-
 										}
-
 										//这里是请求后的
-
 										//如果消息的数组长度大于0就说明有新闻更新了把小铃铛换成动的然后设置新闻的长度
 										if(new_mess.length > 0) {
 											//	alert("1")
