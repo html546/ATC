@@ -171,13 +171,14 @@
 					getNote:function(){
 						var vm = this
 						//apiUrl.market_note
-						mui.ajax(" http://a394.213986.com:88/api/trade/tradelist",{
+						var user = localStorage.getItem('user');
+						mui.ajax(apiUrl.info,{
 							type:"post",
 							data:{
 								//vm.username
-								username: "1",
+								username: JSON.parse(user).username,
 								//vm.type
-								type: "1",
+								type: "2",
 								//vm.page
 								page: "1"
 							},
@@ -188,6 +189,7 @@
 									mui.toast(data.msg)
 								}
 								else if(data.status==1){
+									console.log(JSON.stringify(data.data));
 									if(data.data.length ==0){
 										mui.toast('没有更多了')
 										vm.isMore = false

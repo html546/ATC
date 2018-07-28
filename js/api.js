@@ -57,5 +57,6 @@ var apiUrl = {
 	sale:baseUrl+'api/help/sale', //开心付出跟领取收益
 	savesales:baseUrl+'api/help/savesales', //提交开心付出跟领取收益
 	savepassword:baseUrl+'api/member/savepassword', //修改密码保存接口
-	trindex:baseUrl+'api/trade/trindex' //买入卖出访问页面
+	trindex:baseUrl+'api/trade/trindex', //买入卖出访问页面
+	info:baseUrl+'api/trade/info' //买入卖出交易记录列表
 }
