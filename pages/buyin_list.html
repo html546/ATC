@@ -131,7 +131,7 @@
 		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			mui.init();
-			mui.plusReady();
+//			mui.plusReady();
 			new Vue({
 				el: '#app',
 				data: {
@@ -258,20 +258,12 @@
 					},*/
 					getImg: function() {
 						var imgUrl = '';
-						plus.gallery.pick(function(path) {
-							console.log(path);
-							imgUrl = path;
-						}, function(e) {
-							console.log('取消选择图片');
-						}, {
-							filter: "image"
-						});
 						var task = plus.uploader.createUpload(apiUrl.upload_img, {
 								method: 'POST'
 							},
 							function(t, status) {
 								if(status == 200) {
-//									console.log("上传成功:" + t.responseText);
+									//									console.log("上传成功:" + t.responseText);
 									console.log(JSON.parse(t.responseText).data.url);
 									this.image_input = JSON.parse(t.responseText).data.url;
 								} else {
@@ -279,8 +271,18 @@
 								}
 							}
 						);
-						task.addFile(imgUrl);
-						task.start();
+						plus.gallery.pick(function(path) {
+							console.log(path);
+							imgUrl = path;
+							task.addFile(imgUrl, {
+								key: 'url'
+							});
+							task.start();
+						}, function(e) {
+							console.log('取消选择图片');
+						}, {
+							filter: "image"
+						});
 					},
 					getTime: function() {
 						var vm = this
