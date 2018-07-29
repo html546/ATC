@@ -816,11 +816,12 @@
 
 			mui("body").on("tap", "#i_read", function() {
 				plus.storage.setItem("new_mess_length", "0")
-
-				mui.ajax("http://a394.213986.com:88/api/notice/getnotice", {
+				var user = localStorage.getItem('user');
+				mui.ajax(apiUrl.notice, {
 					type: "post",
 					data: {
-						username: '1'
+						username: JSON.parse(user).username,
+						page:1
 					},
 					dataType: 'json',
 					success: function(data) {

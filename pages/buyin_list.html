@@ -106,9 +106,10 @@
 			<div class="poper" v-if="isproof">
 				<form class="mui-input-group">
 					<h4>提交凭据</h4>
-					<div class="mui-input-row">
-						<label>提交凭据</label>
-						<input type="file" accept="image/*" value="" @change="getImg">
+					<div class="mui-button-row">
+						<!--<label>提交凭据</label>-->
+						<!--<input type="file" accept="image/*" value="" @change="getImg">-->
+						<button type="button" class="mui-btn mui-btn-primary" @click="getImg">上传汇款凭据</button>
 					</div>
 					<!--<div style="margin-top: 10px;">
 				    	 <img :src="image_input"style="width: 100%;" />
@@ -258,14 +259,18 @@
 					},*/
 					getImg: function() {
 						var imgUrl = '';
+						var vm = this;
 						var task = plus.uploader.createUpload(apiUrl.upload_img, {
 								method: 'POST'
 							},
 							function(t, status) {
 								if(status == 200) {
-									//									console.log("上传成功:" + t.responseText);
-									console.log(JSON.parse(t.responseText).data.url);
-									this.image_input = JSON.parse(t.responseText).data.url;
+									//console.log("上传成功:" + t.responseText);
+//									console.log(t.responseText.data);
+									console.log(JSON.parse(t.responseText).data["url"]);
+//									console.log(JSON.parse(t.responseText).data.url);
+//									this.image_input = t.responseText.data["image_input"].name;
+									vm.image_input = JSON.parse(t.responseText).data["url"];
 								} else {
 									console.log("上传失败:" + status);
 								}
@@ -275,7 +280,7 @@
 							console.log(path);
 							imgUrl = path;
 							task.addFile(imgUrl, {
-								key: 'url'
+								key: 'image_input'
 							});
 							task.start();
 						}, function(e) {
@@ -334,7 +339,10 @@
 					},
 					sendMoney: function() {
 						var vm = this
-						var mask = mui.createMask()
+						var mask = mui.createMask();
+						console.log(vm.image_input);
+						console.log(vm.id);
+						console.log(vm.remittime);
 						mui.ajax(apiUrl.remittance, {
 							type: "post",
 							data: {
@@ -350,6 +358,7 @@
 							success: function(data) {
 								plus.nativeUI.closeWaiting();
 								mask.close(); //关闭遮罩层
+								console.log(JSON.stringify(data));
 								if(data.status == 0) {
 									mui.toast(data.msg)
 								} else if(data.status == 1) {
