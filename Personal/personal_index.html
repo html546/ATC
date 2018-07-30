@@ -349,14 +349,6 @@
 							<label>再次输入</label>
 							<input type="password" class="mui-input-password" placeholder="请确认新一级密码" v-model='newLoginPass1c'>
 						</div>
-						<div class="mui-input-row pass_inp">
-							<label>新二级密码</label>
-							<input type="password" class="mui-input-password" placeholder="请输入新二级密码" v-model='newLoginPass2'>
-						</div>
-						<div class="mui-input-row pass_inp">
-							<label>再次输入</label>
-							<input type="password" class="mui-input-password" placeholder="请确认新二级密码" v-model='newLoginPass2c'>
-						</div>
 					</form>
 					<div class="yhcard_ra">
 						<!--<a href="">忘记登录密码？</a>-->
@@ -376,12 +368,16 @@
 				<div class="mui-page-content">
 					<form class="mui-input-group pass_form">
 						<div class="mui-input-row pass_inp">
-							<label>登录密码</label>
-							<input type="password" class="mui-input-password" placeholder="请输入登陆密码" v-model="oldPayPass">
+							<label>支付密码</label>
+							<input type="password" class="mui-input-password" placeholder="请输入支付密码" v-model="oldPayPass">
 						</div>
 						<div class="mui-input-row pass_inp">
 							<label>新密码</label>
 							<input type="password" class="mui-input-password" placeholder="请输入新支付密码" v-model="newPayPass">
+						</div>
+						<div class="mui-input-row pass_inp">
+							<label>再次输入</label>
+							<input type="password" class="mui-input-password" placeholder="请确认新支付密码" v-model="newPayPass2">
 						</div>
 					</form>
 					<div class="yhcard_ra">
@@ -803,10 +799,10 @@
 
 	<script type="text/javascript">
 		mui.plusReady(function() {
-			if(plus.storage.getItem("new_mess_length") == null) {
-				plus.storage.setItem("new_mess_length", "0")
+			if(localStorage.getItem("new_mess_length") == null) {
+				localStorage.setItem("new_mess_length", "0")
 			}
-			var new_mess_length = plus.storage.getItem("new_mess_length")
+			var new_mess_length = localStorage.getItem("new_mess_length")
 			if(parseInt(new_mess_length) > 0) {
 				alert("有更新")
 				mui("#mess_badge")[0].innerText = new_mess_length
@@ -815,7 +811,7 @@
 			}
 
 			mui("body").on("tap", "#i_read", function() {
-				plus.storage.setItem("new_mess_length", "0")
+				localStorage.setItem("new_mess_length", "0")
 				var user = localStorage.getItem('user');
 				mui.ajax(apiUrl.notice, {
 					type: "post",
@@ -825,13 +821,12 @@
 					},
 					dataType: 'json',
 					success: function(data) {
-						alert(JSON.stringify(data.data))
 						var readed_arr = []
 						for(var i = 0; i < data.data.length; i++) {
 							readed_arr.push(data.data[i].id)
 						}
 						//alert(JSON.stringify(readed_arr))
-						plus.storage.setItem("mess_item", JSON.stringify(readed_arr))
+						localStorage.setItem("mess_item", JSON.stringify(readed_arr))
 						//alert("你已经读完")
 					}
 				})

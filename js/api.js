@@ -62,4 +62,5 @@ var apiUrl = {
 	viewbuytrade:baseUrl+'api/trade/viewbuytrade', //交易记录查看
 	recommendinlist:baseUrl+'api/network/recommendinlist',//会员网体推荐列表
     recommendInLists:baseUrl+'api/network/recommendInLists',//推荐二级列表
+    changepass2:baseUrl+'api/member/savepassword2'
 }

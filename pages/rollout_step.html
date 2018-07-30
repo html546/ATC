@@ -19,7 +19,7 @@
 			    	<div><img src="../images/m_header.jpg"/></div>	    	
 			    	<p>多久萨克了解到</p>
 			    </div>-->
-			    <form class="mui-input-group">
+			    <form class="mui-input-group" v-if="active1">
 			    	<div class="mui-input-row">
 			            <label>选择钱包</label>
 			            <!--<input type="number" readonly v-model='userInfo.bank1'>-->
@@ -28,12 +28,13 @@
 			            </select>	
 			        </div>
 			        <div class="mui-input-row">
-			            <label>开心付出金额</label>
+			            <label>开心付出金额:</label>
 			            <input type="text"  placeholder="请输入转出金额"  v-model="bd_money"  v-if="active==true" />
 			            <input type="text"  v-model="bd_money" readonly v-else />
 			        </div>
 			        <div class="mui-input-row" v-for="item in bank">
-			            <label>{{item.bankname}}</label>
+			            <label v-if="item.type == 1">理财钱包余额:</label>
+			            <label v-if="item.type == 2">交易钱包余额:</label>
 			            <!--<input type="text"  placeholder="请输入转出地址" v-model="giveaddr">-->
 			            <input type="text" :value="item.money" readonly />
 			        </div>
@@ -43,7 +44,14 @@
 			            <!--<input type="text" value="" readonly />-->
 			        <!--</div>-->
 			    </form>
-			    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" style="margin-top: 30px;" @click='subRoll'>提交申请</button>
+			    <form class="mui-input-group" v-else>
+			    	<div class="mui-input-row">
+			    		<label for="">领取收益金额</label>
+			    		<input type="text" placeholder="请输入领取金额" v-model="receive" />
+			    	</div>
+			    </form>
+			    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" style="margin-top: 30px;" @click='subRoll' v-if="active1">提交申请</button>
+			    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" style="margin-top: 30px;" @click='getM' v-else>领取收益</button>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
@@ -62,7 +70,9 @@
 				/*bank1:'',//MRCC理财钱包
 				bank2:'',//交易钱包*/
 				bank:'', //钱包情况
-				active:''
+				active:'',
+				active1:true,
+				receive:''
 			},
 			created:function(){
 //				console.log(getQueryString('type'));
@@ -71,6 +81,7 @@
 				var user = localStorage.getItem("user")
 				var vm = this				
 				if(user&&!type&&!id){
+					vm.active1 = true;
 					mui.ajax(apiUrl.sale,{
 						type:"post",
 						data:{
@@ -83,6 +94,7 @@
 								mui.toast(data.msg)
 							}
 							else if(data.status==1){
+								console.log(JSON.stringify(data.data));
 								vm.bank = data.data.walletamounts;
 								vm.bd_money = data.data.default;
 								if(data.data.isedit == "true"){
@@ -95,6 +107,7 @@
 						}
 					});
 				}else if(user&&type&&id){
+					vm.active1 = false;
 					mui.toast('我是领取收益');
 					mui.ajax(apiUrl.sale,{
 						type:"post",
@@ -110,20 +123,7 @@
 								mui.toast(data.msg)
 							}
 							else if(data.status==1){
-//								console.log(JSON.stringify(data.data));
-								vm.bank = data.data.walletamounts;
-								console.log(JSON.stringify(data.data));
-								vm.bd_money = data.data.default;
-								if(data.data.isedit == "true"){
-									vm.active = true;
-								}else{
-									vm.active = false;
-								}
-								console.log(vm.active);
-								/*vm.bank1 = data.data.walletamounts.bank1;
-								vm.bank2 = data.data.walletamounts.bank2;*/
-//								mui.toast(data.data.view);
-//								vm.userInfo = data.data
+								vm.receive = data.data.getmoneys;
 							}
 						}
 					})
@@ -184,6 +184,50 @@
 								console.log(JSON.stringify(data));
 //								openWindow('http://400.213986.com:88'+data.url);
 								window.location.reload();
+							}
+						},
+						error:function(){
+							mui.toast('服务器连接超时，请稍后再试');
+						}
+					});
+				},
+				getM:function(){
+					var vm = this;
+					var user = localStorage.getItem("user");
+					var id = getQueryString('id');
+//					console.log(JSON.parse(user));
+					var mask=mui.createMask();
+					mui.ajax(apiUrl.savesales,{
+						type:"post",
+						data:{
+							  /*username: vm.userInfo.username,
+							  bd_money: vm.bd_money,
+							  giveaddr: vm.giveaddr*/
+							 type:2,
+							 username:JSON.parse(user).username,
+							 id:id,
+							 bd_money:vm.receive
+						},
+						dataType:'json',
+						beforeSend: function() {			       
+					        plus.nativeUI.showWaiting('提交中，请稍后');
+        					mask.show();//显示遮罩层
+					    },
+					    complete: function() {
+					     	plus.nativeUI.closeWaiting();
+					     	mask.close();
+					    },
+						success:function(data){	
+							plus.nativeUI.closeWaiting();
+					        mask.close();//关闭遮罩层
+					        console.log(JSON.stringify(data));
+							if(data.status==0){
+								mui.toast(data.msg)
+							}							
+							else if(data.status==1){
+								mui.toast(data.msg);
+								console.log(JSON.stringify(data));
+								openWindow('../index.html');
 							}
 						},
 						error:function(){

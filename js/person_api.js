@@ -13,10 +13,9 @@ new Vue({
 		oldLoginPass: '', //旧登陆密码
 		newLoginPass1: '', //新一级登陆密码
 		newLoginPass1c: '', //新一级登陆密码确认
-		newLoginPass2: '', //新二级登陆密码
-		newLoginPass2c: '', //新二级登陆密码确认
 		oldPayPass: '', //旧支付密码
 		newPayPass: '', //新支付密码
+		newPayPass2: '', //再次输入新支付密码
 		//		isChangeUser: '',
 		truename: '',
 		wechat: '',
@@ -272,9 +271,7 @@ new Vue({
 						id: JSON.parse(user).id,
 						oldpass: vm.oldLoginPass,
 						pass1: vm.newLoginPass1,
-						pass1c:vm.newLoginPass1c,
-						pass2:vm.newLoginPass2,
-						pass2c:vm.newLoginPass2c
+						pass1c:vm.newLoginPass1c
 					},
 					dataType: 'json',
 					beforeSend: function() {
@@ -295,8 +292,6 @@ new Vue({
 							vm.oldLoginPass = '';
 							vm.newLoginPass1 = '';
 							vm.newLoginPass1c = '';
-							vm.newLoginPass2 = '';
-							vm.newLoginPass2c = '';
 							vm.exit()
 						}
 					},
@@ -310,14 +305,15 @@ new Vue({
 		},
 		changePay: function() {
 			var vm = this
+			var user = localStorage.getItem('user');
 			var mask = mui.createMask()
-			mui.ajax(apiUrl.changePass, {
+			mui.ajax(apiUrl.changepass2, {
 				type: "post",
 				data: {
-					userid: vm.userInfo.id,
+					id: JSON.parse(user).id,
 					oldpass: vm.oldPayPass,
 					pass2: vm.newPayPass,
-					type: 2
+					pass2c: vm.newPayPass2,
 				},
 				dataType: 'json',
 				beforeSend: function() {
@@ -334,7 +330,8 @@ new Vue({
 						mui.toast(data.msg)
 					} else if(data.status == 1) {
 						mui.toast(data.msg)
-						vm.newPayPass = ''
+						vm.newPayPass = '';
+						vm.newPayPass2 = '';
 						vm.oldPayPass = ''
 					}
 				},

@@ -215,7 +215,7 @@
 									},
 									success: function(r) {
 										//console.log(JSON.stringify(r)) 
-										var mess_item = plus.storage.getItem("mess_item")
+										var mess_item = localStorage.getItem("mess_item")
 										if(mess_item == null) {
 											mess_item = "[]"
 										}
@@ -228,7 +228,7 @@
 											//alert(mess[i].id)
 											if(mess_item_array.indexOf(mess[i].id) == -1) {
 												new_mess.push(mess[i].id)
-												plus.storage.getItem("new_mess_n")
+												localStorage.getItem("new_mess_n")
 											}
 											//alert(JSON.stringify(new_mess))	
 										}
@@ -238,7 +238,7 @@
 											//	alert("1")
 											alert("有消息更新")
 											mui("#ld")[0].setAttribute("src", "images/ld.gif")
-											plus.storage.setItem("new_mess_length", String(new_mess.length))
+											localStorage.setItem("new_mess_length", String(new_mess.length))
 										}
 									}
 								})

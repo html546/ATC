@@ -32,7 +32,7 @@
 						<table style="width: 100%;" class="buyin-list">
 							<tr v-for='item in shareList'>
 								<td class="mui-col-xs-3">{{item.ordercode}}</td>
-								<td class="mui-col-xs-3">{{item.matetime}}</td>
+								<td class="mui-col-xs-3">{{item.matetime|time}}</td>
 								<td class="mui-col-xs-3">{{item.money}}</td>
 								<td class="mui-col-xs-3">{{item.state==1?"完成":"未完成"}}</td>
 							</tr>

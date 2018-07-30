@@ -38,12 +38,12 @@
 								<p v-if='finance_detail1.length<=0' class="roll-list-no">没有找到相关记录</p>
 								<ul v-else>
 									<li v-for="item in finance_detail1" class="mui-row">
-										<p class="mui-col-xs-6">来源：{{item.source}}</p>
+
 										<p class="mui-col-xs-6" style="text-align: right;">金额：{{item.money}}</p>
 										<p class="mui-col-xs-6">余额：{{item.balance}}</p>
 										<p class="mui-col-xs-6" style="text-align: right;">类型：{{item.type}}</p>
 										<p class="mui-col-xs-12">时间：{{item.time | time}}</p>
-										<p class="mui-col-xs-12">备注：{{item.source}}</p>
+
 									</li>
 									<div id="getMore" @click="!isLoad1 && isMore1 && getMore1()">
 										<div v-if='isMore1'>
@@ -66,12 +66,12 @@
 								<p v-if='finance_detail2.length<=0' class="roll-list-no">没有找到相关记录</p>
 								<ul v-else>
 									<li v-for="item in finance_detail2" class="mui-row">
-										<p class="mui-col-xs-6">来源：{{item.source}}</p>
+
 										<p class="mui-col-xs-6" style="text-align: right;">金额：{{item.money}}</p>
 										<p class="mui-col-xs-6">余额：{{item.balance}}</p>
 										<p class="mui-col-xs-6" style="text-align: right;">类型：{{item.type}}</p>
 										<p class="mui-col-xs-12">时间：{{item.time | time}}</p>
-										<p class="mui-col-xs-12">备注：{{item.source}}</p>
+
 									</li>
 									<div id="getMore" @click="!isLoad2 && isMore2 && getMore2()">
 										<div v-if='isMore2'>
