@@ -20,12 +20,13 @@
 			<div class="mui-content">
 				<nav class="buyin-list-nav">
 					<div class="mui-row">
-						<div class="mui-col-xs-2">互助id</div>
+						<!--<div class="mui-col-xs-2">互助id</div>-->
 						<div class="mui-col-xs-2">编号</div>
-						<div class="mui-col-xs-2">姓名</div>
-						<div class="mui-col-xs-2">日期</div>
-						<div class="mui-col-xs-2">状态</div>
+						<div class="mui-col-xs-2">昵称</div>
+						<div class="mui-col-xs-3">日期</div>
+						<!--<div class="mui-col-xs-2">状态</div>-->
 						<div class="mui-col-xs-2">金额</div>
+						<div class="mui-col-xs-3">操作</div>
 					</div>
 				</nav>
 				<div class="mui-scroll-wrapper" style="top: 84px;">
@@ -33,12 +34,14 @@
 						<p v-if='shareList.length<=0' class="roll-list-no">没有找到相关记录</p>
 						<table style="width: 100%;" class="buyin-list" v-else>
 							<tr v-for='item in shareList'>
-								<td class="mui-col-xs-2">{{item.id}}</td>
+								<!--<td class="mui-col-xs-2">{{item.id}}</td>-->
 								<td class="mui-col-xs-2">{{item.username}}</td>
 								<td class="mui-col-xs-2">{{item.truename}}</td>
-								<td class="mui-col-xs-2">{{item.buy_date | time}}</td>
-								<td class="mui-col-xs-2">{{item.help_state==1?"已使用":"未使用"}}</td>
+								<td class="mui-col-xs-3">{{item.buy_date | time}}</td>
+								<!--<td class="mui-col-xs-2">{{item.help_state==1?"已使用":"未使用"}}</td>-->
 								<td class="mui-col-xs-2">{{item.bd_money}}</td>
+								<td class="mui-col-xs-3" v-if="item.operate == '收益未到期'">{{item.operate}}</td>
+								<td class="mui-col-xs-3" v-else><a href="javascript:;" class="router-link" :data-href="'rollout_step.html?type=2&id='+ item.id ">{{item.operate}}</a></td>
 							</tr>
 						</table>
 						<div id="getMore" @click="!isLoad && isMore && getMore()">
@@ -118,14 +121,24 @@
 								if(data.status==0){
 									mui.toast(data.msg)
 								}
-								else if(data.status==1){	
+								else if(data.status==1){
+									console.log(JSON.stringify(data));
 									if(data.data.length==0){
 										mui.toast('没有更多了')
 										vm.isMore = false
 										return false
 									}
 									for (var i=0;i<data.data.length;i++) {
-										vm.shareList.push(data.data[i])
+										console.log(JSON.stringify(data.data[i]));
+										var time1 = new Date(data.data[i].nowtime*1000);
+										console.log(time1.getDate());
+										time1 = time1.getDate();
+										var time2 = new Date(data.data[i].buy_date*1000);
+										console.log(time2.getDate());
+										time2 = time2.getDate();
+										var time3 = data.data[i].gettime;
+										data.data[i].operate = (time1 - time2) >= time3 ? "领取收益" : "收益未到期";
+										vm.shareList.push(data.data[i]);
 									}					
 								}
 							},

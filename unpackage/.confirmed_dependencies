@@ -75,7 +75,8 @@
 	},
 	"pages/rollout_step.html": {
 		"refer": [
-			"pages/rollout_list.html"
+			"pages/rollout_list.html",
+			"pages/detail.html"
 		],
 		"resources": []
 	},
@@ -162,6 +163,11 @@
 		"refer": [
 			"pages/login/login.html",
 			"pages/login/register.html"
+		]
+	},
+	"pages/detail.html": {
+		"refer": [
+			"pages/rollout_step.html"
 		]
 	}
 }

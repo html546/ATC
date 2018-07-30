@@ -208,7 +208,8 @@
 			"pages/rollout_step.html": {
 				"resources": [],
 				"refer": [
-					"pages/rollout_list.html"
+					"pages/rollout_list.html",
+					"pages/detail.html"
 				],
 				"priority": 0
 			},
@@ -310,6 +311,13 @@
 				"refer": [
 					"pages/login/login.html",
 					"pages/login/register.html"
+				],
+				"priority": 0
+			},
+			"pages/detail.html": {
+				"resources": [],
+				"refer": [
+					"pages/rollout_step.html"
 				],
 				"priority": 0
 			}
