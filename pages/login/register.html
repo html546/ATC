@@ -34,11 +34,19 @@
 					</div>
 					<div class="form-row">
 						<label for=""><i class="fa fa-unlock-alt" aria-hidden="true"></i></label>
-						<div class="form-inp"><input type="password" name="password" id="password" value="" placeholder="请确认一级密码" v-model='pass1c' /></div>
+						<div class="form-inp"><input type="password" name="password1" id="password1" value="" placeholder="请确认一级密码" v-model='pass1c' /></div>
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-unlock-alt" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="password" name="password2" id="password2" value="" placeholder="请输入支付密码" v-model='pass2' /></div>
+					</div>
+					<div class="form-row">
+						<label for=""><i class="fa fa-unlock-alt" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="password" name="password2c" id="password2c" value="" placeholder="请确认支付密码" v-model='pass2c' /></div>
 					</div>
 					<div class="form-row">
 						<label for=""><i class="fa fa-male" aria-hidden="true"></i></label>
-						<div class="form-inp"><input type="text" name="password2" id="password2" value="" placeholder="请输入推荐人" v-model='introduce' /></div>
+						<div class="form-inp"><input type="text" name="password3" id="password3" value="" placeholder="请输入推荐人" v-model='introduce' /></div>
 					</div>
 					<!--<div class="form-row">
 						<label for=""><i class="fa fa-code-fork" aria-hidden="true"></i></label>
@@ -67,6 +75,8 @@
 //				username: '',
 				pass1: '',
 				pass1c: '',
+				pass2:'',
+				pass2c:'',
 				phone: '',
 //				code: '',
 				introduce: '',
@@ -151,12 +161,20 @@
 						return false
 					}
 					if(!this.pass1.trim()) {
-						layer.msg('请输入密码');
+						layer.msg('请输入一级密码');
 						return false
 					}
 					if(!this.pass1c.trim()) {
-						layer.msg('请确认密码');
+						layer.msg('请确认一级密码');
 						return false
+					}
+					if(!this.pass2.trim()){
+						layer.msg('请输入支付密码');
+						return false;
+					}
+					if(!this.pass2c.trim()){
+						layer.msg('请确认支付密码');
+						return false;
 					}
 					/*if(!this.code.trim()) {
 						layer.msg('请输入验证码');
@@ -177,7 +195,9 @@
 							mobile_code: vm.phone,
 							introduce: vm.introduce,
 							pass1: vm.pass1,
-							pass1c: vm.pass1c
+							pass1c: vm.pass1c,
+							pass2:vm.pass2,
+							pass2c:vm.pass2c
 						},
 						dataType: 'json', //服务器返回json格式数据
 						type: 'post', //HTTP请求类型
@@ -198,6 +218,7 @@
 							plus.nativeUI.closeWaiting();
 							mask.close(); //关闭遮罩层
 							//服务器返回响应，根据响应结果，分析是否登录成功；
+							console.log(JSON.stringify(data));
 							if(data.status == 1) {
 								layer.msg(data.msg)
 								vm.introduce = ''
@@ -212,9 +233,13 @@
 								layer.msg(data.msg);
 							}
 						},
-						error: function(errorThrown) {
+						error: function(xhr,type,errorThrown) {
 							//异常处理；
-
+//							mui.toast(errorThrown);
+							console.log(xhr);
+							console.log(type);
+							console.log(errorThrown);
+//							console.log(JSON.stringify(msg));
 						}
 					})
 				},

@@ -88,7 +88,8 @@
 				created: function() {
 					var user = localStorage.getItem("user")
 					this.id = this.getUrlParms('id')
-					this.type = this.getUrlParms('type')
+					this.type = this.getUrlParms('type');
+					console.log(this.type);
 					var vm = this
 					if(user) {
 						//apiUrl.dealDetail

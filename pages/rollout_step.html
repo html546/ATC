@@ -24,7 +24,8 @@
 			            <label>选择钱包</label>
 			            <!--<input type="number" readonly v-model='userInfo.bank1'>-->
 			            <select name="" id="" v-model="selected">
-			            	<option value="" v-for="item in bank">{{item.bankname}}</option>
+			            	<option disabled value="">请选择</option>
+			            	<option :value="item.sheet" v-for="item in bank">{{item.bankname}}</option>
 			            </select>	
 			        </div>
 			        <div class="mui-input-row">
@@ -47,7 +48,7 @@
 			    <form class="mui-input-group" v-else>
 			    	<div class="mui-input-row">
 			    		<label for="">领取收益金额</label>
-			    		<input type="text" placeholder="请输入领取金额" v-model="receive" />
+			    		<input type="text" placeholder="请输入领取金额" v-model="receive" readonly/>
 			    	</div>
 			    </form>
 			    <button type="button" class="mui-btn mui-btn-blue mui-btn-block" style="margin-top: 30px;" @click='subRoll' v-if="active1">提交申请</button>
@@ -108,11 +109,10 @@
 					});
 				}else if(user&&type&&id){
 					vm.active1 = false;
-					mui.toast('我是领取收益');
 					mui.ajax(apiUrl.sale,{
 						type:"post",
 						data:{
-							type:2,
+							type:type,
 							id:id,
 							username:JSON.parse(user).username
 						},
@@ -123,8 +123,12 @@
 								mui.toast(data.msg)
 							}
 							else if(data.status==1){
+								console.log(data.data.getmoneys);
 								vm.receive = data.data.getmoneys;
 							}
+						},
+						error:function(msg){
+							mui.toast(JSON.stringify(msg));
 						}
 					})
 				}else{
@@ -159,7 +163,8 @@
 							  giveaddr: vm.giveaddr*/
 							 type:1,
 							 username:JSON.parse(user).username,
-							 bd_money:vm.bd_money
+							 bd_money:vm.bd_money,
+							 selbank:vm.selected
 						},
 						dataType:'json',
 						beforeSend: function() {			       

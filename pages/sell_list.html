@@ -19,7 +19,8 @@
 				    	<p class="roll-list-no" v-if='market_note.length<=0'>没有找到相关记录</p>
 				    	<div v-else>
 					       <li class="market_note_item" v-for='(item,index) in market_note'>
-					       		<p>卖家编号：{{item.saleusername}}</p>
+					       		<p>买家编号：{{item.saleusername}}</p>
+					       		<p>买家手机：{{item.mobile_phone}}</p>
 					       		<p>交易单价：{{item.oneprice}}</p>
 					       		<p>交易数量：{{item.num}}</p>
 					       		<p>交易总额：{{item.oneprice*item.num}}</p>
@@ -82,7 +83,7 @@
 				el: '#app',
 				data:{
 					market_note:[], //卖出记录
-					type:1,
+					type:2,
 					page:1,
 					isLoad:false,
 					isMore: true,

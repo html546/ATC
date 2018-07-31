@@ -20,11 +20,11 @@
 			<div class="mui-content">
 				<nav class="buyin-list-nav">
 					<div class="mui-row">
-						<div class="mui-col-xs-3">计算日期</div>
-						<div class="mui-col-xs-2">直推奖</div>
-						<div class="mui-col-xs-2">奖金</div>
-						<div class="mui-col-xs-2">收入</div>
-						<div class="mui-col-xs-3">累积收入</div>
+						<div class="mui-col-xs-4">计算日期</div>
+						<div class="mui-col-xs-4">直推奖</div>
+						<!--<div class="mui-col-xs-2">奖金</div>
+						<div class="mui-col-xs-2">收入</div>-->
+						<div class="mui-col-xs-4">累积收入</div>
 					</div>
 				</nav>
 				<div class="mui-scroll-wrapper" style="top: 84px;">
@@ -32,11 +32,11 @@
 					    	<p v-if='shareList.length<=0' class="roll-list-no">没有找到相关记录</p>
 					      	<table style="width: 100%;"  class="buyin-list" v-else>
 					      		<tr v-for='item in shareList'>
-					      			<td class="mui-col-xs-3">{{item.calc_date}}</td>
-					      			<td class="mui-col-xs-2">{{item.ztjname}}</td>
-					      			<td class="mui-col-xs-2">{{item.prize}}</td>
-					      			<td class="mui-col-xs-2">{{item.income}}</td>
-					      			<td class="mui-col-xs-3">{{item.total_income}}</td>
+					      			<td class="mui-col-xs-4">{{item.calc_date|time}}</td>
+					      			<td class="mui-col-xs-4">{{item.ztjname}}</td>
+					      			<!--<td class="mui-col-xs-2">{{item.prize}}</td>
+					      			<td class="mui-col-xs-2">{{item.income}}</td>-->
+					      			<td class="mui-col-xs-4">{{item.total_income}}</td>
 					      		</tr>
 					      	</table>
 					      	<div id="getMore" @click="!isLoad && isMore && getMore()">
@@ -92,7 +92,7 @@
 				},
 				filters:{
 					time:function(val){
-						return timestampToTime(val)
+						return timestampToTime2(val)
 					}
 				},
 				methods:{

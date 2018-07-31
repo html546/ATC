@@ -23,6 +23,7 @@
 						<div v-else>
 							<li class="market_note_item" v-for='(item,index) in note'>
 								<p>卖家编号：{{item.saleusername}}</p>
+								<p>卖家手机：{{item.mobile_phone}}</p>
 								<p>交易单价：{{item.oneprice}}</p>
 								<p>交易数量：{{item.num}}</p>
 								<p>交易总额：{{item.oneprice*item.num}}</p>
@@ -194,7 +195,7 @@
 								if(data.status == 0) {
 									mui.toast(data.msg)
 								} else if(data.status == 1) {
-									//									console.log(JSON.stringify(data.data));
+									console.log(JSON.stringify(data.data));
 									if(data.data.length == 0) {
 										mui.toast('没有更多了')
 										vm.isMore = false
@@ -205,7 +206,6 @@
 									}
 								}
 							}
-
 						});
 					},
 					showpoper: function(id, index) {

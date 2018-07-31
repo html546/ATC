@@ -320,6 +320,13 @@
 					"pages/rollout_step.html"
 				],
 				"priority": 0
+			},
+			"pages/share_list.html": {
+				"resources": [],
+				"refer": [
+					"pages/share_list_two.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

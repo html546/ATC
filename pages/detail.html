@@ -21,12 +21,12 @@
 				<nav class="buyin-list-nav">
 					<div class="mui-row">
 						<!--<div class="mui-col-xs-2">互助id</div>-->
-						<div class="mui-col-xs-2">编号</div>
-						<div class="mui-col-xs-2">昵称</div>
-						<div class="mui-col-xs-3">到日</div>
+						<!--<div class="mui-col-xs-2">编号</div>
+						<div class="mui-col-xs-2">昵称</div>-->
+						<div class="mui-col-xs-4">日期</div>
 						<!--<div class="mui-col-xs-2">状态</div>-->
-						<div class="mui-col-xs-2">金额</div>
-						<div class="mui-col-xs-3">操作</div>
+						<div class="mui-col-xs-4">金额</div>
+						<div class="mui-col-xs-4">操作</div>
 					</div>
 				</nav>
 				<div class="mui-scroll-wrapper" style="top: 84px;">
@@ -35,13 +35,13 @@
 						<table style="width: 100%;" class="buyin-list" v-else>
 							<tr v-for='item in shareList'>
 								<!--<td class="mui-col-xs-2">{{item.id}}</td>-->
-								<td class="mui-col-xs-2">{{item.username}}</td>
-								<td class="mui-col-xs-2">{{item.truename}}</td>
-								<td class="mui-col-xs-3">{{item.buy_date | time}}</td>
+								<!--<td class="mui-col-xs-2">{{item.username}}</td>
+								<td class="mui-col-xs-2">{{item.truename}}</td>-->
+								<td class="mui-col-xs-4">{{item.buy_date | time}}</td>
 								<!--<td class="mui-col-xs-2">{{item.help_state==1?"已使用":"未使用"}}</td>-->
-								<td class="mui-col-xs-2">{{item.bd_money}}</td>
-								<td class="mui-col-xs-3" v-if="item.operate == '收益未到期'">{{item.operate}}</td>
-								<td class="mui-col-xs-3" v-else><a href="javascript:;" class="router-link" :data-href="'rollout_step.html?type=2&id='+ item.id ">{{item.operate}}</a></td>
+								<td class="mui-col-xs-4">{{item.bd_money}}</td>
+								<td class="mui-col-xs-4" v-if="item.operate == '收益未到期'">{{item.operate}}</td>
+								<td class="mui-col-xs-4" v-else><a href="javascript:;" class="router-link" :data-href="'rollout_step.html?type=2&id='+ item.id ">{{item.operate}}</a></td>
 							</tr>
 						</table>
 						<div id="getMore" @click="!isLoad && isMore && getMore()">
@@ -97,7 +97,7 @@
 				},
 				filters:{
 					time:function(val){
-						return timestampToTime(val)
+						return timestampToTime2(val)
 					}
 				},
 				methods:{
