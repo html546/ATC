@@ -56,11 +56,12 @@ var apiUrl = {
 	viewdetails:baseUrl+'api/notice/viewdetails', //新消息详情
 	sale:baseUrl+'api/help/sale', //开心付出跟领取收益
 	savesales:baseUrl+'api/help/savesales', //提交开心付出跟领取收益
-	savepassword:baseUrl+'api/member/savepassword', //修改密码保存接口
+//	savepassword:baseUrl+'api/member/savepassword', //修改密码保存接口
 	trindex:baseUrl+'api/trade/trindex', //买入卖出访问页面
 	info:baseUrl+'api/trade/info', //买入卖出交易记录列表
 	viewbuytrade:baseUrl+'api/trade/viewbuytrade', //交易记录查看
 	recommendinlist:baseUrl+'api/network/recommendinlist',//会员网体推荐列表
     recommendInLists:baseUrl+'api/network/recommendInLists',//推荐二级列表
-    changepass2:baseUrl+'api/member/savepassword2'
+    changepass2:baseUrl+'api/member/savepassword2',
+    byemail:baseUrl+'api/login/byemail' //忘记密码保存接口
 }

@@ -26,10 +26,15 @@
 						<div class="form-inp" style="margin-right: 110px;"><input type="text" name="code" id="code" value="" placeholder="请输入验证码" v-model='code' /></div>
 					</div>-->
 					<div class="form-row">
-						<label for="oldpass"><i class="fa fa-code-fork" aria-hidden="true"></i></label>
-						<div class="form-inp"><input type="password" name="oldpass" id="oldpass" value="" placeholder="请输入初始密码" v-model="oldpass" /></div>
+						<label for="user"><i class="fa fa-user-circle" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="text" name="user" id="user" value="" placeholder="请输入您的会员编号" v-model="username" /></div>
 					</div>
 					<div class="form-row">
+						<label for="email1"><i class="fa fa-envelope-open" aria-hidden="true"></i></label>
+						<div class="form-inp"><input type="email" name="email1" id="email1" value="" placeholder="请输入您的邮箱地址" v-model="email" /></div>
+					</div>
+					
+					<!--<div class="form-row">
 						<label for="pass1"><i class="fa fa-code-fork" aria-hidden="true"></i></label>
 						<div class="form-inp"><input type="password" name="pass1" id="pass1" value="" placeholder="请输入新一级密码" v-model="pass1" /></div>
 					</div>
@@ -44,8 +49,8 @@
 					<div class="form-row">
 						<label for="pass2c"><i class="fa fa-code-fork" aria-hidden="true"></i></label>
 						<div class="form-inp"><input type="password" name="pass2c" id="pass2c" value="" placeholder="请确认新二级密码" v-model="pass2c" /></div>
-					</div>
-					<input type="button" value="确认修改" class="btn-submit" @tap="btnSub" />
+					</div>-->
+					<input type="button" value="确认修改" class="btn-submit" @click="btnSub" />
 					<p class="form-botom">
 						<a href="javascript:; " class="left router-link" data-href='login.html'>立即登录</a>
 						<a href="javascript:;" class="right router-link" data-href='register.html'>立即注册</a>
@@ -66,11 +71,13 @@
 			data: {
 				/*phone: '',
 				code: ''*/
-				oldpass: '',
+				/*oldpass: '',
 				pass1: '',
 				pass1c: '',
 				pass2: '',
-				pass2c: ''
+				pass2c: ''*/
+				username:'',
+				email:''
 			},
 			mounted: function() {
 				var vm = this
@@ -125,10 +132,15 @@
 						layer.msg('请输入正确的手机号');
 						return false
 					}*/
-					if(!this.oldpass.trim()) {
-						layer.msg('请输入初始密码');
+					if(!this.email.trim()) {
+						layer.msg('请输入您的邮箱地址');
 						return false
-					} else if(!this.pass1.trim()) {
+					} 
+					if(!this.username.trim()){
+						layer.msg('请输入您的会员编号');
+						return false;
+					}
+					/*else if(!this.pass1.trim()) {
 						layer.msg('请输入新一级密码');
 						return false;
 					} else if(!this.pass1c.trim()) {
@@ -140,18 +152,19 @@
 					} else if(!this.pass2c.trim()) {
 						layer.msg('请确认新二级密码');
 						return false;
-					}
-					var user = localStorage.getItem('user');
-					if(user) {
+					}*/
+//					var user = localStorage.getItem('user');
+//					if(user) {
 						var mask = mui.createMask()
-						mui.ajax(apiUrl.savepassword, {
+						mui.ajax(apiUrl.byemail, {
 							data: {
-								id:JSON.parse(user).id,
-								oldpass:vm.oldpass,
+								username:vm.username,
+								email:vm.email
+								/*oldpass:vm.oldpass,
 								pass1:vm.pass1,
 								pass1c:vm.pass1c,
 								pass2:vm.pass2,
-								pass2c:vm.pass2c
+								pass2c:vm.pass2c*/
 							},
 							dataType: 'json', //服务器返回json格式数据
 							type: 'post', //HTTP请求类型
@@ -176,11 +189,13 @@
 									layer.msg(data.msg)
 									/*vm.phone = ''
 									vm.code = ''*/
-									vm.oldpass='';
+									/*vm.oldpass='';
 									vm.pass='';
 									vm.pass1='';
 									vm.pass2='';
-									vm.pass2c='';
+									vm.pass2c='';*/
+									vm.username = '';
+									vm.email = '';
 									setTimeout(function() {
 										openWindow('login.html')
 									}, 2000)
@@ -189,12 +204,14 @@
 									layer.msg(data.msg)
 								}
 							},
-							error: function(errorThrown) {
+							error: function(xhr,type,errorThrown) {
 								//异常处理；
-
+								console.log(xhr);
+								console.log(type);
+								console.log(errorThrown);
 							}
 						})
-					}
+//					}
 				},
 				_back: function() {
 					var vm = this

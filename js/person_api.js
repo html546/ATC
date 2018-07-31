@@ -24,7 +24,8 @@ new Vue({
 		mobile_phone: '',
 		bank_name: '',
 		bank_username: '',
-		bank_addr: ''
+		bank_addr: '',
+		email:''
 	},
 	filters: {
 		time: function(val) {
@@ -69,6 +70,7 @@ new Vue({
 						vm.mobile_phone = data.data.mobile_phone;
 						vm.alipay = data.data.alipay;
 						vm.wechat = data.data.wechat;
+						vm.email = data.data.email;
 						/*console.log(JSON.stringify(data));
 						vm.isChangeUser = data.data;
 						console.log(JSON.stringify(vm.isChangeUser));*/
@@ -177,7 +179,8 @@ new Vue({
 						"bank_addr": vm.bank_addr,
 						"mobile_phone": vm.mobile_phone,
 						"alipay": vm.alipay,
-						"wechat": vm.wechat
+						"wechat": vm.wechat,
+						"email" : vm.email
 					},
 					dataType: 'json',
 					beforeSend: function() {
