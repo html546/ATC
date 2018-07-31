@@ -1,178 +1,178 @@
 {
-	"index.html": {
-		"refer": [
-			"pages/rollout.html",
-			"pages/into.html",
-			"pages/assets.html",
-			"pages/login/login.html",
-			"pages/buyin.html",
-			"pages/sell.html",
-			"pages/exchange.html",
-			"Personal/personal_index.html",
-			"pages/rollout_step.html",
-			"pages/finance.html",
-			"pages/share.html",
-			"pages/share_list.html",
-			"pages/redInfo.html",
-			"pages/aa.html",
-			"pages/sys.html",
-			"pages/zfb.html",
-			"pages/bonus.html",
-			"pages/detail.html",
-			"pages/lcdetail.html"
-		],
-		"resources": []
-	},
-	"pages/assets.html": {
-		"refer": [
-			"pages/assets_cash.html",
-			"pages/assets_bala.html",
-			"pages/assets_roll.html"
-		],
-		"resources": []
-	},
-	"pages/login/login.html": {
-		"refer": [
-			"index.html",
-			"pages/login/register.html",
-			"pages/login/forget.html"
-		],
-		"resources": []
-	},
-	"pages/rollout.html": {
-		"refer": [
-			"pages/rollout_step.html"
-		],
-		"resources": []
-	},
-	"pages/buyin.html": {
-		"refer": [
-			"pages/bank_list.html",
-			"pages/bank_add.html",
-			"pages/buyin_list.html",
-			"pages/buyin_center.html",
-			"pages/assets_cash.html"
-		],
-		"resources": []
-	},
-	"Personal/personal_index.html": {
-		"refer": [
-			"pages/bank_list.html",
-			"pages/zfb.html",
-			"pages/wx.html",
-			"pages/login/login.html",
-			"pages/share.html",
-			"Personal/personal_index.html",
-			"pages/exchange.html"
-		],
-		"resources": []
-	},
-	"pages/bank_list.html": {
-		"refer": [
-			"pages/bank_add.html"
-		],
-		"resources": []
-	},
-	"pages/rollout_step.html": {
-		"refer": [
-			"pages/rollout_list.html",
-			"pages/detail.html"
-		],
-		"resources": []
-	},
-	"pages/into.html": {
-		"refer": [
-			"pages/into_list.html"
-		],
-		"resources": []
-	},
-	"pages/buyin_center.html": {
-		"refer": [
-			"pages/buyin_list.html"
-		],
-		"resources": []
-	},
-	"pages/sell.html": {
-		"refer": [
-			"pages/sell_center.html",
-			"pages/sell_list.html",
-			"pages/assets_cash.html",
-			"pages/buyin_center.html"
-		],
-		"resources": []
-	},
-	"pages/sell_center.html": {
-		"refer": [
-			"pages/buyin_list.html",
-			"pages/sell_list.html"
-		],
-		"resources": []
-	},
-	"pages/assets_cash.html": {
-		"refer": [
-			"pages/assets_sellorder.html",
-			"pages/assets_buyorder.html",
-			"pages/assets_dealnote.html",
-			"pages/assets_order.html"
-		],
-		"resources": []
-	},
-	"pages/assets_sellorder.html": {
-		"refer": [
-			"pages/assets_note.html"
-		],
-		"resources": []
-	},
-	"pages/sell_list.html": {
-		"refer": [
-			"pages/deal_detail.html"
-		],
-		"resources": []
-	},
-	"pages/buyin_list.html": {
-		"refer": [
-			"pages/deal_detail.html"
-		],
-		"resources": []
-	},
-	"pages/exchange.html": {
-		"refer": [
-			"pages/exchange_list.html"
-		],
-		"resources": []
-	},
-	"pages/aa.html": {
-		"refer": [
-			"pages/rollout_step.html"
-		],
-		"resources": []
-	},
-	"pages/sys.html": {
-		"refer": [
-			"pages/rollout_step.html"
-		]
-	},
-	"pages/login/register.html": {
-		"refer": [
-			"index.html",
-			"pages/login/login.html",
-			"pages/login/forget.html"
-		]
-	},
-	"pages/login/forget.html": {
-		"refer": [
-			"pages/login/login.html",
-			"pages/login/register.html"
-		]
-	},
-	"pages/detail.html": {
-		"refer": [
-			"pages/rollout_step.html"
-		]
-	},
-	"pages/share_list.html": {
-		"refer": [
-			"pages/share_list_two.html"
-		]
-	}
+  "index.html": {
+    "refer": [
+      "pages/rollout.html",
+      "pages/into.html",
+      "pages/assets.html",
+      "pages/login/login.html",
+      "pages/buyin.html",
+      "pages/sell.html",
+      "pages/exchange.html",
+      "Personal/personal_index.html",
+      "pages/rollout_step.html",
+      "pages/finance.html",
+      "pages/share.html",
+      "pages/share_list.html",
+      "pages/redInfo.html",
+      "pages/aa.html",
+      "pages/sys.html",
+      "pages/zfb.html",
+      "pages/bonus.html",
+      "pages/detail.html",
+      "pages/lcdetail.html"
+    ],
+    "resources": []
+  },
+  "pages/assets.html": {
+    "refer": [
+      "pages/assets_cash.html",
+      "pages/assets_bala.html",
+      "pages/assets_roll.html"
+    ],
+    "resources": []
+  },
+  "pages/login/login.html": {
+    "refer": [
+      "index.html",
+      "pages/login/register.html",
+      "pages/login/forget.html"
+    ],
+    "resources": []
+  },
+  "pages/rollout.html": {
+    "refer": [
+      "pages/rollout_step.html"
+    ],
+    "resources": []
+  },
+  "pages/buyin.html": {
+    "refer": [
+      "pages/bank_list.html",
+      "pages/bank_add.html",
+      "pages/buyin_list.html",
+      "pages/buyin_center.html",
+      "pages/assets_cash.html"
+    ],
+    "resources": []
+  },
+  "Personal/personal_index.html": {
+    "refer": [
+      "pages/bank_list.html",
+      "pages/zfb.html",
+      "pages/wx.html",
+      "pages/login/login.html",
+      "pages/share.html",
+      "Personal/personal_index.html",
+      "pages/exchange.html"
+    ],
+    "resources": []
+  },
+  "pages/bank_list.html": {
+    "refer": [
+      "pages/bank_add.html"
+    ],
+    "resources": []
+  },
+  "pages/rollout_step.html": {
+    "refer": [
+      "pages/rollout_list.html",
+      "pages/detail.html"
+    ],
+    "resources": []
+  },
+  "pages/into.html": {
+    "refer": [
+      "pages/into_list.html"
+    ],
+    "resources": []
+  },
+  "pages/buyin_center.html": {
+    "refer": [
+      "pages/buyin_list.html"
+    ],
+    "resources": []
+  },
+  "pages/sell.html": {
+    "refer": [
+      "pages/sell_center.html",
+      "pages/sell_list.html",
+      "pages/assets_cash.html",
+      "pages/buyin_center.html"
+    ],
+    "resources": []
+  },
+  "pages/sell_center.html": {
+    "refer": [
+      "pages/buyin_list.html",
+      "pages/sell_list.html"
+    ],
+    "resources": []
+  },
+  "pages/assets_cash.html": {
+    "refer": [
+      "pages/assets_sellorder.html",
+      "pages/assets_buyorder.html",
+      "pages/assets_dealnote.html",
+      "pages/assets_order.html"
+    ],
+    "resources": []
+  },
+  "pages/assets_sellorder.html": {
+    "refer": [
+      "pages/assets_note.html"
+    ],
+    "resources": []
+  },
+  "pages/sell_list.html": {
+    "refer": [
+      "pages/deal_detail.html"
+    ],
+    "resources": []
+  },
+  "pages/buyin_list.html": {
+    "refer": [
+      "pages/deal_detail.html"
+    ],
+    "resources": []
+  },
+  "pages/exchange.html": {
+    "refer": [
+      "pages/exchange_list.html"
+    ],
+    "resources": []
+  },
+  "pages/aa.html": {
+    "refer": [
+      "pages/rollout_step.html"
+    ],
+    "resources": []
+  },
+  "pages/sys.html": {
+    "refer": [
+      "pages/rollout_step.html"
+    ]
+  },
+  "pages/login/register.html": {
+    "refer": [
+      "index.html",
+      "pages/login/login.html",
+      "pages/login/forget.html"
+    ]
+  },
+  "pages/login/forget.html": {
+    "refer": [
+      "pages/login/login.html",
+      "pages/login/register.html"
+    ]
+  },
+  "pages/detail.html": {
+    "refer": [
+      "pages/rollout_step.html"
+    ]
+  },
+  "pages/share_list.html": {
+    "refer": [
+      "pages/share_list_two.html"
+    ]
+  }
 }
