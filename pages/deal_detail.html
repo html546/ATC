@@ -195,13 +195,29 @@
 				<div class="mui-scroll">
 					<table class="deal_detail table">
 						<tr v-if="type==2">
-							<td>买家编号：</td>
-							<td>{{deal_detail.username}}</td>
-						</tr>
-						<tr v-if="type==1">
 							<td>卖家编号：</td>
 							<td>{{deal_detail.saleusername}}</td>
 						</tr>
+						<tr v-if="type==2">
+							<td>卖家手机：</td>
+							<td>{{saleuser.mobile_phone}}</td>
+						</tr>
+						<tr v-if="type==1">
+							<td>买家编号：</td>
+							<td>{{deal_detail.saleusername}}</td>
+						</tr>
+						<tr v-if="type==1">
+							<td>买家手机：</td>
+							<td>{{buyuser.mobile_phone}}</td>
+						</tr>
+						<!--<tr v-if="type==2">
+							<td>卖家手机：</td>
+							<td>{{deal_detail.saleuser.mobile_phone}}</td>
+						</tr>-->
+						<!--<tr v-if="type==1">
+							<td>买家手机：</td>
+							<td>{{deal_detail.saleuser.mobile_phone}}</td>
+						</tr>-->
 						<tr>
 							<td>购买单价：</td>
 							<td>{{deal_detail.oneprice}}</td>
@@ -274,7 +290,9 @@
 				data: {
 					deal_detail: {},
 					id: '',
-					type: ''
+					type: '',
+					saleuser:{},
+					buyuser:{}
 				},
 				created: function() {
 					var user = localStorage.getItem("user")
@@ -297,7 +315,9 @@
 								if(data.status == 0) {
 									mui.toast(data.msg)
 								} else if(data.status == 1) {
-									vm.deal_detail = data.data
+									vm.deal_detail = data.data;
+									vm.saleuser = data.data.saleuser;
+									vm.buyuser = data.data.buyuser;
 									console.log(JSON.stringify(data.data))
 								}
 							},

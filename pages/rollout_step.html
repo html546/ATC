@@ -24,7 +24,7 @@
 			            <label>选择钱包</label>
 			            <!--<input type="number" readonly v-model='userInfo.bank1'>-->
 			            <select name="" id="" v-model="selected">
-			            	<option disabled value="">请选择</option>
+			            	<!--<option disabled value="">请选择</option>-->
 			            	<option :value="item.sheet" v-for="item in bank">{{item.bankname}}</option>
 			            </select>	
 			        </div>
@@ -66,7 +66,7 @@
 //				userInfo: {},//会员信息
 				bd_money: "",//转出金额
 //				giveaddr: "",//转出地址
-				selected:"",//选择钱包类型
+				selected:"bank1",//选择钱包类型
 				balance:'',//当前余额
 				/*bank1:'',//MRCC理财钱包
 				bank2:'',//交易钱包*/
@@ -152,7 +152,8 @@
 				},*/
 				subRoll:function(){
 					var vm = this;
-					var user = localStorage.getItem("user")
+					var user = localStorage.getItem("user");
+					console.log(vm.selected);
 //					console.log(JSON.parse(user));
 					var mask=mui.createMask();
 					mui.ajax(apiUrl.savesales,{

@@ -1,7 +1,7 @@
 {
 	"@platforms": ["android", "iPhone", "iPad"],
-	"id": "H59263E30",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "ATC",/*应用名称，程序桌面图标名称*/
+	"id": "H537D7D06",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "百威",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
@@ -99,28 +99,28 @@
 			"splashscreen": {
 				"ios": {
 					"iphone": {
-						"default": "","iphonex":"C:/Users/Administrator/Desktop/start.png","iphonexl":"C:/Users/Administrator/Desktop/start.png","retina47":"C:/Users/Administrator/Desktop/start.png","retina55":"C:/Users/Administrator/Desktop/start.png","retina35":"C:/Users/Administrator/Desktop/start.png","retina40":"C:/Users/Administrator/Desktop/start.png","retina55l":"C:/Users/Administrator/Desktop/start.png"
+						"default": "","iphonex":"C:/Users/Administrator/Desktop/qidong.png","iphonexl":"C:/Users/Administrator/Desktop/qidong.png","retina47":"C:/Users/Administrator/Desktop/qidong.png","retina55":"C:/Users/Administrator/Desktop/qidong.png","retina35":"C:/Users/Administrator/Desktop/qidong.png","retina40":"C:/Users/Administrator/Desktop/qidong.png","retina55l":"C:/Users/Administrator/Desktop/qidong.png"
 					},
 					"ipad": {
-						"portrait": "C:/Users/Administrator/Desktop/start.png", /*iPad竖屏启动图片，分辨率：768x1004*/
-						"portrait-retina": "E:/ATC.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
-						"landscape": "C:/Users/Administrator/Desktop/start.png", /*iPad横屏启动图片，分辨率：1024x748*/
-						"landscape-retina": "C:/Users/Administrator/Desktop/start.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
-						"portrait7": "C:/Users/Administrator/Desktop/start.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
-						"portrait-retina7": "C:/Users/Administrator/Desktop/start.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
-						"landscape7": "C:/Users/Administrator/Desktop/start.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
-						"landscape-retina7": "C:/Users/Administrator/Desktop/start.png"
+						"portrait": "C:/Users/Administrator/Desktop/qidong.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "C:/Users/Administrator/Desktop/qidong.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "C:/Users/Administrator/Desktop/qidong.png", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "C:/Users/Administrator/Desktop/qidong.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "C:/Users/Administrator/Desktop/qidong.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "C:/Users/Administrator/Desktop/qidong.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "C:/Users/Administrator/Desktop/qidong.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": "C:/Users/Administrator/Desktop/qidong.png"
 					}
 				},
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "C:/Users/Administrator/Desktop/start.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "C:/Users/Administrator/Desktop/start.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": "C:/Users/Administrator/Desktop/start.png"
+					"hdpi": "C:/Users/Administrator/Desktop/qidong.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/Administrator/Desktop/qidong.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/Administrator/Desktop/qidong.png"
 				}
 			}
-		},"adid":"121253250005"
+		}
 	},
 	"dependencies": {
 		"pages": {
