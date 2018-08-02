@@ -40,8 +40,9 @@
 								<td class="mui-col-xs-4">{{item.buy_date | time}}</td>
 								<!--<td class="mui-col-xs-2">{{item.help_state==1?"已使用":"未使用"}}</td>-->
 								<td class="mui-col-xs-4">{{item.bd_money}}</td>
-								<td class="mui-col-xs-4" v-if="item.operate == '收益未到期'">{{item.operate}}</td>
-								<td class="mui-col-xs-4" v-else><a href="javascript:;" class="router-link" :data-href="'rollout_step.html?type=2&id='+ item.id ">{{item.operate}}</a></td>
+								<td class="mui-col-xs-4" v-if="item.operate == '收益未到期'&&item.income==0">{{item.operate}}</td>
+								<td class="mui-col-xs-4" v-if="item.operate == '领取收益'&&item.income==0"><a href="javascript:;" class="router-link" :data-href="'rollout_step.html?type=2&id='+ item.id ">{{item.operate}}</a></td>
+								<td class="mui-col-xs-4" v-if="item.income==1">已领取</td>
 							</tr>
 						</table>
 						<div id="getMore" @click="!isLoad && isMore && getMore()">

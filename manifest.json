@@ -209,7 +209,8 @@
 				"resources": [],
 				"refer": [
 					"pages/rollout_list.html",
-					"pages/detail.html"
+					"pages/detail.html",
+					"index.html"
 				],
 				"priority": 0
 			},

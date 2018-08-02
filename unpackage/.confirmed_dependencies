@@ -76,7 +76,8 @@
   "pages/rollout_step.html": {
     "refer": [
       "pages/rollout_list.html",
-      "pages/detail.html"
+      "pages/detail.html",
+      "index.html"
     ],
     "resources": []
   },
