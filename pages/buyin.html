@@ -26,7 +26,7 @@
 					<form class="mui-input-group">
 					    <div class="mui-input-row">
 					        <label>价格</label>
-					        <input type="number" v-model="price"  placeholder="请输入价格">
+					        <input type="number" v-model="userInfo.currentprice" readonly  placeholder="请输入价格">
 					    </div>
 					     <div class="mui-input-row">
 					        <label>数量</label>
@@ -36,11 +36,11 @@
 							<label>支付方式</label>
 							<select name="" v-model="selected" >
 								<option value="0" disabled selected style="color: #757575;">请选择</option>
-								<option value="1" v-if="userInfo.alipay!=='暂无'">支付宝</option>
+								<option value="1" v-if="userInfo.alipay!==''">支付宝</option>
 								<option value="1" v-else disabled>支付宝</option>
-								<option value="2" v-if="userInfo.wechat!=='暂无'">微信</option>
+								<option value="2" v-if="userInfo.wechat!==''">微信</option>
 								<option value="2" v-else disabled>微信</option>
-								<option value="3" v-if="userInfo.bank_name!=='暂无'">银行卡</option>
+								<option value="3" v-if="userInfo.bank_name!==''&&userInfo.bank_number!==''&&userInfo.bank_username!==''&&userInfo.bank_addr!==''">银行卡</option>
 								<option value="3" v-else disabled>银行卡</option>
 							</select>
 						</div>
@@ -104,7 +104,7 @@
 				userInfo: {},//会员信息
 				tradetype: 2,//挂买单
 				selected:0 ,//支付方式
-				price:'',//单价
+//				price:'',//单价
 				num: ''//数量
 			},
 			filters:{
@@ -113,14 +113,15 @@
 				}
 			},
 			created:function(){
-				var user = localStorage.getItem("user")
-				var vm = this		
+				var user = localStorage.getItem("user");
+				var vm = this;
 				if(user){
 					mui.ajax(apiUrl.trindex,{
 						type:"post",
 						data:{id: JSON.parse(user).id},
 						dataType:'json',
-						success:function(data){	
+						success:function(data){
+							console.log(JSON.stringify(data));
 							if(data.status==0){
 								mui.toast(data.msg)
 							}
@@ -128,6 +129,11 @@
 								console.log(JSON.stringify(data.data));
 								vm.userInfo = data.data						
 							}
+						},
+						error:function(xhr,type,errorThrown){
+							console.log(xhr);
+							console.log(type);
+							console.log(errorThrown);
 						}
 					});
 				}
@@ -152,7 +158,7 @@
 									id:JSON.parse(user).id,
 									tradetype: vm.tradetype,
 									paytype: vm.selected,
-									price: vm.price,
+									price: vm.userInfo.currentprice,
 									num: vm.num
 								},
 								dataType:'json',
@@ -173,7 +179,7 @@
 									else if(data.status==1){
 										mui.toast(data.msg)
 										vm.num = ''
-										vm.price = ''
+//										vm.price = ''
 									}
 								},
 								error:function(err){

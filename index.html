@@ -31,6 +31,7 @@
 									<span class="mui-icon-extra mui-icon-extra-heart-filled" v-if="trade_credit>=5"></span>
 								</p>
 							</div>-->
+								<span style="color: #fff;">今日价格:${{currentprice}}</span>
 								<span class="mui-icon mui-icon-gear mui-pull-right she_b"></span>
 								<img id="ld" width="25px" src="images/ld.png" class="mui-icon mui-icon-gear mui-pull-right she_b" />
 							</a>
@@ -182,7 +183,8 @@
 					first: null,
 					redMoney: '',
 					userid: '',
-					trade_credit: ''
+					trade_credit: '',
+					currentprice:''
 				},
 				created: function() {
 					var user = localStorage.getItem("user")
@@ -251,10 +253,12 @@
 									localStorage.removeItem('user')
 									openWindow('pages/login/login.html')
 								} else if(data.status == 1) {
+									console.log(JSON.stringify(data.data));
 									//								vm.userInfo = data.data
 									vm.bank1 = data.data.walletamounts.bank1;
 									vm.bank2 = data.data.walletamounts.bank2;
 									vm.trade_credit = data.data.credit;
+									vm.currentprice = data.data.currentprice;
 								}
 							},
 							error: function(err) {

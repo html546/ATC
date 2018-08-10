@@ -131,14 +131,18 @@
 									}
 									for (var i=0;i<data.data.length;i++) {
 										console.log(JSON.stringify(data.data[i]));
-										var time1 = new Date(data.data[i].nowtime*1000);
-										console.log(time1.getDate());
-										time1 = time1.getDate();
-										var time2 = new Date(data.data[i].buy_date*1000);
+										var time1 = data.data[i].nowtime*1000;
+										console.log(time1);
+										/*console.log(time1.getDate());
+										var month1 = time1.getMonth()+1;
+										time1 = time1.getDate();*/
+										var time2 = data.data[i].buy_date*1000;
+										console.log(time2);
+										/*var month2 = time2.getMonth()+1;
 										console.log(time2.getDate());
-										time2 = time2.getDate();
+										time2 = time2.getDate();*/
 										var time3 = data.data[i].gettime;
-										data.data[i].operate = (time1 - time2) >= time3 ? "领取收益" : "收益未到期";
+										data.data[i].operate = time1 - time2 >= time3*86400*1000 ? "领取收益" : "收益未到期";
 										vm.shareList.push(data.data[i]);
 									}					
 								}

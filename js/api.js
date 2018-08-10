@@ -1,6 +1,7 @@
 //var baseUrl = 'http://a394.213986.com:88/';//测试地址 
 //var baseUrl = 'http://www.atc789.com/'
-var baseUrl = 'http://400.213986.com:88/'
+//var baseUrl = 'http://400.213986.com:88/'
+var baseUrl = 'http://mrccclub.com/';
 var apiUrl = {
 	Index:baseUrl+'/api/Index/index', //首页信息
 	login : baseUrl+'/api/login/login', //登陆信息
